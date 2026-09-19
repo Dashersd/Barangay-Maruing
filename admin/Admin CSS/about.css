@@ -130,20 +130,22 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 0.95rem;
     text-align: center;
-    width: auto;
+    width: 135px;
+    overflow: hidden;
 }
 
 .file-input-centered::file-selector-button {
     background-color: #093d25;
     color: white;
     border: none;
-    padding: 10px 24px;
+    padding: 10px 20px;
     border-radius: 8px;
     font-weight: 600;
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     transition: all 0.2s;
-    margin-right: 15px;
+    margin: 0;
+    width: 100%;
 }
 
 .file-input-centered::file-selector-button:hover {
