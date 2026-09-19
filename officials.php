@@ -99,12 +99,8 @@
                             <div class="captain-avatar">
                                 <i class="bi bi-person-fill"></i>
                             </div>
-                            <div class="captain-badge-icon" title="Punong Barangay">
-                                <i class="bi bi-star-fill"></i>
-                            </div>
                         </div>
                         <div class="captain-info-col">
-                            <span class="captain-tag"><i class="bi bi-shield-check"></i> Highest Official</span>
                             <h3 class="captain-name">Hon. Punong Barangay</h3>
                             <div class="captain-role">Punong Barangay / Barangay Captain</div>
                             <p class="captain-desc">Presiding officer of the Sangguniang Barangay, leading executive policies, community welfare programs, and peace and order in Barangay Maruing.</p>
