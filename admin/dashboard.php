@@ -62,41 +62,53 @@
 
         <!-- Content Area -->
         <main class="dashboard-content">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon blue">
-                        <i class="bi bi-people-fill"></i>
+            <!-- Navigation Summary Section -->
+            <div class="quick-cards-grid" style="margin-bottom: 30px;">
+                <!-- Card 1: Barangay Info -->
+                <div class="quick-card card-pink">
+                    <div class="quick-card-icon">
+                        <i class="bi bi-info-circle"></i>
                     </div>
-                    <div class="stat-info">
-                        <h4>Active Officials</h4>
-                        <p>14</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon green">
-                        <i class="bi bi-geo-alt-fill"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h4>Spot Map Zones</h4>
-                        <p>7</p>
+                    <div class="quick-card-content">
+                        <h3 class="quick-card-title">Barangay Info</h3>
+                        <p class="quick-card-desc">Update barangay history, mission, vision, and main image.</p>
+                        <a href="about.php" class="quick-card-link">Manage About <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon orange">
-                        <i class="bi bi-image-fill"></i>
+
+                <!-- Card 2: Officials -->
+                <div class="quick-card card-rose">
+                    <div class="quick-card-icon">
+                        <i class="bi bi-people"></i>
                     </div>
-                    <div class="stat-info">
-                        <h4>Gallery Photos</h4>
-                        <p>34</p>
+                    <div class="quick-card-content">
+                        <h3 class="quick-card-title">Officials</h3>
+                        <p class="quick-card-desc">Manage the roster of dedicated barangay officials and staff.</p>
+                        <a href="#" class="quick-card-link">Manage Officials <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon purple">
-                        <i class="bi bi-envelope-fill"></i>
+
+                <!-- Card 3: Spot Map -->
+                <div class="quick-card card-blue">
+                    <div class="quick-card-icon">
+                        <i class="bi bi-geo-alt"></i>
                     </div>
-                    <div class="stat-info">
-                        <h4>New Messages</h4>
-                        <p>8</p>
+                    <div class="quick-card-content">
+                        <h3 class="quick-card-title">Spot Map</h3>
+                        <p class="quick-card-desc">Update the geographical territory and landmark information.</p>
+                        <a href="#" class="quick-card-link">Manage Map <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Card 4: Contact Us -->
+                <div class="quick-card card-purple">
+                    <div class="quick-card-icon">
+                        <i class="bi bi-telephone"></i>
+                    </div>
+                    <div class="quick-card-content">
+                        <h3 class="quick-card-title">Contact Us</h3>
+                        <p class="quick-card-desc">Review and respond to inquiries and update contact details.</p>
+                        <a href="#" class="quick-card-link">Manage Contacts <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
