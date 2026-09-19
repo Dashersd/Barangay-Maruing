@@ -1,0 +1,314 @@
+/* ==========================================================================
+   Barangay Maruing Web-Based Information System
+   Officials Module Styles
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* 1. Officials Hero Banner                                                  */
+/* -------------------------------------------------------------------------- */
+.officials-hero {
+    background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(19, 117, 71, 0.84) 42%, rgba(19, 117, 71, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%),
+                url('../../image/barangay-maruing-cover.png') no-repeat center right / cover;
+    color: #ffffff;
+    padding: 110px 0 140px;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. Main Section & Layout Container                                        */
+/* -------------------------------------------------------------------------- */
+.officials-main-section {
+    padding: 3.5rem 0 5.5rem;
+    background-color: var(--background-color, #f8faf9);
+    position: relative;
+}
+
+.officials-container {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+}
+
+/* Category Section Headers */
+.category-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.category-title {
+    font-family: var(--font-family);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.35rem;
+}
+
+.category-subtitle {
+    font-size: 0.9rem;
+    color: var(--muted-text-color, #6b7280);
+    font-weight: 500;
+}
+
+.category-accent-bar {
+    width: 48px;
+    height: 3.5px;
+    background-color: var(--primary-color, #137547);
+    border-radius: 2px;
+    margin: 0.65rem auto 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. Punong Barangay (Captain) Spotlight Card                               */
+/* -------------------------------------------------------------------------- */
+.captain-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.captain-card {
+    background-color: #ffffff;
+    border-radius: 22px;
+    border: 1px solid rgba(19, 117, 71, 0.16);
+    box-shadow: 0 10px 30px rgba(9, 61, 37, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+    padding: 2.5rem 3rem;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    max-width: 720px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-speed, 0.25s) ease, box-shadow var(--transition-speed, 0.25s) ease;
+}
+
+.captain-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 6px;
+    background: linear-gradient(180deg, var(--accent-color, #ffc107) 0%, var(--primary-color, #137547) 100%);
+}
+
+.captain-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(9, 61, 37, 0.12);
+}
+
+.captain-avatar-col {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.captain-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e8f5ee 0%, #ccead9 100%);
+    border: 3.5px solid #ffffff;
+    box-shadow: 0 6px 18px rgba(19, 117, 71, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color, #137547);
+    font-size: 4rem;
+    overflow: hidden;
+}
+
+.captain-badge-icon {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 36px;
+    height: 36px;
+    background-color: var(--accent-color, #ffc107);
+    color: #093d25;
+    border-radius: 50%;
+    border: 2.5px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.captain-info-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.captain-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background-color: rgba(19, 117, 71, 0.1);
+    color: var(--primary-color, #137547);
+    padding: 0.28rem 0.85rem;
+    border-radius: 50px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: flex-start;
+    margin-bottom: 0.6rem;
+}
+
+.captain-name {
+    font-family: var(--font-family);
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #111827;
+    line-height: 1.2;
+    margin-bottom: 0.35rem;
+}
+
+.captain-role {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-color, #137547);
+    margin-bottom: 0.65rem;
+}
+
+.captain-desc {
+    font-size: 0.88rem;
+    color: #4b5563;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. Officials Grid (Kagawads & Appointed Staff)                            */
+/* -------------------------------------------------------------------------- */
+.officials-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.officials-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.official-card {
+    background-color: #ffffff;
+    border-radius: 18px;
+    border: 1px solid rgba(19, 117, 71, 0.1);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+    padding: 1.85rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform var(--transition-speed, 0.25s) ease, box-shadow var(--transition-speed, 0.25s) ease, border-color var(--transition-speed, 0.25s) ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.official-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(9, 61, 37, 0.09);
+    border-color: rgba(19, 117, 71, 0.25);
+}
+
+.official-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(19, 117, 71, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color, #137547);
+    font-size: 2.5rem;
+    margin-bottom: 1.15rem;
+    overflow: hidden;
+}
+
+.official-name {
+    font-family: var(--font-family);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.3rem;
+    line-height: 1.25;
+}
+
+.official-role {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary-color, #137547);
+    margin-bottom: 0.65rem;
+}
+
+.official-committee-badge {
+    background-color: #f8faf9;
+    border: 1px solid #e5e7eb;
+    color: #4b5563;
+    font-size: 0.74rem;
+    font-weight: 500;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    line-height: 1.35;
+    margin-top: auto;
+    width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. Responsive Breakpoints                                                 */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 1100px) {
+    .officials-container {
+        width: 100%;
+        padding: 0 1.25rem;
+    }
+
+    .officials-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 868px) {
+    .captain-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+
+    .captain-card::before {
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        width: 100%;
+    }
+
+    .captain-tag {
+        align-self: center;
+    }
+
+    .officials-grid,
+    .officials-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .officials-grid,
+    .officials-grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .officials-title {
+        font-size: 2rem;
+    }
+}

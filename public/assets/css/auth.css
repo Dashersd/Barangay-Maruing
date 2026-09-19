@@ -1,0 +1,441 @@
+/* ==========================================================================
+   Barangay Maruing Web-Based Information System
+   Authentication Module Styles (Login & Register)
+   ========================================================================== */
+
+/* Reset desktop-fixed width for auth views */
+body:has(.auth-wrapper) {
+    min-width: 0 !important;
+}
+
+/* Active State for Register button in Navbar when on Register Page */
+.btn-register.active {
+    background-color: var(--accent-color, #ffc107) !important;
+    color: #093d25 !important;
+    box-shadow: 0 3px 10px rgba(255, 193, 7, 0.45);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 1. Auth Page Wrapper & Centered Layout                                    */
+/* -------------------------------------------------------------------------- */
+.auth-wrapper {
+    min-height: calc(100vh - 72px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    background-color: var(--background-color, #f8faf9);
+    background-image: 
+        radial-gradient(at 15% 15%, rgba(19, 117, 71, 0.08) 0px, transparent 50%),
+        radial-gradient(at 85% 85%, rgba(255, 193, 7, 0.08) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(14, 89, 54, 0.04) 0px, transparent 65%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle decorative ambient circles behind the card */
+.auth-wrapper::before,
+.auth-wrapper::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.auth-wrapper::before {
+    width: 480px;
+    height: 480px;
+    top: -120px;
+    left: -120px;
+    background: radial-gradient(circle, rgba(19, 117, 71, 0.06) 0%, transparent 70%);
+}
+
+.auth-wrapper::after {
+    width: 420px;
+    height: 420px;
+    bottom: -100px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(255, 193, 7, 0.07) 0%, transparent 70%);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. Auth Card Containers (Glass / Elevation)                               */
+/* -------------------------------------------------------------------------- */
+.auth-card {
+    position: relative;
+    z-index: 1;
+    background-color: var(--surface-color, #ffffff);
+    border-radius: 20px;
+    border: 1px solid rgba(19, 117, 71, 0.12);
+    box-shadow: 
+        0 10px 25px -5px rgba(9, 61, 37, 0.06),
+        0 20px 40px -10px rgba(0, 0, 0, 0.05),
+        0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+    padding: 2.75rem 2.5rem;
+    transition: transform var(--transition-speed, 0.25s) ease, box-shadow var(--transition-speed, 0.25s) ease;
+}
+
+/* Specific Page Widths */
+.auth-card-login {
+    width: 100%;
+    max-width: 460px;
+}
+
+.auth-card-register {
+    width: 100%;
+    max-width: 680px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. Auth Card Header                                                       */
+/* -------------------------------------------------------------------------- */
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-icon-badge {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.25rem;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(19, 117, 71, 0.18);
+    box-shadow: 0 6px 18px rgba(19, 117, 71, 0.12);
+    overflow: hidden;
+    padding: 4px;
+    transition: transform var(--transition-speed, 0.25s) ease, box-shadow var(--transition-speed, 0.25s) ease;
+}
+
+.auth-icon-badge:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 22px rgba(19, 117, 71, 0.18);
+}
+
+.auth-icon-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    display: block;
+}
+
+.auth-title {
+    font-family: var(--font-family);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #111827;
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+    margin-bottom: 0.45rem;
+}
+
+.auth-subtitle {
+    font-size: 0.9rem;
+    color: var(--muted-text-color, #6b7280);
+    line-height: 1.45;
+    margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. Form Layout & Inputs                                                   */
+/* -------------------------------------------------------------------------- */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 2-Column Grid for Register Form */
+.auth-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1.25rem;
+    row-gap: 0;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-label {
+    font-family: var(--font-family);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.45rem;
+    display: block;
+}
+
+.input-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    font-size: 1.15rem;
+    color: #9ca3af;
+    pointer-events: none;
+    transition: color var(--transition-speed, 0.25s) ease;
+    z-index: 2;
+}
+
+.form-control {
+    width: 100%;
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    color: #1f2937;
+    background-color: #fcfdfd;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    outline: none;
+    transition: all var(--transition-speed, 0.25s) ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.form-control::placeholder {
+    color: #9ca3af;
+    font-size: 0.88rem;
+    font-weight: 400;
+}
+
+.form-control:hover {
+    border-color: #d1d5db;
+    background-color: #ffffff;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color, #137547);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3.5px rgba(19, 117, 71, 0.15);
+}
+
+.input-icon-wrapper:focus-within .input-icon {
+    color: var(--primary-color, #137547);
+}
+
+/* Adjust padding for password inputs with toggle button */
+.input-icon-wrapper input[type="password"],
+.input-icon-wrapper input[type="text"][autocomplete*="password"],
+.input-icon-wrapper:has(.btn-toggle-password) .form-control {
+    padding-right: 2.85rem;
+}
+
+/* Toggle Password Visibility Button */
+.btn-toggle-password {
+    position: absolute;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    padding: 0.45rem;
+    color: #9ca3af;
+    cursor: pointer;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all var(--transition-speed, 0.25s) ease;
+    z-index: 2;
+}
+
+.btn-toggle-password:hover {
+    color: #374151;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btn-toggle-password:focus {
+    outline: none;
+    color: var(--primary-color, #137547);
+}
+
+/* Purok Select Dropdown Styling */
+select.form-control {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 14px 14px;
+    padding-right: 2.5rem;
+}
+
+select.form-control option {
+    color: #1f2937;
+    background-color: #ffffff;
+    padding: 0.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. Options Row & Checkbox                                                 */
+/* -------------------------------------------------------------------------- */
+.form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.25rem 0 1.5rem;
+    font-size: 0.85rem;
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: #4b5563;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 17px;
+    height: 17px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 4px;
+    background-color: #fcfdfd;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    transition: all 0.2s ease;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.checkbox-label input[type="checkbox"]::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    transform: scale(0);
+    transition: 0.15s transform ease-in-out;
+    box-shadow: inset 1em 1em #ffffff;
+    transform-origin: center;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+    background-color: var(--primary-color, #137547);
+    border-color: var(--primary-color, #137547);
+}
+
+.checkbox-label input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+.checkbox-label input[type="checkbox"]:focus {
+    box-shadow: 0 0 0 3px rgba(19, 117, 71, 0.18);
+    outline: none;
+}
+
+.forgot-link {
+    color: var(--primary-color, #137547);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition-speed, 0.25s) ease;
+}
+
+.forgot-link:hover {
+    color: var(--primary-hover, #0e5936);
+    text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. Primary Action Button                                                  */
+/* -------------------------------------------------------------------------- */
+.btn-auth-submit {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.82rem 1.5rem;
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--primary-color, #137547) 0%, var(--primary-hover, #0e5936) 100%);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(19, 117, 71, 0.28);
+    cursor: pointer;
+    transition: all var(--transition-speed, 0.25s) ease;
+}
+
+.btn-auth-submit i {
+    font-size: 1.15rem;
+}
+
+.btn-auth-submit:hover {
+    background: linear-gradient(135deg, #15803d 0%, #137547 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(19, 117, 71, 0.38);
+}
+
+.btn-auth-submit:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(19, 117, 71, 0.25);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 7. Auth Footer Links                                                      */
+/* -------------------------------------------------------------------------- */
+.auth-footer {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f2f5;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--muted-text-color, #6b7280);
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.auth-footer a {
+    color: var(--primary-color, #137547);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition-speed, 0.25s) ease;
+}
+
+.auth-footer a:hover {
+    color: var(--primary-hover, #0e5936);
+    text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 8. Responsive Adjustments                                                 */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .auth-wrapper {
+        padding: 1.5rem 1rem;
+        min-height: calc(100vh - 64px);
+    }
+
+    .auth-card {
+        padding: 2rem 1.5rem;
+        border-radius: 16px;
+    }
+
+    .auth-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-title {
+        font-size: 1.5rem;
+    }
+}
