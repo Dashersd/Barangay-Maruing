@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom CSS (Pure CSS Responsive) -->
-    <link rel="stylesheet" href="public/assets/css/style.css">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=1789796772">
 </head>
 
 <body>
@@ -92,67 +92,149 @@
             </div>
         </section>
 
-        <!-- Quick Access Section -->
-        <section class="quick-access-section">
+        <!-- About Section -->
+        <section class="about-landing-section">
+            <div class="container about-landing-container">
+                <div class="about-landing-image">
+                    <img src="public/image/barangay-maruing-cover.png" alt="Barangay Maruing History">
+                </div>
+                <div class="about-landing-content">
+                    <h2 class="about-landing-title">About Barangay Maruing</h2>
+                    <p class="about-landing-desc">
+                        Discover the rich history and vibrant community of Barangay Maruing. Our barangay is dedicated to providing honest and dedicated service to all its residents, fostering growth, unity, and a better quality of life for everyone. 
+                    </p>
+                    <a href="about.php#about-us-section" class="btn-learn-more">
+                        Learn more <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Officials Landing Section -->
+        <section class="landing-officials-section">
             <div class="container">
-                <div class="quick-cards-grid">
-                    <!-- Card 1: Barangay Info -->
-                    <div class="quick-card card-pink">
-                        <div class="quick-card-icon">
-                            <i class="bi bi-info-circle"></i>
-                        </div>
-                        <div class="quick-card-content">
-                            <h3 class="quick-card-title">Barangay Info</h3>
-                            <p class="quick-card-desc">Learn more about our barangay's history, mission, and community.
-                            </p>
-                            <a href="about.php" class="quick-card-link">View Details <i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
+                <div class="landing-officials-header">
+                    <h2 class="landing-officials-title">Barangay Officials</h2>
+                    <p class="landing-officials-subtitle">Dedicated leaders of Barangay Maruing</p>
+                </div>
+                
+                <div class="landing-captain-card">
+                    <div class="landing-captain-image">
+                        <!-- Placeholder image for the captain -->
+                        <img src="public/image/barangay-maruing-cover.png" alt="Barangay Captain">
                     </div>
+                    <div class="landing-captain-info">
+                        <div class="landing-captain-role">
+                            BARANGAY CAPTAIN
+                        </div>
+                        <h3 class="landing-captain-name">Hon. Punong Barangay</h3>
+                        <p class="landing-captain-desc">
+                            Presiding officer of the Sangguniang Barangay, leading executive policies, community welfare programs, and ensuring peace and order within Barangay Maruing.
+                        </p>
 
-                    <!-- Card 2: Officials -->
-                    <div class="quick-card card-rose">
-                        <div class="quick-card-icon">
-                            <i class="bi bi-people"></i>
-                        </div>
-                        <div class="quick-card-content">
-                            <h3 class="quick-card-title">Officials</h3>
-                            <p class="quick-card-desc">Meet the dedicated officials serving our community with commitment.</p>
-                            <a href="officials.php" class="quick-card-link">View Officials <i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Spot Map -->
-                    <div class="quick-card card-blue">
-                        <div class="quick-card-icon">
-                            <i class="bi bi-geo-alt"></i>
-                        </div>
-                        <div class="quick-card-content">
-                            <h3 class="quick-card-title">Spot Map</h3>
-                            <p class="quick-card-desc">Explore the geographical territory, puroks, and landmarks of Barangay Maruing.</p>
-                            <a href="spot-map.php" class="quick-card-link">Explore Map <i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Contact Us -->
-                    <div class="quick-card card-purple">
-                        <div class="quick-card-icon">
-                            <i class="bi bi-telephone"></i>
-                        </div>
-                        <div class="quick-card-content">
-                            <h3 class="quick-card-title">Contact Us</h3>
-                            <p class="quick-card-desc">Reach out to our barangay office for inquiries, assistance, and support.</p>
-                            <a href="contact.php" class="quick-card-link">Get In Touch <i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
+                        <a href="officials.php" class="btn-view-officials">
+                            View All Officials <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Spot Map Landing Section -->
+        <section class="landing-spot-map-section">
+            <div class="container">
+                <div class="landing-spot-map-header" style="text-align: center; margin-bottom: 3rem;">
+                    <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 1rem; text-align: center;">Spot Map</h2>
+                    <p style="font-size: 1.1rem; color: var(--muted-text-color); text-align: center; margin-left: auto; margin-right: auto;">Geographical overview and key locations in Barangay Maruing</p>
+                </div>
+                
+                <div class="landing-spot-map-container">
+                <div class="spot-map-content">
+                    <div class="spot-map-badge">
+                        <i class="bi bi-geo-alt-fill"></i> EXPLORE
+                    </div>
+                    <h2 class="spot-map-title">Barangay Spot Map</h2>
+                    <p class="spot-map-desc">
+                        Navigate our community with ease. View important landmarks, territorial boundaries, purok zones, and key public facilities throughout Barangay Maruing.
+                    </p>
+                    <a href="javascript:void(0)" class="btn-view-map" style="pointer-events: none; opacity: 0.7;" title="Coming soon">
+                        View Full Map <i class="bi bi-map-fill"></i>
+                    </a>
+
+                    <div style="margin-top: 3.5rem; width: 100%;">
+                        <h5 style="font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">The 9 Puroks</h5>
+                        <div class="purok-chips">
+                            <?php for($i = 1; $i <= 9; $i++): ?>
+                            <div class="purok-chip">
+                                <i class="bi bi-geo-alt"></i> Purok <?php echo $i; ?>
+                            </div>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="spot-map-visual">
+                    <iframe 
+                        src="https://maps.google.com/maps?q=Barangay%20Maruing,%20Philippines&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+            </div>
+        </section>
+
     </main>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top row">
+                <!-- Column 1: Logo -->
+                <div class="col-md-4 footer-brand" style="display: flex; align-items: center; gap: 15px;">
+                    <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" class="footer-logo-img" style="width: 70px;">
+                    <div>
+                        <h2 class="footer-logo" style="margin-bottom: 0;">BARANGAY MARUING</h2>
+                        <p class="footer-slogan" style="margin-bottom: 0;">SERBISYONG TAPAT, PARA SA LAHAT</p>
+                    </div>
+                </div>
+                <!-- Column 2 -->
+                <div class="col-md-2 footer-links">
+                    <a href="index.php">HOME</a>
+                    <a href="about.php">ABOUT US</a>
+                </div>
+                <!-- Column 3 -->
+                <div class="col-md-2 footer-links">
+                    <a href="officials.php">OFFICIALS</a>
+                    <a href="spot-map.php">SPOT MAP</a>
+                </div>
+                <!-- Column 4 -->
+                <div class="col-md-2 footer-links">
+                    <a href="gallery.php">GALLERY</a>
+                    <a href="contact.php">CONTACT US</a>
+                </div>
+                <!-- Column 5 -->
+                <div class="col-md-2 footer-links">
+                    <a href="login.php">LOGIN</a>
+                    <a href="register.php">REGISTER</a>
+                </div>
+            </div>
+            
+            <hr class="footer-divider">
+            
+            <div class="footer-bottom">
+                <div class="footer-socials">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-envelope-fill"></i></a>
+                </div>
+                <p class="footer-copy">&copy; Copyright. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>

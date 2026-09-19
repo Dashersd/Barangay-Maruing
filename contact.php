@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="public/assets/css/style.css">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=1789796772">
     <link rel="stylesheet" href="public/assets/css/contact.css">
 </head>
 <body>
@@ -147,6 +147,53 @@
 
         </div>
     </main>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top row">
+                <!-- Column 1: Logo -->
+                <div class="col-md-4 footer-brand" style="display: flex; align-items: center; gap: 15px;">
+                    <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" class="footer-logo-img" style="width: 70px;">
+                    <div>
+                        <h2 class="footer-logo" style="margin-bottom: 0;">BARANGAY MARUING</h2>
+                        <p class="footer-slogan" style="margin-bottom: 0;">SERBISYONG TAPAT, PARA SA LAHAT</p>
+                    </div>
+                </div>
+                <!-- Column 2 -->
+                <div class="col-md-2 footer-links">
+                    <a href="index.php">HOME</a>
+                    <a href="about.php">ABOUT US</a>
+                </div>
+                <!-- Column 3 -->
+                <div class="col-md-2 footer-links">
+                    <a href="officials.php">OFFICIALS</a>
+                    <a href="spot-map.php">SPOT MAP</a>
+                </div>
+                <!-- Column 4 -->
+                <div class="col-md-2 footer-links">
+                    <a href="gallery.php">GALLERY</a>
+                    <a href="contact.php">CONTACT US</a>
+                </div>
+                <!-- Column 5 -->
+                <div class="col-md-2 footer-links">
+                    <a href="login.php">LOGIN</a>
+                    <a href="register.php">REGISTER</a>
+                </div>
+            </div>
+            
+            <hr class="footer-divider">
+            
+            <div class="footer-bottom">
+                <div class="footer-socials">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-envelope-fill"></i></a>
+                </div>
+                <p class="footer-copy">&copy; Copyright. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
