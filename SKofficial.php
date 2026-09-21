@@ -201,7 +201,17 @@
                         <div class="official-role">SK Secretary</div>
                         <div class="official-committee-badge">Committee on Records & Documentation</div>
                     </div>
-                </div>
+                
+                    <!-- SK Treasurer -->
+                    <div class="official-card">
+                        <div class="official-avatar">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <h3 class="official-name">SK Treasurer</h3>
+                        <div class="official-role">SK Treasurer</div>
+                        <div class="official-committee-badge">Committee on Finance & Budget</div>
+                    </div>
+</div>
             </section>
 
 
@@ -260,3 +270,4 @@
     <script src="public/assets/js/main.js"></script>
 </body>
 </html>
+
