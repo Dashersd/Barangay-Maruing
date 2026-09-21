@@ -84,7 +84,7 @@
                 <div class="org-row row-1">
                     <div class="org-card">
                         <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="Barangay Captain" class="org-photo">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Chairperson" class="org-photo">
                             <div class="org-name-badge">Name</div>
                         </div>
                         <div class="org-role">SK CHAIRPERSON</div>
@@ -98,7 +98,7 @@
                 <div class="org-row row-2">
                     <div class="org-card">
                         <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="Barangay Kagawad" class="org-photo">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
                             <div class="org-name-badge">Name</div>
                         </div>
                         <div class="org-role">SK KAGAWAD</div>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="org-card">
                         <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="Barangay Kagawad" class="org-photo">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
                             <div class="org-name-badge">Name</div>
                         </div>
                         <div class="org-role">SK KAGAWAD</div>
@@ -122,7 +122,7 @@
                 <div class="org-row row-3">
                     <div class="org-card">
                         <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="Barangay Kagawad" class="org-photo">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
                             <div class="org-name-badge">Name</div>
                         </div>
                         <div class="org-role">SK KAGAWAD</div>
@@ -132,7 +132,7 @@
                     </div>
                     <div class="org-card">
                         <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="Barangay Kagawad" class="org-photo">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
                             <div class="org-name-badge">Name</div>
                         </div>
                         <div class="org-role">SK KAGAWAD</div>
@@ -142,7 +142,7 @@
                     </div>
                     <div class="org-card">
                         <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="Barangay Kagawad" class="org-photo">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
                             <div class="org-name-badge">Name</div>
                         </div>
                         <div class="org-role">SK KAGAWAD</div>
@@ -152,7 +152,7 @@
                     </div>
                     <div class="org-card">
                         <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="Barangay Kagawad" class="org-photo">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
                             <div class="org-name-badge">Name</div>
                         </div>
                         <div class="org-role">SK KAGAWAD</div>
@@ -162,7 +162,7 @@
                     </div>
                     <div class="org-card">
                         <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="Barangay Kagawad" class="org-photo">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
                             <div class="org-name-badge">Name</div>
                         </div>
                         <div class="org-role">SK KAGAWAD</div>
@@ -176,5 +176,6 @@
     </div>
 </body>
 </html>
+
 
 
