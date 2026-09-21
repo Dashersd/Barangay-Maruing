@@ -44,9 +44,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="about.php">About</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="officials.php">Officials</a>
-                    </li>
+                                          <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button">
+                              Officials <i class="bi bi-chevron-down" style="font-size: 0.8rem; margin-left: 2px;"></i>
+                          </a>
+                          <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="officials.php">Barangay Officials</a></li>
+                              <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
+                          </ul>
+                      </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#" onclick="return false;">Spot Map</a>
                     </li>
@@ -197,34 +203,62 @@
                 <p style="font-size: 1.1rem; color: var(--muted-text-color);">Glimpses of life, events, and progress in Barangay Maruing.</p>
             </div>
             
-            <div class="carousel-container">
-                <div class="gallery-carousel" id="galleryCarousel">
-                    <div class="gallery-item">
+                        <div class="carousel-container-3d">
+                <div class="gallery-carousel-3d">
+                    <div class="gallery-item-3d" style="--i: 1;">
                         <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #10b981, #059669);">
                             <i class="bi bi-image"></i>
                         </div>
                     </div>
-                    <div class="gallery-item">
+                    <div class="gallery-item-3d" style="--i: 2;">
                         <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
                             <i class="bi bi-image"></i>
                         </div>
                     </div>
-                    <div class="gallery-item">
+                    <div class="gallery-item-3d" style="--i: 3;">
                         <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
                             <i class="bi bi-image"></i>
                         </div>
                     </div>
-                    <div class="gallery-item">
+                    <div class="gallery-item-3d" style="--i: 4;">
                         <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #ec4899, #db2777);">
                             <i class="bi bi-image"></i>
                         </div>
                     </div>
-                    <div class="gallery-item">
+                    <div class="gallery-item-3d" style="--i: 5;">
+                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item-3d" style="--i: 6;">
+                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item-3d" style="--i: 7;">
+                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item-3d" style="--i: 8;">
+                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item-3d" style="--i: 9;">
+                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item-3d" style="--i: 10;">
                         <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
                             <i class="bi bi-image"></i>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
             </div>
         </div>
     </section>
@@ -281,3 +315,4 @@
 </body>
 
 </html>
+
