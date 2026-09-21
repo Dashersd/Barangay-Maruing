@@ -19,7 +19,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=1789796772">
-    <link rel="stylesheet" href="public/assets/css/officials.css">
+    <link rel="stylesheet" href="public/assets/css/SKofficial.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -77,7 +77,7 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="hero-script-lead">Barangay</span>
+                    <span class="hero-script-lead">Sangguniang Kabataan</span>
                     <span class="hero-title-main">OFFICIALS</span>
                 </h1>
                 <p class="hero-lead">Meet the dedicated leaders and council members of Barangay Maruing, committed to honest governance and servant leadership.</p>
@@ -93,7 +93,7 @@
             <section class="captain-section">
                 <div class="category-header">
                     <h2 class="category-title">Executive Leadership</h2>
-                    <p class="category-subtitle">Head of the Barangay Government</p>
+                    <p class="category-subtitle">Head of the Sangguniang Kabataan Officials</p>
                     <div class="category-accent-bar"></div>
                 </div>
 
@@ -105,9 +105,9 @@
                             </div>
                         </div>
                         <div class="captain-info-col">
-                            <h3 class="captain-name">Punong Barangay</h3>
-                            <div class="captain-role">Punong Barangay / Barangay Captain</div>
-                            <p class="captain-desc">Presiding officer of the Sangguniang Barangay, leading executive policies, community welfare programs, and peace and order in Barangay Maruing.</p>
+                            <h3 class="captain-name">SK President</h3>
+                            <div class="captain-role">SK Chairperson</div>
+                            <p class="captain-desc">Presiding officer of the Sangguniang Kabataan, leading executive policies, community welfare programs, and peace and order in Barangay Maruing.</p>
                         </div>
                     </div>
                 </div>
@@ -116,8 +116,8 @@
             <!-- 2. Sangguniang Barangay (Councilors) -->
             <section class="councilors-section">
                 <div class="category-header">
-                    <h2 class="category-title">Sangguniang Barangay Members</h2>
-                    <p class="category-subtitle">Barangay Kagawads & Committee Chairpersons</p>
+                    <h2 class="category-title">Sangguniang Kabataan Members</h2>
+                    <p class="category-subtitle">SK Kagawads & Committee Chairpersons</p>
                     <div class="category-accent-bar"></div>
                 </div>
 
@@ -127,8 +127,8 @@
                         <div class="official-avatar">
                             <i class="bi bi-person"></i>
                         </div>
-                        <h3 class="official-name">Barangay Kagawad 1</h3>
-                        <div class="official-role">Barangay Kagawad</div>
+                        <h3 class="official-name">SK Kagawad 1</h3>
+                        <div class="official-role">SK Kagawad</div>
                         <div class="official-committee-badge">Committee on Peace & Order</div>
                     </div>
 
@@ -137,8 +137,8 @@
                         <div class="official-avatar">
                             <i class="bi bi-person"></i>
                         </div>
-                        <h3 class="official-name">Barangay Kagawad 2</h3>
-                        <div class="official-role">Barangay Kagawad</div>
+                        <h3 class="official-name">SK Kagawad 2</h3>
+                        <div class="official-role">SK Kagawad</div>
                         <div class="official-committee-badge">Committee on Appropriations</div>
                     </div>
 
@@ -147,8 +147,8 @@
                         <div class="official-avatar">
                             <i class="bi bi-person"></i>
                         </div>
-                        <h3 class="official-name">Barangay Kagawad 3</h3>
-                        <div class="official-role">Barangay Kagawad</div>
+                        <h3 class="official-name">SK Kagawad 3</h3>
+                        <div class="official-role">SK Kagawad</div>
                         <div class="official-committee-badge">Committee on Health & Sanitation</div>
                     </div>
 
@@ -157,8 +157,8 @@
                         <div class="official-avatar">
                             <i class="bi bi-person"></i>
                         </div>
-                        <h3 class="official-name">Barangay Kagawad 4</h3>
-                        <div class="official-role">Barangay Kagawad</div>
+                        <h3 class="official-name">SK Kagawad 4</h3>
+                        <div class="official-role">SK Kagawad</div>
                         <div class="official-committee-badge">Committee on Public Works</div>
                     </div>
 
@@ -167,8 +167,8 @@
                         <div class="official-avatar">
                             <i class="bi bi-person"></i>
                         </div>
-                        <h3 class="official-name">Barangay Kagawad 5</h3>
-                        <div class="official-role">Barangay Kagawad</div>
+                        <h3 class="official-name">SK Kagawad 5</h3>
+                        <div class="official-role">SK Kagawad</div>
                         <div class="official-committee-badge">Committee on Education & Culture</div>
                     </div>
 
@@ -177,8 +177,8 @@
                         <div class="official-avatar">
                             <i class="bi bi-person"></i>
                         </div>
-                        <h3 class="official-name">Barangay Kagawad 6</h3>
-                        <div class="official-role">Barangay Kagawad</div>
+                        <h3 class="official-name">SK Kagawad 6</h3>
+                        <div class="official-role">SK Kagawad</div>
                         <div class="official-committee-badge">Committee on Agriculture & Environment</div>
                     </div>
 
@@ -187,19 +187,19 @@
                         <div class="official-avatar">
                             <i class="bi bi-person"></i>
                         </div>
-                        <h3 class="official-name">Barangay Kagawad 7</h3>
-                        <div class="official-role">Barangay Kagawad</div>
+                        <h3 class="official-name">SK Kagawad 7</h3>
+                        <div class="official-role">SK Kagawad</div>
                         <div class="official-committee-badge">Committee on Social Services & Welfare</div>
                     </div>
 
-                    <!-- SK Chairperson -->
+                    <!-- SK Secretary -->
                     <div class="official-card">
                         <div class="official-avatar">
                             <i class="bi bi-person"></i>
                         </div>
-                        <h3 class="official-name">SK Chairperson</h3>
-                        <div class="official-role">SK Chairperson / Ex-Officio</div>
-                        <div class="official-committee-badge">Committee on Youth & Sports Development</div>
+                        <h3 class="official-name">SK Secretary</h3>
+                        <div class="official-role">SK Secretary</div>
+                        <div class="official-committee-badge">Committee on Records & Documentation</div>
                     </div>
                 </div>
             </section>

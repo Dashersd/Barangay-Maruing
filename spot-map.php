@@ -42,8 +42,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="about.php">About</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="officials.php">Officials</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="officials.php">Officials <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="officials.php">Barangay Officials</a></li>
+                            <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="spot-map.php">Spot Map</a>

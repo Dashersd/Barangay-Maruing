@@ -19,7 +19,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=1789796772">
-    <link rel="stylesheet" href="public/assets/css/about.css?v=2">
+    <link rel="stylesheet" href="public/assets/css/about.css?v=3">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -40,8 +40,12 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="about.php">About</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="officials.php">Officials</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="officials.php">Officials <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="officials.php">Barangay Officials</a></li>
+                            <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#" onclick="return false;">Spot Map</a>
@@ -96,8 +100,13 @@
                     <div class="about-us-line"></div>
                 </div>
                 <h2 class="about-us-title">Our Barangay</h2>
-                <p class="about-us-text">Barangay Maruing is one of the duly recognized barangays in the Municipality of Maramag, Lanao del Sur. It is home to hardworking and God-fearing residents who value unity, cooperation, and community development.</p>
-                <p class="about-us-text">Our barangay is governed by a dedicated set of officials who work hand in hand with the community to ensure peace and order, deliver essential services, and promote sustainable growth for all.</p>
+                <div class="about-us-text-scrollable">
+                    <p class="about-us-text">Maruing once under the jurisdiction of Margosatubig, before it was declared as a Municipality in 1964 during the time of late Diosdado Macapagal and then reverted into Barangay in 1965. According to the Subanen leaders of Elders, the term Maruing came from two[2] Subanen words "MARU" which means bad odor and "DUWING" a Subanen word a term for gigantic wild boar having fangs that grew outrares from his mouth because of the incredible strength. According to the story, a Subanen hunter went to the forest looking for wild animals. Using his spear the hunter was able to hit a wild boar or the DUWING but unluckily failed to catch it. Thus, the hunter kept on looking the animal until found a very nice place where two rivers meet creating a big river before it proceeds to the sea. Because he did not find the wild boar but instead the beautiful place, he went home and reported to his co-villagers about a beautiful place where they could establish their community because of its strategic location and abundance of water.</p>
+                    <p class="about-us-text">After few days, the hunter and his community decided to visit the said beautiful place and there they observed "MARU" or bad odor where they believed to be the "DUWING" that escaped from hunting. Since they do not know the name of the place, they conbined the two words of MARU and DUWING and they called the place Marwing. It was only changed to MARUING during the time of Barangay Captain Lorenzo Bugao.</p>
+                    <p class="about-us-text">Barangay Maruing is the home of the Subanen, one of the 18 major tribes of the Lumad in Mindanao. The first Subanen families who inhabited the place were the families of Mangangot, Balabad, Bugao and Hupa and the first chinesse families were Pula, Wasing and Costan whom later killed by bandits. From the Muslim tribes, it was the families of Manopod who went and settle first in Maruing.</p>
+                    <p class="about-us-text">Based on the record, of the Municipal Planning Development Office of Lapuyan, Zamboanga del Sur, Maruing was created into Barangay on January 17,1958 by Virtue of Republic Act 226 from from being a Sitio of once Barangay Lapuyan, which was under the Municipality of Margosatubig. Even before the formal creation of Barangay Maruing, the American Government had already appointed a Teniente del Barrio or Chief Executive aside from the traditional political set-up of Datu System, which is headed by Datu Sapalao. In fact, there were times that Datu Sapalao was also appointed as Teniente del Barrio, particularly Datu Sapalao Consing Bugao in 1930's and Datu Sapalao Mandag Humoa in 1940's.</p>
+                    <p class="about-us-text">The second Teniente del Barrio or Barrio at Large after Maruing was fully recognized as a Barangay was Tere Mangangot who served from 1958-1961. His councillors include Ajerol Arip, John Banagan, Tumandio Lesayao, Tumindeg Tahupis, and Tumanghis Antay. During his term, they constructed a bridged at the center of Barangay and they actively participated the clean and green Revolution Program of the National Government. In 1961, Timuay Tumindeg Tahupis, member of the Tribal Leaders of Maruing succeeded Tere Mangangot until 1964. He continued the projects of his predecessor and led in developing the sports activities and competitions with other municipalities.</p>
+                </div>
             </div>
             
             <!-- Right List -->
@@ -164,7 +173,7 @@
                         </div>
                     </div>
                     <div class="about-paragraph-wrapper">
-                        <p class="about-paragraph"></p>
+                        <p class="about-paragraph">"ENVISION A PROGRESSIVE, HEALTHY, PEACEFUL COMMUNITY EMPOWERED CONSTITUENT AND COLLECTIVELY PARTICIPATING IN DECISION MAKING GEARING TOWARDS GOOD GOVERNANCE WITH INTEGRITY AND DEDICATIONS WE STRIVE TO MANAGE PROPERLY THE VALUE OF THE SERVICES AS WHAT WE HAVE PLEDGE IN ORDER TO GAIN STRONG FOUNDATION THAT SERVE INSPIRATION TO EVERY INDIVIDUALS SUCH THAT BETTER LIVING OF ALL THE PEOPLE IN BARANGAY MARUING IS FRUITFUL AND BEAUTIFUL AS THE YEAR GOES BY"</p>
                     </div>
                 </div>
 
@@ -180,7 +189,7 @@
                         </div>
                     </div>
                     <div class="about-paragraph-wrapper">
-                        <p class="about-paragraph"></p>
+                        <p class="about-paragraph">"TO FORMULATE AND ENFORCE TRANSPARENT PLAN, PROGRAMS AND REGULATION FOR THE PROTECTION OF THE INTEREST OF THE COMMUNITY WITH REGARDS TO ENVIRONMENT, EDUCATION, INFRASTRUCTURE, HEALTH, SOCIAL SERVICES, MORAL FINANCIAL, PEACE AND ORDER PURSUE COLLABORATIVE EFFORT TOGETHER WITH OUR EAGERNESS AND ACTIVE PARTICIPATION AS WE MOBILIZE ITS CONSTITUENTS, WE CAN BE A PROGRESSIVE AND PRODUCTIVE COMMUNITY."</p>
                     </div>
                 </div>
             </div>

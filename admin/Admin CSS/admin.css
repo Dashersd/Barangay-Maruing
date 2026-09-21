@@ -1,4 +1,4 @@
-﻿body {
+body {
             background-color: #f1f5f9;
             display: flex;
             min-height: 100vh;
@@ -31,6 +31,8 @@
             margin: 0;
             font-size: 1.1rem;
             color: #ffc107;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
         }
 
         .sidebar-menu {
@@ -51,11 +53,16 @@
             color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             transition: all 0.3s ease;
+            font-size: 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
         }
 
         .sidebar-menu a i {
             margin-right: 15px;
             font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
         }
 
         .sidebar-menu a:hover, .sidebar-menu a.active {
@@ -143,4 +150,46 @@
         .dashboard-content {
             padding: 30px;
             flex-grow: 1;
+        }
+
+        /* Sidebar Submenu */
+        .sidebar-menu a {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .sidebar-menu .submenu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .sidebar-menu .has-submenu.open .submenu {
+            display: block;
+        }
+
+        .sidebar-menu .submenu li {
+            border-bottom: none !important;
+        }
+
+        .sidebar-menu .submenu a {
+            padding: 12px 20px 12px 50px !important;
+            font-size: 0.9rem !important;
+            border-left: 4px solid transparent !important;
+        }
+
+        .sidebar-menu .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+        }
+
+        .sidebar-menu a .dropdown-icon {
+            margin-left: auto !important;
+            margin-right: 0 !important;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-menu .has-submenu.open a .dropdown-icon {
+            transform: rotate(180deg);
         }

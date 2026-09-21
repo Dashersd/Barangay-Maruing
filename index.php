@@ -189,6 +189,46 @@
 
     </main>
 
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
+                <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 1rem;">Barangay Gallery</h2>
+                <p style="font-size: 1.1rem; color: var(--muted-text-color);">Glimpses of life, events, and progress in Barangay Maruing.</p>
+            </div>
+            
+            <div class="carousel-container">
+                <div class="gallery-carousel" id="galleryCarousel">
+                    <div class="gallery-item">
+                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                            <i class="bi bi-image"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
         <!-- Footer -->
     <footer class="footer">
         <div class="container">

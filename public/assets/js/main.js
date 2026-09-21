@@ -56,3 +56,31 @@ function togglePasswordVisibility(inputId, buttonEl) {
     }
 }
 
+
+/**
+ * Gallery Carousel Auto-Slide Logic
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const galleryCarousel = document.getElementById('galleryCarousel');
+
+    if (galleryCarousel) {
+        setInterval(() => {
+            const firstItem = galleryCarousel.querySelector('.gallery-item');
+            if (!firstItem) return;
+            
+            const itemWidth = firstItem.offsetWidth + 20; // width + gap
+            
+            // Smoothly scroll to the next item
+            galleryCarousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
+            
+            // Wait for the smooth scroll animation to finish (approx 500ms)
+            setTimeout(() => {
+                // Move the first item to the very end of the line
+                galleryCarousel.appendChild(firstItem);
+                // Instantly jump the scrollbar back to compensate for the moved item
+                galleryCarousel.scrollBy({ left: -itemWidth, behavior: 'auto' });
+            }, 600);
+            
+        }, 3000); 
+    }
+});

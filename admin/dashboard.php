@@ -18,7 +18,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/assets/css/style.css">
     
-    <link rel="stylesheet" href="Admin CSS/admin.css">
+    <link rel="stylesheet" href="Admin CSS/admin.css?v=2">
     <link rel="stylesheet" href="Admin CSS/dashboard.css">
 </head>
 <body>
@@ -32,10 +32,22 @@
         <ul class="sidebar-menu">
             <li><a href="dashboard.php" class="active"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a></li>
             <li><a href="about.php"><i class="bi bi-info-circle-fill"></i> About</a></li>
-            <li><a href="#"><i class="bi bi-people-fill"></i> Officials</a></li>
+            <li class="has-submenu">
+                <a href="#" onclick="this.parentElement.classList.toggle('open'); return false;">
+                    <i class="bi bi-people-fill"></i> Officials
+                    <i class="bi bi-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="barangayofficials.php">Barangay Officials</a></li>
+                    <li><a href="SKofficials.php">SK Officials</a></li>
+                </ul>
+            </li>
             <li><a href="#"><i class="bi bi-geo-alt-fill"></i> Spot Map</a></li>
-            <li><a href="#"><i class="bi bi-image-fill"></i> Gallery</a></li>
+            <li><a href="mediagallery.php"><i class="bi bi-image-fill"></i> Media Gallery</a></li>
+            <li><a href="services.php"><i class="bi bi-card-list"></i> Services</a></li>
+            <li><a href="announcements.php"><i class="bi bi-megaphone-fill"></i> Announcements</a></li>
             <li><a href="#"><i class="bi bi-telephone-fill"></i> Contact</a></li>
+            <li><a href="settings.php"><i class="bi bi-gear-fill"></i> Settings</a></li>
         </ul>
         <div class="sidebar-footer">
             <a href="login.php"><i class="bi bi-box-arrow-left"></i> Logout</a>

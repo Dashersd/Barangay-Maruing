@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage About Us | Barangay Maruing</title>
+    <title>Media Library | Barangay Maruing</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../public/image/Maruing Logo 2.png">
     
@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../public/assets/css/style.css">
     
     <link rel="stylesheet" href="Admin CSS/admin.css?v=2">
-    <link rel="stylesheet" href="Admin CSS/about.css">
+    <link rel="stylesheet" href="Admin CSS/mediagallery.css">
 </head>
 <body>
 
@@ -31,7 +31,7 @@
         </div>
         <ul class="sidebar-menu">
             <li><a href="dashboard.php"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a></li>
-            <li><a href="about.php" class="active"><i class="bi bi-info-circle-fill"></i> About</a></li>
+            <li><a href="about.php"><i class="bi bi-info-circle-fill"></i> About</a></li>
             <li class="has-submenu">
                 <a href="#" onclick="this.parentElement.classList.toggle('open'); return false;">
                     <i class="bi bi-people-fill"></i> Officials
@@ -43,7 +43,7 @@
                 </ul>
             </li>
             <li><a href="#"><i class="bi bi-geo-alt-fill"></i> Spot Map</a></li>
-            <li><a href="mediagallery.php"><i class="bi bi-image-fill"></i> Media Gallery</a></li>
+            <li><a href="mediagallery.php" class="active"><i class="bi bi-image-fill"></i> Media Gallery</a></li>
             <li><a href="services.php"><i class="bi bi-card-list"></i> Services</a></li>
             <li><a href="announcements.php"><i class="bi bi-megaphone-fill"></i> Announcements</a></li>
             <li><a href="#"><i class="bi bi-telephone-fill"></i> Contact</a></li>
@@ -59,7 +59,7 @@
         <!-- Topbar -->
         <header class="topbar">
             <div class="topbar-title">
-                <h2>Manage About Us</h2>
+                <h2>Manage Media Gallery</h2>
             </div>
             <div class="topbar-user">
                 <div class="user-info">
@@ -74,52 +74,39 @@
 
         <!-- Content Area -->
         <main class="dashboard-content">
-            <div class="page-header">
-                <h3>About Us Content</h3>
-                <p>Update the information displayed on the public About Us page.</p>
+            <div class="media-header-row">
+                <h2>Media Library</h2>
+                <input type="file" id="media-upload-input" style="display: none;" accept="image/*,video/*">
+                <button class="btn-upload" onclick="document.getElementById('media-upload-input').click()"><i class="bi bi-plus"></i> Upload Media</button>
             </div>
             
-            <form action="#" method="POST" enctype="multipart/form-data">
-                <div class="about-grid">
-                    <!-- Left Side: Image -->
-                    <div class="left-col">
-                        <div class="form-card h-100">
-                            <label class="form-label" for="about_image">Add Image</label>
-                            <div class="image-dropzone">
-                                <input type="file" id="about_image" name="about_image" class="file-input-centered" accept="image/*">
-                            </div>
-                        </div>
+            <div class="media-container">
+                <div class="media-grid">
+                    <!-- Media Card 1 -->
+                    <div class="media-card">
+                        <div class="media-preview"></div>
+                        <div class="media-label">Barangay Hall Facade</div>
                     </div>
-
-                    <!-- Right Side: Text Fields -->
-                    <div class="right-col">
-                        <div class="form-card mb-30">
-                            <div class="form-group mb-0">
-                                <label class="form-label" for="history">History</label>
-                                <textarea id="history" name="history" class="form-control" rows="6" placeholder="Enter barangay history here..."></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-card mb-30">
-                            <div class="form-group mb-0">
-                                <label class="form-label" for="vision">Vision</label>
-                                <textarea id="vision" name="vision" class="form-control" rows="4" placeholder="Enter barangay vision here..."></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-card">
-                            <div class="form-group mb-0">
-                                <label class="form-label" for="mission">Mission</label>
-                                <textarea id="mission" name="mission" class="form-control" rows="4" placeholder="Enter barangay mission here..."></textarea>
-                            </div>
-                        </div>
+                    
+                    <!-- Media Card 2 -->
+                    <div class="media-card">
+                        <div class="media-preview"></div>
+                        <div class="media-label">Medical Mission 2026</div>
+                    </div>
+                    
+                    <!-- Media Card 3 -->
+                    <div class="media-card">
+                        <div class="media-preview"></div>
+                        <div class="media-label">Coastal Clean-up Drive</div>
+                    </div>
+                    
+                    <!-- Media Card 4 -->
+                    <div class="media-card">
+                        <div class="media-preview"></div>
+                        <div class="media-label">Summer Sports Fest</div>
                     </div>
                 </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary"><i class="bi bi-save"></i> Save Changes</button>
-                </div>
-            </form>
+            </div>
         </main>
     </div>
 </body>

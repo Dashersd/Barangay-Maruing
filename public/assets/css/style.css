@@ -1371,3 +1371,54 @@ a {
     margin: 0;
     text-align: center;
 }
+/* ==========================================================================
+   Gallery Section
+   ========================================================================== */
+.gallery-section {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+}
+
+.carousel-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.gallery-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 0;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.gallery-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.gallery-item {
+    flex: 0 0 calc(33.333% - 20px);
+    min-width: 300px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.gallery-img-placeholder {
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+}
