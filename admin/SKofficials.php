@@ -122,44 +122,8 @@
                     </div>
                 </div>
 
-                <!-- Row 3: 4 Kagawads -->
+                <!-- Row 3: Secretary and Treasurer -->
                 <div class="org-row row-3" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 40px; flex-wrap: wrap;">
-                    <div class="org-card">
-                        <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
-                            <div class="org-name-badge">Name</div>
-                        </div>
-                        <div class="org-role">SK KAGAWAD</div>
-                        <div class="org-actions"><button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button></div>
-                    </div>
-                    <div class="org-card">
-                        <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
-                            <div class="org-name-badge">Name</div>
-                        </div>
-                        <div class="org-role">SK KAGAWAD</div>
-                        <div class="org-actions"><button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button></div>
-                    </div>
-                    <div class="org-card">
-                        <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
-                            <div class="org-name-badge">Name</div>
-                        </div>
-                        <div class="org-role">SK KAGAWAD</div>
-                        <div class="org-actions"><button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button></div>
-                    </div>
-                    <div class="org-card">
-                        <div class="org-photo-container">
-                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
-                            <div class="org-name-badge">Name</div>
-                        </div>
-                        <div class="org-role">SK KAGAWAD</div>
-                        <div class="org-actions"><button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button></div>
-                    </div>
-                </div>
-                
-                <!-- Row 4: Secretary and Treasurer -->
-                <div class="org-row row-4" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 40px; flex-wrap: wrap;">
                     <div class="org-card">
                         <div class="org-photo-container">
                             <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Secretary" class="org-photo">
@@ -174,6 +138,42 @@
                             <div class="org-name-badge">Name</div>
                         </div>
                         <div class="org-role">SK TREASURER</div>
+                        <div class="org-actions"><button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button></div>
+                    </div>
+                </div>
+
+                <!-- Row 4: 4 Kagawads -->
+                <div class="org-row row-4" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 40px; flex-wrap: wrap;">
+                    <div class="org-card">
+                        <div class="org-photo-container">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
+                            <div class="org-name-badge">Name</div>
+                        </div>
+                        <div class="org-role">SK KAGAWAD</div>
+                        <div class="org-actions"><button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button></div>
+                    </div>
+                    <div class="org-card">
+                        <div class="org-photo-container">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
+                            <div class="org-name-badge">Name</div>
+                        </div>
+                        <div class="org-role">SK KAGAWAD</div>
+                        <div class="org-actions"><button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button></div>
+                    </div>
+                    <div class="org-card">
+                        <div class="org-photo-container">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
+                            <div class="org-name-badge">Name</div>
+                        </div>
+                        <div class="org-role">SK KAGAWAD</div>
+                        <div class="org-actions"><button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button></div>
+                    </div>
+                    <div class="org-card">
+                        <div class="org-photo-container">
+                            <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="SK Kagawad" class="org-photo">
+                            <div class="org-name-badge">Name</div>
+                        </div>
+                        <div class="org-role">SK KAGAWAD</div>
                         <div class="org-actions"><button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button></div>
                     </div>
                 </div>
