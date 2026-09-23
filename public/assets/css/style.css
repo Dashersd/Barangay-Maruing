@@ -1465,3 +1465,30 @@ a {
     color: white;
     font-size: 3rem;
 }
+
+/* Added Animations for Officials Section */
+.official-card {
+    transition: all 0.3s ease !important;
+}
+
+.official-card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+    box-shadow: 0 15px 35px rgba(19, 117, 71, 0.15) !important;
+}
+
+.btn-officials-outline:hover {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    box-shadow: 0 8px 20px rgba(19, 117, 71, 0.25) !important;
+    transform: translateY(-3px) !important;
+}
+
+/* Animations for Service Cards */
+.service-card {
+    transition: all 0.3s ease !important;
+}
+
+.service-card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+    box-shadow: 0 15px 35px rgba(16, 185, 129, 0.15) !important;
+}

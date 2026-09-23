@@ -122,6 +122,26 @@
                 </div>
 
                 <div class="officials-grid">
+                    <!-- SK Secretary -->
+                    <div class="official-card">
+                        <div class="official-avatar">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <h3 class="official-name">SK Secretary</h3>
+                        <div class="official-role">SK Secretary</div>
+                        <div class="official-committee-badge">Committee on Records & Documentation</div>
+                    </div>
+                
+                    <!-- SK Treasurer -->
+                    <div class="official-card">
+                        <div class="official-avatar">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <h3 class="official-name">SK Treasurer</h3>
+                        <div class="official-role">SK Treasurer</div>
+                        <div class="official-committee-badge">Committee on Finance & Budget</div>
+                    </div>
+
                     <!-- Kagawad 1 -->
                     <div class="official-card">
                         <div class="official-avatar">
@@ -191,31 +211,8 @@
                         <div class="official-role">SK Kagawad</div>
                         <div class="official-committee-badge">Committee on Social Services & Welfare</div>
                     </div>
-
-                    <!-- SK Secretary -->
-                    <div class="official-card">
-                        <div class="official-avatar">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <h3 class="official-name">SK Secretary</h3>
-                        <div class="official-role">SK Secretary</div>
-                        <div class="official-committee-badge">Committee on Records & Documentation</div>
-                    </div>
-                
-                    <!-- SK Treasurer -->
-                    <div class="official-card">
-                        <div class="official-avatar">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <h3 class="official-name">SK Treasurer</h3>
-                        <div class="official-role">SK Treasurer</div>
-                        <div class="official-committee-badge">Committee on Finance & Budget</div>
-                    </div>
-</div>
+                </div>
             </section>
-
-
-
         </div>
     </main>
 

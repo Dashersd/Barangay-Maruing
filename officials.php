@@ -106,7 +106,7 @@
                         </div>
                         <div class="captain-info-col">
                             <h3 class="captain-name">Punong Barangay</h3>
-                            <div class="captain-role">Punong Barangay / Barangay Captain</div>
+                            <div class="captain-role">Punong Barangay</div>
                             <p class="captain-desc">Presiding officer of the Sangguniang Barangay, leading executive policies, community welfare programs, and peace and order in Barangay Maruing.</p>
                         </div>
                     </div>
@@ -122,6 +122,26 @@
                 </div>
 
                 <div class="officials-grid">
+                    <!-- Barangay Secretary -->
+                    <div class="official-card">
+                        <div class="official-avatar">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <h3 class="official-name">Barangay Secretary</h3>
+                        <div class="official-role">Barangay Secretary</div>
+                        <div class="official-committee-badge">Committee on Records & Documentation</div>
+                    </div>
+
+                    <!-- Barangay Treasurer -->
+                    <div class="official-card">
+                        <div class="official-avatar">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <h3 class="official-name">Barangay Treasurer</h3>
+                        <div class="official-role">Barangay Treasurer</div>
+                        <div class="official-committee-badge">Committee on Finance & Budget</div>
+                    </div>
+
                     <!-- Kagawad 1 -->
                     <div class="official-card">
                         <div class="official-avatar">
@@ -190,16 +210,6 @@
                         <h3 class="official-name">Barangay Kagawad 7</h3>
                         <div class="official-role">Barangay Kagawad</div>
                         <div class="official-committee-badge">Committee on Social Services & Welfare</div>
-                    </div>
-
-                    <!-- SK Chairperson -->
-                    <div class="official-card">
-                        <div class="official-avatar">
-                            <i class="bi bi-person"></i>
-                        </div>
-                        <h3 class="official-name">SK Chairperson</h3>
-                        <div class="official-role">SK Chairperson / Ex-Officio</div>
-                        <div class="official-committee-badge">Committee on Youth & Sports Development</div>
                     </div>
                 </div>
             </section>
