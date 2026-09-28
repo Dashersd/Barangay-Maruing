@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="public/assets/css/style.css?v=1789796772">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=3">
     <link rel="stylesheet" href="public/assets/css/about.css?v=3">
 </head>
 <body>
@@ -58,14 +58,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="btn-admin" href="admin/login.php">Admin Login</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav nav-auth">
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn-register" href="register.php">Register</a>
                     </li>
                 </ul>
             </div>
@@ -224,11 +216,6 @@
                 <div class="col-md-2 footer-links">
                     <a href="gallery.php">GALLERY</a>
                     <a href="contact.php">CONTACT US</a>
-                </div>
-                <!-- Column 5 -->
-                <div class="col-md-2 footer-links">
-                    <a href="login.php">LOGIN</a>
-                    <a href="register.php">REGISTER</a>
                 </div>
             </div>
             

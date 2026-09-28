@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom CSS (Pure CSS Responsive) -->
-    <link rel="stylesheet" href="public/assets/css/style.css?v=1789796772">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=3">
 </head>
 
 <body>
@@ -62,16 +62,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="btn-admin" href="admin/login.php">Admin Login</a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav nav-auth">
                     <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn-register" href="register.php">Register</a>
+                        <a class="btn-admin" href="admin/login.php">Admin Login</a>
                     </li>
                 </ul>
             </div>
@@ -322,69 +316,71 @@
     </main>
 
     <!-- Gallery Section -->
-    <section class="gallery-section">
+    <style>
+        .gallery-section-wrapper {
+            padding: 5rem 0;
+            background-color: #ffffff;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        @media (max-width: 992px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 576px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 4 / 3;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+    <section class="gallery-section-wrapper">
         <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
-                <h2 style="font-size: 2.5rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 1rem;">Barangay Gallery</h2>
-                <p style="font-size: 1.1rem; color: var(--muted-text-color);">Glimpses of life, events, and progress in Barangay Maruing.</p>
+            <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
+                <h2 style="font-size: 2.8rem; font-weight: 800; color: #1e293b; margin-bottom: 0.5rem; font-family: 'Montserrat', sans-serif;">
+                    Our <span style="color: #0d6efd; position: relative;">Gallery<span style="position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 70%; height: 4px; background-color: #0d6efd; border-radius: 2px;"></span></span>
+                </h2>
+                <p style="font-size: 1.1rem; color: #64748b; max-width: 800px; margin: 2.5rem auto 0; line-height: 1.6; font-family: 'Montserrat', sans-serif;">
+                    Take a look at the latest events, activities, and programs organized for the residents<br>of Barangay Maruing.
+                </p>
             </div>
             
-                        <div class="carousel-container-3d">
-                <div class="gallery-carousel-3d">
-                    <div class="gallery-item-3d" style="--i: 1;">
-                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #10b981, #059669);">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item-3d" style="--i: 2;">
-                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item-3d" style="--i: 3;">
-                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item-3d" style="--i: 4;">
-                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #ec4899, #db2777);">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item-3d" style="--i: 5;">
-                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item-3d" style="--i: 6;">
-                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #10b981, #059669);">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item-3d" style="--i: 7;">
-                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item-3d" style="--i: 8;">
-                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item-3d" style="--i: 9;">
-                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #ec4899, #db2777);">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item-3d" style="--i: 10;">
-                        <div class="gallery-img-placeholder" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
-                            <i class="bi bi-image"></i>
-                        </div>
-                    </div>
+            <div class="gallery-grid">
+                <!-- Image 1 -->
+                <div class="gallery-item">
+                    <img src="https://picsum.photos/seed/festival/800/600" alt="Festival">
                 </div>
-            </div>
-        </div>
-    </section>
+                <!-- Image 2 -->
+                <div class="gallery-item">
+                    <img src="https://picsum.photos/seed/cleanup/800/600" alt="Community Cleanup">
+                </div>
+                <!-- Image 3 -->
+                <div class="gallery-item">
+                    <img src="https://picsum.photos/seed/basketball/800/600" alt="Basketball Game">
+                </div>
+                <!-- Image 4 -->
+                <div class="gallery-item">
+                    <img src="https://picsum.photos/seed/hall/800/600" alt="Barangay Hall">
+                </div>
             </div>
         </div>
     </section>
@@ -415,11 +411,6 @@
                 <div class="col-md-2 footer-links">
                     <a href="gallery.php">GALLERY</a>
                     <a href="contact.php">CONTACT US</a>
-                </div>
-                <!-- Column 5 -->
-                <div class="col-md-2 footer-links">
-                    <a href="login.php">LOGIN</a>
-                    <a href="register.php">REGISTER</a>
                 </div>
             </div>
             
