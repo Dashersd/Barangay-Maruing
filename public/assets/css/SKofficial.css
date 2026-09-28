@@ -7,7 +7,7 @@
 /* 1. Officials Hero Banner                                                  */
 /* -------------------------------------------------------------------------- */
 .officials-hero {
-    background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(13, 110, 253, 0.84) 42%, rgba(13, 110, 253, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%),
+    background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(19, 117, 71, 0.84) 42%, rgba(19, 117, 71, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%),
                 url('../../image/barangay-maruing-cover.png') no-repeat center right / cover;
     color: #ffffff;
     padding: 110px 0 140px;
@@ -59,7 +59,7 @@
 .category-accent-bar {
     width: 48px;
     height: 3.5px;
-    background-color: var(--primary-color, #0d6efd);
+    background-color: var(--primary-color, #137547);
     border-radius: 2px;
     margin: 0.65rem auto 0;
 }
@@ -75,7 +75,7 @@
 .captain-card {
     background-color: #ffffff;
     border-radius: 22px;
-    border: 1px solid rgba(13, 110, 253, 0.16);
+    border: 1px solid rgba(19, 117, 71, 0.16);
     box-shadow: 0 10px 30px rgba(9, 61, 37, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
     padding: 2.5rem 3rem;
     display: flex;
@@ -95,7 +95,7 @@
     left: 0;
     bottom: 0;
     width: 6px;
-    background: linear-gradient(180deg, var(--accent-color, #ffc107) 0%, var(--primary-color, #0d6efd) 100%);
+    background: linear-gradient(180deg, var(--accent-color, #ffc107) 0%, var(--primary-color, #137547) 100%);
 }
 
 .captain-card:hover {
@@ -112,13 +112,13 @@
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #e7f1ff 0%, #ccead9 100%);
+    background: linear-gradient(135deg, #e8f5ee 0%, #ccead9 100%);
     border: 3.5px solid #ffffff;
-    box-shadow: 0 6px 18px rgba(13, 110, 253, 0.18);
+    box-shadow: 0 6px 18px rgba(19, 117, 71, 0.18);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--primary-color, #0d6efd);
+    color: var(--primary-color, #137547);
     font-size: 4rem;
     overflow: hidden;
 }
@@ -130,7 +130,7 @@
     width: 36px;
     height: 36px;
     background-color: var(--accent-color, #ffc107);
-    color: #0a58ca;
+    color: #093d25;
     border-radius: 50%;
     border: 2.5px solid #ffffff;
     display: flex;
@@ -149,8 +149,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    background-color: rgba(13, 110, 253, 0.1);
-    color: var(--primary-color, #0d6efd);
+    background-color: rgba(19, 117, 71, 0.1);
+    color: var(--primary-color, #137547);
     padding: 0.28rem 0.85rem;
     border-radius: 50px;
     font-size: 0.76rem;
@@ -173,7 +173,7 @@
 .captain-role {
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--primary-color, #0d6efd);
+    color: var(--primary-color, #137547);
     margin-bottom: 0.65rem;
 }
 
@@ -200,7 +200,7 @@
 .official-card {
     background-color: #ffffff;
     border-radius: 18px;
-    border: 1px solid rgba(13, 110, 253, 0.1);
+    border: 1px solid rgba(19, 117, 71, 0.1);
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
     padding: 1.85rem 1.4rem;
     display: flex;
@@ -215,7 +215,7 @@
 .official-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 28px rgba(9, 61, 37, 0.09);
-    border-color: rgba(13, 110, 253, 0.25);
+    border-color: rgba(19, 117, 71, 0.25);
 }
 
 .official-avatar {
@@ -224,11 +224,11 @@
     border-radius: 50%;
     background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
     border: 3px solid #ffffff;
-    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.12);
+    box-shadow: 0 4px 12px rgba(19, 117, 71, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--primary-color, #0d6efd);
+    color: var(--primary-color, #137547);
     font-size: 2.5rem;
     margin-bottom: 1.15rem;
     overflow: hidden;
@@ -246,7 +246,7 @@
 .official-role {
     font-size: 0.82rem;
     font-weight: 600;
-    color: var(--primary-color, #0d6efd);
+    color: var(--primary-color, #137547);
     margin-bottom: 0.65rem;
 }
 

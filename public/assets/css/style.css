@@ -7,13 +7,13 @@
 /* 1. Design System Tokens & Global Base                                     */
 /* -------------------------------------------------------------------------- */
 :root {
-    --primary-color: #0d6efd;
+    --primary-color: #137547;
     /* Rich Civic Emerald Green */
-    --primary-hover: #0b5ed7;
+    --primary-hover: #0e5936;
     /* Deep Forest Green Hover */
-    --primary-dark: #0a58ca;
+    --primary-dark: #093d25;
     /* Deep Forest Green Background */
-    --primary-light: #e7f1ff;
+    --primary-light: #e8f5ee;
     /* Soft Mint Light Tint */
     --secondary-color: #f7faf8;
     /* Off-White */
@@ -34,7 +34,7 @@
     --font-script: 'Dancing Script', 'Satisfy', cursive;
 
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    --card-shadow-hover: 0 12px 24px -4px rgba(13, 110, 253, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --card-shadow-hover: 0 12px 24px -4px rgba(19, 117, 71, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --transition-speed: 0.25s;
     --border-radius: 14px;
 }
@@ -306,7 +306,7 @@ a {
 /* 3. Hero Section Component (Fixed Desktop)                                         */
 /* -------------------------------------------------------------------------- */
 .hero-section {
-    background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(13, 110, 253, 0.84) 42%, rgba(13, 110, 253, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%),
+    background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(19, 117, 71, 0.84) 42%, rgba(19, 117, 71, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%),
         url('../../image/barangay-maruing-cover.png') no-repeat center right / cover;
     color: #ffffff;
     padding: 110px 0 140px;
@@ -958,14 +958,14 @@ a {
     padding: 0.75rem 1.75rem;
     border-radius: 8px;
     transition: all var(--transition-speed) ease;
-    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    box-shadow: 0 4px 12px rgba(19, 117, 71, 0.2);
     text-decoration: none;
 }
 
 .btn-learn-more:hover {
     background-color: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(13, 110, 253, 0.3);
+    box-shadow: 0 6px 16px rgba(19, 117, 71, 0.3);
 }
 
 @media (max-width: 992px) {
@@ -1473,13 +1473,13 @@ a {
 
 .official-card:hover {
     transform: translateY(-10px) scale(1.02) !important;
-    box-shadow: 0 15px 35px rgba(13, 110, 253, 0.15) !important;
+    box-shadow: 0 15px 35px rgba(19, 117, 71, 0.15) !important;
 }
 
 .btn-officials-outline:hover {
     background-color: var(--primary-color) !important;
     color: white !important;
-    box-shadow: 0 8px 20px rgba(13, 110, 253, 0.25) !important;
+    box-shadow: 0 8px 20px rgba(19, 117, 71, 0.25) !important;
     transform: translateY(-3px) !important;
 }
 
