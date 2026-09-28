@@ -165,7 +165,7 @@
                         </div>
                     </div>
                     <div class="about-paragraph-wrapper">
-                        <p class="about-paragraph">"ENVISION A PROGRESSIVE, HEALTHY, PEACEFUL COMMUNITY EMPOWERED CONSTITUENT AND COLLECTIVELY PARTICIPATING IN DECISION MAKING GEARING TOWARDS GOOD GOVERNANCE WITH INTEGRITY AND DEDICATIONS WE STRIVE TO MANAGE PROPERLY THE VALUE OF THE SERVICES AS WHAT WE HAVE PLEDGE IN ORDER TO GAIN STRONG FOUNDATION THAT SERVE INSPIRATION TO EVERY INDIVIDUALS SUCH THAT BETTER LIVING OF ALL THE PEOPLE IN BARANGAY MARUING IS FRUITFUL AND BEAUTIFUL AS THE YEAR GOES BY"</p>
+                        <p class="about-paragraph">"Envision a progressive, healthy, peaceful community empowered constituent and collectively participating in decision making gearing towards good governance with integrity and dedications. We strive to manage properly the value of the services as what we have pledge in order to gain strong foundation that serve inspiration to every individuals such that better living of all the people in Barangay Maruing is fruitful and beautiful as the year goes by."</p>
                     </div>
                 </div>
 
@@ -181,7 +181,7 @@
                         </div>
                     </div>
                     <div class="about-paragraph-wrapper">
-                        <p class="about-paragraph">"TO FORMULATE AND ENFORCE TRANSPARENT PLAN, PROGRAMS AND REGULATION FOR THE PROTECTION OF THE INTEREST OF THE COMMUNITY WITH REGARDS TO ENVIRONMENT, EDUCATION, INFRASTRUCTURE, HEALTH, SOCIAL SERVICES, MORAL FINANCIAL, PEACE AND ORDER PURSUE COLLABORATIVE EFFORT TOGETHER WITH OUR EAGERNESS AND ACTIVE PARTICIPATION AS WE MOBILIZE ITS CONSTITUENTS, WE CAN BE A PROGRESSIVE AND PRODUCTIVE COMMUNITY."</p>
+                        <p class="about-paragraph">"To formulate and enforce transparent plan, programs and regulation for the protection of the interest of the community with regards to environment, education, infrastructure, health, social services, moral financial, peace and order. Pursue collaborative effort together with our eagerness and active participation as we mobilize its constituents, we can be a progressive and productive community."</p>
                     </div>
                 </div>
             </div>
