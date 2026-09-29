@@ -19,7 +19,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
-    <link rel="stylesheet" href="public/assets/css/about.css?v=3">
+    <link rel="stylesheet" href="public/assets/css/about.css?v=5">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -37,16 +37,23 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="about.php">About</a>
-                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="officials.php">Officials <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
+                        <a class="nav-link active" href="about.php">About <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
                         <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="about.php#about-us-section">History</a></li>
+                            <li><a class="dropdown-item" href="vision.php">Vision</a></li>
+                            <li><a class="dropdown-item" href="mission.php">Mission</a></li>
                             <li><a class="dropdown-item" href="officials.php">Barangay Officials</a></li>
                             <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
                         </ul>
                     </li>
+
+
+
+
+
+
+
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#" onclick="return false;">Spot Map</a>
                     </li>
@@ -82,16 +89,16 @@
     <!-- About Us Section -->
     <section id="about-us-section" class="about-us-section">
         <div class="container about-us-container">
-            <!-- Left Image -->
-            <div class="about-us-image-wrapper">
-                <img src="public/image/barangay-maruing-cover.png" alt="Barangay Maruing Landscape" class="about-us-img">
-            </div>
             
             <!-- Middle Content -->
             <div class="about-us-content">
                 <div class="about-us-header">
                     <span class="about-us-subtitle">ABOUT US</span>
                     <div class="about-us-line"></div>
+                </div>
+                <!-- Right Image (Floated) -->
+                <div class="about-us-image-wrapper">
+                    <img src="public/image/barangay_hall.jpg" alt="Barangay Hall" class="about-us-img" style="object-fit: cover; border-radius: 10px;">
                 </div>
                 <h2 class="about-us-title">Our Barangay</h2>
                 <div class="about-us-text-scrollable">
@@ -103,94 +110,9 @@
                 </div>
             </div>
             
-            <!-- Right List -->
-            <div class="about-us-features">
-                <!-- Feature 1 -->
-                <div class="feature-item">
-                    <div class="feature-icon icon-location">
-                        <i class="bi bi-geo-alt"></i>
-                    </div>
-                    <div class="feature-text-content">
-                        <h4 class="feature-title">LOCATION</h4>
-                        <p class="feature-desc">Barangay Maruing, Municipality of Lapuyan, Zamboanga del Sur</p>
-                    </div>
-                </div>
-                <!-- Feature 2 -->
-                <div class="feature-item">
-                    <div class="feature-icon icon-population">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <div class="feature-text-content">
-                        <h4 class="feature-title">POPULATION</h4>
-                        <p class="feature-desc">A growing community of hardworking and united families.</p>
-                    </div>
-                </div>
-                <!-- Feature 3 -->
-                <div class="feature-item">
-                    <div class="feature-icon icon-established">
-                        <i class="bi bi-calendar3"></i>
-                    </div>
-                    <div class="feature-text-content">
-                        <h4 class="feature-title">ESTABLISHED</h4>
-                        <p class="feature-desc">A proud barangay with a rich history and a strong sense of community.</p>
-                    </div>
-                </div>
-                <!-- Feature 4 -->
-                <div class="feature-item">
-                    <div class="feature-icon icon-focus">
-                        <i class="bi bi-flower1"></i>
-                    </div>
-                    <div class="feature-text-content">
-                        <h4 class="feature-title">FOCUS</h4>
-                        <p class="feature-desc">Peace and order, basic services, community development, and a better future for every Maruingueno.</p>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </section>
-
-    <!-- Main Content Section -->
-    <main class="about-main-section">
-        <div class="about-container">
-            
-            <!-- Vision & Mission Grid -->
-            <div class="vm-grid">
-                <!-- Vision Card -->
-                <div class="vm-card vision-card">
-                    <div class="vm-header">
-                        <div class=""vm-icon-badge>
-                            <i class="bi bi-eye-fill"></i>
-                        </div>
-                        <div>
-                            <h2 class="vm-title">Vision</h2>
-                            <span class="vm-subtitle">Our Aspiration</span>
-                        </div>
-                    </div>
-                    <div class="about-paragraph-wrapper">
-                        <p class="about-paragraph">"Envision a progressive, healthy, peaceful community empowered constituent and collectively participating in decision making gearing towards good governance with integrity and dedications. We strive to manage properly the value of the services as what we have pledge in order to gain strong foundation that serve inspiration to every individuals such that better living of all the people in Barangay Maruing is fruitful and beautiful as the year goes by."</p>
-                    </div>
-                </div>
-
-                <!-- Mission Card -->
-                <div class="vm-card mission-card">
-                    <div class="vm-header">
-                        <div class="vm-icon-badge">
-                            <i class="bi bi-bullseye"></i>
-                        </div>
-                        <div>
-                            <h2 class="vm-title">Mission</h2>
-                            <span class="vm-subtitle">Our Commitment</span>
-                        </div>
-                    </div>
-                    <div class="about-paragraph-wrapper">
-                        <p class="about-paragraph">"To formulate and enforce transparent plan, programs and regulation for the protection of the interest of the community with regards to environment, education, infrastructure, health, social services, moral financial, peace and order. Pursue collaborative effort together with our eagerness and active participation as we mobilize its constituents, we can be a progressive and productive community."</p>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </main>
 
         <!-- Footer -->
     <footer class="footer">
@@ -238,3 +160,6 @@
     <script src="public/assets/js/main.js"></script>
 </body>
 </html>
+
+
+

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Barangay Maruing Spot Map">
-    <title>Spot Map | Barangay Maruing Information System</title>
+    <meta name="description" content="Learn about Barangay Maruing's vision, mission, and rich history.">
+    <title>About Us | Barangay Maruing Information System</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="public/image/Maruing Logo 2.png">
@@ -19,28 +19,26 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
+    <link rel="stylesheet" href="public/assets/css/about.css?v=3">
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="index.php">
-                <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" style="width: 50px; height: 50px; object-fit: contain;" class="me-2">
-                <div class="d-flex flex-column text-start">
+    <nav class="navbar sticky-top">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="index.php">
+                <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" style="width: 50px; height: 50px; object-fit: contain; margin-right: 10px;">
+                <div class="brand-text">
                     <span class="brand-title">Barangay Maruing</span>
                     <span class="brand-tagline">Serbisyong Tapat, Para sa Lahat</span>
                 </div>
             </a>
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto text-center mt-3 mt-lg-0">
+            <div class="navbar-menu">
+                <ul class="navbar-nav nav-links">
                     <li class="nav-item">
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="about.php">About <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
+                        <a class="nav-link active" href="about.php">About <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="about.php#about-us-section">History</a></li>
                             <li><a class="dropdown-item" href="vision.php">Vision</a></li>
@@ -49,8 +47,15 @@
                             <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
                         </ul>
                     </li>
+
+
+
+
+
+
+
                     <li class="nav-item">
-                        <a class="nav-link active" href="spot-map.php">Spot Map</a>
+                        <a class="nav-link disabled" href="#" onclick="return false;">Spot Map</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="gallery.php">Gallery</a>
@@ -64,25 +69,36 @@
                         <a class="btn-admin" href="admin/login.php">Admin Login</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ms-lg-auto text-center mt-3 mt-lg-0 gap-2">
-                </ul>
             </div>
         </div>
     </nav>
 
-    <main class="container py-5">
-        <div class="text-center mb-5">
-            <h1 class="section-title mb-3">Barangay Spot Map</h1>
-            <p class="lead text-muted">Geographic mapping, landmarks, and Purok boundaries of Barangay Maruing.</p>
+    
+    <link rel="stylesheet" href="public/assets/css/vision.css">
+    
+    <!-- Vision Hero Section -->
+    <section class="vision-hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="hero-script-lead">Our</span>
+                    <span class="hero-title-main">VISION</span>
+                </h1>
+                <p class="hero-lead">The guiding light of Barangay Maruing and our future.</p>
+            </div>
         </div>
+    </section>
 
-        <div class="empty-state max-w-md mx-auto" style="max-width: 600px;">
-            <i class="bi bi-geo-alt"></i>
-            <h5 class="text-muted mb-0">Spot Map will be available soon.</h5>
+    <!-- Vision Content -->
+    <main class="vision-main">
+        <div class="container">
+            <div class="vision-content">
+                <i class="bi bi-eye-fill vision-icon"></i>
+                <p class="vision-text">"Envision a progressive, healthy, peaceful community empowered constituent and collectively participating in decision making gearing towards good governance with integrity and dedications. We strive to manage properly the value of the services as what we have pledge in order to gain strong foundation that serve inspiration to every individuals such that better living of all the people in Barangay Maruing is fruitful and beautiful as the year goes by."</p>
+            </div>
         </div>
     </main>
-
-        <!-- Footer -->
+<!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-top row">
@@ -128,5 +144,7 @@
     <script src="public/assets/js/main.js"></script>
 </body>
 </html>
+
+
 
 

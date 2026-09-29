@@ -41,18 +41,16 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="index.php">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.php">About</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="about.php">About <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="about.php#about-us-section">History</a></li>
+                            <li><a class="dropdown-item" href="vision.php">Vision</a></li>
+                            <li><a class="dropdown-item" href="mission.php">Mission</a></li>
+                            <li><a class="dropdown-item" href="officials.php">Barangay Officials</a></li>
+                            <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
+                        </ul>
                     </li>
-                                          <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button">
-                              Officials <i class="bi bi-chevron-down" style="font-size: 0.8rem; margin-left: 2px;"></i>
-                          </a>
-                          <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="officials.php">Barangay Officials</a></li>
-                              <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
-                          </ul>
-                      </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#" onclick="return false;">Spot Map</a>
                     </li>
@@ -131,6 +129,9 @@
                         <h4 style="color: var(--primary-dark, #093d25); margin-bottom: 0.5rem; font-weight: 800; font-size: 1.3rem;">Hon. Punong Barangay</h4>
                         <p style="color: var(--primary-color, #137547); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;">Barangay Captain</p>
                         <p style="color: var(--muted-text-color, #6b7280); font-size: 0.95rem; font-style: italic; line-height: 1.6;">"Committed to providing transparent and dedicated public service for the betterment of every resident in Barangay Maruing."</p>
+                        <a href="officials.php" class="btn-officials-outline" style="display: inline-block; margin-top: 1.5rem; padding: 0.6rem 1.5rem; background-color: white; border: 2px solid var(--primary-color, #137547); color: var(--primary-color, #137547) !important; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;">
+                            View Barangay Officials <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
 
                     <!-- Official Card 2 -->
@@ -144,14 +145,13 @@
                         <h4 style="color: var(--primary-dark, #093d25); margin-bottom: 0.5rem; font-weight: 800; font-size: 1.3rem;">Hon. SK Chairman</h4>
                         <p style="color: var(--primary-color, #137547); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;">Sangguniang Kabataan Chairman</p>
                         <p style="color: var(--muted-text-color, #6b7280); font-size: 0.95rem; font-style: italic; line-height: 1.6;">"Empowering the youth of Barangay Maruing through active participation in sports, education, and community development."</p>
+                        <a href="SKofficial.php" class="btn-officials-outline" style="display: inline-block; margin-top: 1.5rem; padding: 0.6rem 1.5rem; background-color: white; border: 2px solid var(--primary-color, #137547); color: var(--primary-color, #137547) !important; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;">
+                            View SK Officials <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
 
-                <div style="text-align: center; margin-top: 3rem;">
-                    <a href="officials.php" class="btn-officials-outline" style="display: inline-block; padding: 0.8rem 2.5rem; background-color: white; border: 2px solid var(--primary-color, #137547); color: var(--primary-color, #137547) !important; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;">
-                        View All Officials <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
+
             </div>
         </section>
 
@@ -432,4 +432,6 @@
 </body>
 
 </html>
+
+
 

@@ -1,0 +1,55 @@
+.vision-hero {
+    background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(19, 117, 71, 0.84) 42%, rgba(19, 117, 71, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%),
+                url('../../image/barangay-maruing-cover.png') no-repeat center right / cover;
+    color: #ffffff;
+    padding: 110px 0 140px;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.vision-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.35) 100%);
+    pointer-events: none;
+}
+
+.vision-main {
+    padding: 2rem 0 6rem;
+    background-color: var(--background-color, #f8faf9);
+}
+
+.vision-content {
+    max-width: 900px;
+    margin: -80px auto 0;
+    background: var(--surface-color);
+    padding: 4rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 12px 28px rgba(9, 61, 37, 0.09);
+    text-align: center;
+    border-top: 5px solid var(--primary-color);
+    position: relative;
+    z-index: 10;
+}
+
+.vision-text {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--text-color);
+    font-weight: 500;
+    font-style: italic;
+}
+
+.vision-icon {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    display: inline-block;
+}

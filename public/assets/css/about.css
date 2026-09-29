@@ -178,18 +178,22 @@
 }
 
 .about-us-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 0.85fr;
-    gap: 3rem;
-    align-items: center;
+    display: block;
     position: relative;
     z-index: 1;
 }
 
-/* Left Image */
+/* Right Image */
+.about-us-image-wrapper {
+    float: right;
+    margin: 0 0 2rem 3rem;
+    width: 45%;
+    max-width: 550px;
+}
+
 .about-us-img {
     width: 100%;
-    height: 100%;
+    height: auto;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     object-fit: cover;
@@ -198,8 +202,7 @@
 
 /* Middle Content */
 .about-us-content {
-    display: flex;
-    flex-direction: column;
+    display: block;
 }
 
 .about-us-header {
@@ -232,10 +235,10 @@
 }
 
 .about-us-text {
-    font-size: 0.9rem;
+    font-size: 1.15rem;
     color: #4b5563;
-    line-height: 1.7;
-    margin-bottom: 1.25rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
 }
 
 .about-us-text:last-child {
@@ -243,25 +246,10 @@
 }
 
 .about-us-text-scrollable {
-    max-height: 250px;
-    overflow-y: auto;
-    padding-right: 15px;
-}
-
-/* Custom Scrollbar */
-.about-us-text-scrollable::-webkit-scrollbar {
-    width: 6px;
-}
-.about-us-text-scrollable::-webkit-scrollbar-track {
-    background: #f1f5f9;
-    border-radius: 4px;
-}
-.about-us-text-scrollable::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 4px;
-}
-.about-us-text-scrollable::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    /* Removed scroll behavior per user request */
+    padding-right: 0;
+    max-height: none !important;
+    overflow: visible !important;
 }
 
 /* Right Features */
@@ -344,3 +332,4 @@
         font-size: 2.1rem;
     }
 }
+

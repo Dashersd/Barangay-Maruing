@@ -37,12 +37,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.php">About</a>
-                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="officials.php">Officials <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
+                        <a class="nav-link" href="about.php">About <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
                         <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="about.php#about-us-section">History</a></li>
+                            <li><a class="dropdown-item" href="vision.php">Vision</a></li>
+                            <li><a class="dropdown-item" href="mission.php">Mission</a></li>
                             <li><a class="dropdown-item" href="officials.php">Barangay Officials</a></li>
                             <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
                         </ul>
@@ -183,3 +183,5 @@
     <script src="public/assets/js/main.js"></script>
 </body>
 </html>
+
+
