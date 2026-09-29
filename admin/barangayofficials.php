@@ -101,7 +101,7 @@
                             <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="Barangay Kagawad" class="org-photo">
                             <div class="org-name-badge">Name</div>
                         </div>
-                        <div class="org-role">BARANGAY KAGAWAD</div>
+                        <div class="org-role">BARANGAY Secretary</div>
                         <div class="org-actions">
                             <button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button>
                         </div>
@@ -111,7 +111,7 @@
                             <img src="https://via.placeholder.com/150/e2e8f0/64748b?text=Photo" alt="Barangay Kagawad" class="org-photo">
                             <div class="org-name-badge">Name</div>
                         </div>
-                        <div class="org-role">BARANGAY KAGAWAD</div>
+                        <div class="org-role">BARANGAY Treasurer</div>
                         <div class="org-actions">
                             <button class="btn-edit-official"><i class="bi bi-pencil-fill"></i> Edit</button>
                         </div>
