@@ -107,17 +107,7 @@
                         <input type="text" name="house_number" placeholder="e.g. 123" class="form-control">
                     </div>
 
-                    <div class="form-group">
-                        <label>Household Name</label>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" name="husband_name" placeholder="Name of the Husband (e.g. Juan Dela Cruz)" class="form-control">
-                            </div>
-                            <div class="col">
-                                <input type="text" name="spouse_name" placeholder="Name of the Spouse (Maiden) (e.g. Maria Santos)" class="form-control">
-                            </div>
-                        </div>
-                    </div>
+
 
                     <div class="form-group">
                         <label>Marker Image (Icon shown on map)</label>
