@@ -95,11 +95,11 @@
                     <div class="captain-card">
                         <div class="captain-avatar-col">
                             <div class="captain-avatar">
-                                <i class="bi bi-person-fill"></i>
+                                <img src="public/image/SK Officials/Ryan M. Tubos.jpeg" alt="Hon. Ryan M. Tubos" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                         </div>
                         <div class="captain-info-col">
-                            <h3 class="captain-name">SK President</h3>
+                            <h3 class="captain-name">Hon. Ryan M. Tubos</h3>
                             <div class="captain-role">SK Chairperson</div>
                             <p class="captain-desc">Presiding officer of the Sangguniang Kabataan, leading executive policies, community welfare programs, and peace and order in Barangay Maruing.</p>
                         </div>
@@ -121,21 +121,37 @@
                         <!-- SK Secretary -->
                         <div class="official-card">
                             <div class="official-avatar">
-                                <i class="bi bi-person"></i>
+                                <img src="public/image/SK Officials/Ronaliza L. Sampayan.jpeg" alt="Ms. Ronaliza L. Sampayan" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
-                            <h3 class="official-name">SK Secretary</h3>
+                            <h3 class="official-name">Hon. Ronaliza L. Sampayan</h3>
                             <div class="official-role">SK Secretary</div>
-                            <div class="official-committee-badge">Committee on Records & Documentation</div>
+                        </div>
+                    
+                        <!-- SK Secretary (Duplicated) -->
+                        <div class="official-card">
+                            <div class="official-avatar">
+                                <img src="public/image/SK Officials/Rosmer G. Banagan.jpeg" alt="Hon. Rosemer G. Banagan" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <h3 class="official-name">Hon. Rosemer G. Banagan</h3>
+                            <div class="official-role">SK Secretary</div>
                         </div>
                     
                         <!-- SK Treasurer -->
                         <div class="official-card">
                             <div class="official-avatar">
-                                <i class="bi bi-person"></i>
+                                <img src="public/image/SK Officials/Judith G. Tambagel.jpeg" alt="Hon. Judith G. Tambagel" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
-                            <h3 class="official-name">SK Treasurer</h3>
+                            <h3 class="official-name">Hon. Judith G. Tambagel</h3>
                             <div class="official-role">SK Treasurer</div>
-                            <div class="official-committee-badge">Committee on Finance & Budget</div>
+                        </div>
+                    
+                        <!-- SK Treasurer (Duplicated) -->
+                        <div class="official-card">
+                            <div class="official-avatar">
+                                <img src="public/image/SK Officials/Mc Felco T. Bugao.jpeg" alt="Hon. Mc Felco T. Bugao" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <h3 class="official-name">Hon. Mc Felco T Bugao</h3>
+                            <div class="official-role">SK Treasurer</div>
                         </div>
                     </div>
 
@@ -144,31 +160,28 @@
                         <!-- Kagawad 1 -->
                         <div class="official-card">
                             <div class="official-avatar">
-                                <i class="bi bi-person"></i>
+                                <img src="public/image/SK Officials/Renzarr L. Roxas.jpeg" alt="Hon. Renzarr L. Roxas" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
-                            <h3 class="official-name">SK Kagawad 1</h3>
+                            <h3 class="official-name">Hon. Renzarr L. Roxas</h3>
                             <div class="official-role">SK Kagawad</div>
-                            <div class="official-committee-badge">Committee on Peace & Order</div>
                         </div>
 
                         <!-- Kagawad 2 -->
                         <div class="official-card">
                             <div class="official-avatar">
-                                <i class="bi bi-person"></i>
+                                <img src="public/image/SK Officials/Benie L. Ligao.jpeg" alt="Hon. Benie L. Ligao" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
-                            <h3 class="official-name">SK Kagawad 2</h3>
+                            <h3 class="official-name">Hon. Benie L. Ligao</h3>
                             <div class="official-role">SK Kagawad</div>
-                            <div class="official-committee-badge">Committee on Appropriations</div>
                         </div>
 
                         <!-- Kagawad 3 -->
                         <div class="official-card">
                             <div class="official-avatar">
-                                <i class="bi bi-person"></i>
+                                <img src="public/image/SK Officials/Jhon Mark Charton D. Singue.jpeg" alt="Jhon Mark Charton D. Singue" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
-                            <h3 class="official-name">SK Kagawad 3</h3>
+                            <h3 class="official-name"> Hon. Jhon Mark Charton D. Singue</h3>
                             <div class="official-role">SK Kagawad</div>
-                            <div class="official-committee-badge">Committee on Health & Sanitation</div>
                         </div>
                     </div>
 
@@ -177,41 +190,28 @@
                         <!-- Kagawad 4 -->
                         <div class="official-card">
                             <div class="official-avatar">
-                                <i class="bi bi-person"></i>
+                                <img src="public/image/SK Officials/Mark A. Alpay.jpeg" alt="Hon. Mark A. Alpay" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
-                            <h3 class="official-name">SK Kagawad 4</h3>
+                            <h3 class="official-name">Hon. Mark A. Alpay</h3>
                             <div class="official-role">SK Kagawad</div>
-                            <div class="official-committee-badge">Committee on Public Works</div>
                         </div>
 
                         <!-- Kagawad 5 -->
                         <div class="official-card">
                             <div class="official-avatar">
-                                <i class="bi bi-person"></i>
+                                <img src="public/image/SK Officials/Marlon B. Amplao.jpeg" alt="Hon. Marlon B. Amplao" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
-                            <h3 class="official-name">SK Kagawad 5</h3>
+                            <h3 class="official-name">Hon. Marlon B. Amplao</h3>
                             <div class="official-role">SK Kagawad</div>
-                            <div class="official-committee-badge">Committee on Education & Culture</div>
                         </div>
 
                         <!-- Kagawad 6 -->
                         <div class="official-card">
                             <div class="official-avatar">
-                                <i class="bi bi-person"></i>
+                                <img src="public/image/SK Officials/Verdelyn G. Halilong.jpeg" alt="Hon. Verdelyn G. Halilong" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
-                            <h3 class="official-name">SK Kagawad 6</h3>
+                            <h3 class="official-name">Hon. Verdelyn G. Halilong</h3>
                             <div class="official-role">SK Kagawad</div>
-                            <div class="official-committee-badge">Committee on Agriculture & Environment</div>
-                        </div>
-
-                        <!-- Kagawad 7 -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <i class="bi bi-person"></i>
-                            </div>
-                            <h3 class="official-name">SK Kagawad 7</h3>
-                            <div class="official-role">SK Kagawad</div>
-                            <div class="official-committee-badge">Committee on Social Services & Welfare</div>
                         </div>
                     </div>
                 </div>

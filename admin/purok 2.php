@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Library | Barangay Maruing</title>
+    <title>Manage Legends - Purok 2 | Barangay Maruing</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../public/image/Maruing Logo 2.png">
     
@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../public/assets/css/style.css">
     
     <link rel="stylesheet" href="Admin CSS/admin.css?v=2">
-    <link rel="stylesheet" href="Admin CSS/mediagallery.css">
+    <link rel="stylesheet" href="Admin CSS/purok 2.css">
 </head>
 <body>
 
@@ -42,7 +42,7 @@
                     <li><a href="SKofficials.php">SK Officials</a></li>
                 </ul>
             </li>
-            <li class="has-submenu">
+            <li class="has-submenu open">
                 <a href="#" onclick="this.parentElement.classList.toggle('open'); return false;">
                     <i class="bi bi-geo-alt-fill"></i> Spot Map
                     <i class="bi bi-chevron-down dropdown-icon"></i>
@@ -50,7 +50,7 @@
                 <ul class="submenu">
                     <li><a href="legend.php">Legend</a></li>
                     <li><a href="purok 1.php">Purok 1</a></li>
-                    <li><a href="purok 2.php">Purok 2</a></li>
+                    <li><a href="purok 2.php" class="active">Purok 2</a></li>
                     <li><a href="purok 3.php">Purok 3</a></li>
                     <li><a href="purok 4.php">Purok 4</a></li>
                     <li><a href="purok 5.php">Purok 5</a></li>
@@ -60,7 +60,7 @@
                     <li><a href="purok 9.php">Purok 9</a></li>
                 </ul>
             </li>
-            <li><a href="mediagallery.php" class="active"><i class="bi bi-image-fill"></i> Media Gallery</a></li>
+            <li><a href="mediagallery.php"><i class="bi bi-image-fill"></i> Media Gallery</a></li>
             <li><a href="services.php"><i class="bi bi-card-list"></i> Services</a></li>
             <li><a href="announcements.php"><i class="bi bi-megaphone-fill"></i> Announcements</a></li>
             <li><a href="#"><i class="bi bi-telephone-fill"></i> Contact</a></li>
@@ -76,7 +76,7 @@
         <!-- Topbar -->
         <header class="topbar">
             <div class="topbar-title">
-                <h2>Manage Media Gallery</h2>
+                <h2>Manage Legends</h2>
             </div>
             <div class="topbar-user">
                 <div class="user-info">
@@ -91,42 +91,66 @@
 
         <!-- Content Area -->
         <main class="dashboard-content">
-            <div class="media-header-row">
-                <h2>Media Library</h2>
-                <input type="file" id="media-upload-input" style="display: none;" accept="image/*,video/*">
-                <button class="btn-upload" onclick="document.getElementById('media-upload-input').click()"><i class="bi bi-plus"></i> Upload Media</button>
+            <div class="purok-header">
+                <h2>Add House to Map</h2>
+                <p>Upload a marker, add members, and drag the icon to save to the map</p>
             </div>
             
-            <div class="media-container">
-                <div class="media-grid">
-                    <!-- Media Card 1 -->
-                    <div class="media-card">
-                        <div class="media-preview"></div>
-                        <div class="media-label">Barangay Hall Facade</div>
+            <div class="purok-map-container">
+                <img src="../public/image/Purok/Purok 2.jpg" alt="Spot Map" class="spot-map-img">
+            </div>
+
+            <div class="purok-form-container">
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>House Number</label>
+                        <input type="text" name="house_number" placeholder="e.g. 123" class="form-control">
                     </div>
-                    
-                    <!-- Media Card 2 -->
-                    <div class="media-card">
-                        <div class="media-preview"></div>
-                        <div class="media-label">Medical Mission 2026</div>
+
+                    <div class="form-group">
+                        <label>Household Name</label>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="husband_name" placeholder="Name of the Husband (e.g. Juan Dela Cruz)" class="form-control">
+                            </div>
+                            <div class="col">
+                                <input type="text" name="spouse_name" placeholder="Name of the Spouse (Maiden) (e.g. Maria Santos)" class="form-control">
+                            </div>
+                        </div>
                     </div>
-                    
-                    <!-- Media Card 3 -->
-                    <div class="media-card">
-                        <div class="media-preview"></div>
-                        <div class="media-label">Coastal Clean-up Drive</div>
+
+                    <div class="form-group">
+                        <label>Marker Image (Icon shown on map)</label>
+                        <input type="file" name="marker_image" class="form-control file-input">
                     </div>
-                    
-                    <!-- Media Card 4 -->
-                    <div class="media-card">
-                        <div class="media-preview"></div>
-                        <div class="media-label">Summer Sports Fest</div>
+
+                    <div class="row">
+                        <div class="col form-group">
+                            <label>Marker Width (px)</label>
+                            <input type="number" name="marker_width" value="40" class="form-control">
+                        </div>
+                        <div class="col form-group">
+                            <label>Marker Height (px)</label>
+                            <input type="number" name="marker_height" value="40" class="form-control">
+                        </div>
                     </div>
-                </div>
+
+                    <div class="row">
+                        <div class="col form-group">
+                            <label>Top position (%)</label>
+                            <input type="number" step="0.01" name="top_position" value="50.00" class="form-control">
+                        </div>
+                        <div class="col form-group">
+                            <label>Left position (%)</label>
+                            <input type="number" step="0.01" name="left_position" value="50.00" class="form-control">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-save"><i class="bi bi-save"></i> Save to Map</button>
+                </form>
             </div>
         </main>
     </div>
 </body>
 </html>
-
 

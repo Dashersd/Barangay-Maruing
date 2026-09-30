@@ -111,7 +111,7 @@
 .captain-avatar {
     width: 140px;
     height: 140px;
-    border-radius: 50%;
+    border-radius: 8px;
     background: linear-gradient(135deg, #e8f5ee 0%, #ccead9 100%);
     border: 3.5px solid #ffffff;
     box-shadow: 0 6px 18px rgba(19, 117, 71, 0.18);
@@ -221,7 +221,7 @@
 .official-avatar {
     width: 88px;
     height: 88px;
-    border-radius: 50%;
+    border-radius: 8px;
     background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
     border: 3px solid #ffffff;
     box-shadow: 0 4px 12px rgba(19, 117, 71, 0.12);

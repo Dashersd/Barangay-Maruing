@@ -42,7 +42,24 @@
                     <li><a href="SKofficials.php">SK Officials</a></li>
                 </ul>
             </li>
-            <li><a href="#"><i class="bi bi-geo-alt-fill"></i> Spot Map</a></li>
+            <li class="has-submenu">
+                <a href="#" onclick="this.parentElement.classList.toggle('open'); return false;">
+                    <i class="bi bi-geo-alt-fill"></i> Spot Map
+                    <i class="bi bi-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="legend.php">Legend</a></li>
+                    <li><a href="purok 1.php">Purok 1</a></li>
+                    <li><a href="purok 2.php">Purok 2</a></li>
+                    <li><a href="purok 3.php">Purok 3</a></li>
+                    <li><a href="purok 4.php">Purok 4</a></li>
+                    <li><a href="purok 5.php">Purok 5</a></li>
+                    <li><a href="purok 6.php">Purok 6</a></li>
+                    <li><a href="purok 7.php">Purok 7</a></li>
+                    <li><a href="purok 8.php">Purok 8</a></li>
+                    <li><a href="purok 9.php">Purok 9</a></li>
+                </ul>
+            </li>
             <li><a href="mediagallery.php"><i class="bi bi-image-fill"></i> Media Gallery</a></li>
             <li><a href="services.php"><i class="bi bi-card-list"></i> Services</a></li>
             <li><a href="announcements.php"><i class="bi bi-megaphone-fill"></i> Announcements</a></li>
@@ -75,52 +92,37 @@
         <!-- Content Area -->
         <main class="dashboard-content">
             <!-- Navigation Summary Section -->
-            <div class="quick-cards-grid" style="margin-bottom: 30px;">
-                <!-- Card 1: Barangay Info -->
-                <div class="quick-card card-pink">
-                    <div class="quick-card-icon">
-                        <i class="bi bi-info-circle"></i>
+            <div class="stats-grid" style="margin-bottom: 30px;">
+                <!-- Card 1: Total Households -->
+                <div class="stat-card" style="border: 1px solid #e5e7eb; border-radius: 8px;">
+                    <div class="stat-icon" style="border-radius: 50%; background-color: #e8f5ee; color: #137547;">
+                        <i class="bi bi-house-door-fill"></i>
                     </div>
-                    <div class="quick-card-content">
-                        <h3 class="quick-card-title">Barangay Info</h3>
-                        <p class="quick-card-desc">Update barangay history, mission, vision, and main image.</p>
-                        <a href="about.php" class="quick-card-link">Manage About <i class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-
-                <!-- Card 2: Officials -->
-                <div class="quick-card card-rose">
-                    <div class="quick-card-icon">
-                        <i class="bi bi-people"></i>
-                    </div>
-                    <div class="quick-card-content">
-                        <h3 class="quick-card-title">Officials</h3>
-                        <p class="quick-card-desc">Manage the roster of dedicated barangay officials and staff.</p>
-                        <a href="#" class="quick-card-link">Manage Officials <i class="bi bi-arrow-right"></i></a>
+                    <div class="stat-info">
+                        <h4 style="font-size: 0.95rem; font-weight: 500; color: #4b5563; margin-bottom: 5px;">Total<br>Households</h4>
+                        <h2 style="font-size: 2.2rem; font-weight: 800; color: #1f2937; margin: 0; line-height: 1;">320</h2>
                     </div>
                 </div>
 
-                <!-- Card 3: Spot Map -->
-                <div class="quick-card card-blue">
-                    <div class="quick-card-icon">
-                        <i class="bi bi-geo-alt"></i>
+                <!-- Card 2: Total Puroks -->
+                <div class="stat-card" style="border: 1px solid #e5e7eb; border-radius: 8px;">
+                    <div class="stat-icon" style="border-radius: 50%; background-color: #e8f5ee; color: #137547;">
+                        <i class="bi bi-geo-alt-fill"></i>
                     </div>
-                    <div class="quick-card-content">
-                        <h3 class="quick-card-title">Spot Map</h3>
-                        <p class="quick-card-desc">Update the geographical territory and landmark information.</p>
-                        <a href="#" class="quick-card-link">Manage Map <i class="bi bi-arrow-right"></i></a>
+                    <div class="stat-info">
+                        <h4 style="font-size: 0.95rem; font-weight: 500; color: #4b5563; margin-bottom: 5px;">Total Puroks</h4>
+                        <h2 style="font-size: 2.2rem; font-weight: 800; color: #1f2937; margin: 0; line-height: 1;">7</h2>
                     </div>
                 </div>
 
-                <!-- Card 4: Contact Us -->
-                <div class="quick-card card-purple">
-                    <div class="quick-card-icon">
-                        <i class="bi bi-telephone"></i>
+                <!-- Card 3: Barangay Officials -->
+                <div class="stat-card" style="border: 1px solid #e5e7eb; border-radius: 8px;">
+                    <div class="stat-icon" style="border-radius: 50%; background-color: #e8f5ee; color: #137547;">
+                        <i class="bi bi-person-badge-fill"></i>
                     </div>
-                    <div class="quick-card-content">
-                        <h3 class="quick-card-title">Contact Us</h3>
-                        <p class="quick-card-desc">Review and respond to inquiries and update contact details.</p>
-                        <a href="#" class="quick-card-link">Manage Contacts <i class="bi bi-arrow-right"></i></a>
+                    <div class="stat-info">
+                        <h4 style="font-size: 0.95rem; font-weight: 500; color: #4b5563; margin-bottom: 5px;">Barangay<br>Officials</h4>
+                        <h2 style="font-size: 2.2rem; font-weight: 800; color: #1f2937; margin: 0; line-height: 1;">12</h2>
                     </div>
                 </div>
             </div>
@@ -129,41 +131,6 @@
                 <!-- Left Column -->
                 <div class="left-column">
                     
-                    <!-- Contact Summary -->
-                    <div class="chart-container" style="margin-bottom: 25px;">
-                        <h3 class="section-title">Latest Inquiries <small style="float:right; font-size: 0.85rem; font-weight: normal; margin-top:3px;"><a href="#">View All</a></small></h3>
-                        <table class="table-inquiries">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Subject</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Maria Santos</strong></td>
-                                    <td>Barangay Clearance Inquiry</td>
-                                    <td>Today, 9:30 AM</td>
-                                    <td><a href="#" class="btn-sm">Read</a></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Juan Dela Cruz</strong></td>
-                                    <td>Street Light Repair</td>
-                                    <td>Yesterday</td>
-                                    <td><a href="#" class="btn-sm">Read</a></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Anonymous</strong></td>
-                                    <td>Noise Complaint</td>
-                                    <td>Oct 12</td>
-                                    <td><a href="#" class="btn-sm">Read</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
                     <!-- Gallery Summary -->
                     <div class="chart-container" style="margin-bottom: 25px;">
                         <h3 class="section-title">Gallery Highlights <small style="float:right; font-size: 0.85rem; font-weight: normal; margin-top:3px;"><a href="#">Manage Photos</a></small></h3>

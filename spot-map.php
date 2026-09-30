@@ -66,7 +66,7 @@
     </nav>
 
     <main class="container py-5 mt-4">
-        <div class="landing-spot-map-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+        <div class="landing-spot-map-container" style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: center;">
             <div class="spot-map-content" style="display: flex; flex-direction: column; gap: 1.5rem; padding: 0;">
                 <!-- Container 1: Spot Map Info & Legend -->
                 <div class="spot-map-card">
@@ -97,10 +97,10 @@
                     <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.5rem;">
                         <?php 
                         $purokImages = [
-                            1 => 'public/image/Purok/guilala.png',
-                            2 => 'public/image/Purok/orchids.png',
-                            3 => 'public/image/Purok/sampaguita.JPG',
-                            4 => 'public/image/Purok/sanfrancisco.JPG',
+                            1 => 'public/image/Purok/Purok 1.jpg',
+                            2 => 'public/image/Purok/Purok 2.jpg',
+                            3 => 'public/image/Purok/Purok 3.jpg',
+                            4 => 'public/image/Purok/Purok 4.jpg',
                             5 => 'public/image/Purok/Purok 5.jpg',
                             6 => 'public/image/Purok/Purok 6.jpg',
                             7 => 'public/image/Purok/Purok 7.jpg',
@@ -147,7 +147,7 @@
                         <div class="pin-tooltip">Click to View Maruing</div>
                     </div>
 
-                    <img id="spot-map-img" src="public/image/Maruing Map/download.png" alt="Spot Map of Barangay Maruing">
+                    <img id="spot-map-img" src="public/image/Maruing Map/download.png" alt="Spot Map of Barangay Maruing" style="width: 110%; max-width: 1200px; height: auto; object-fit: contain; margin-left: -5%; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);">
                 </div>
             </div>
         </div>

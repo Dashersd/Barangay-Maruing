@@ -42,7 +42,24 @@
                     <li><a href="SKofficials.php">SK Officials</a></li>
                 </ul>
             </li>
-            <li><a href="#"><i class="bi bi-geo-alt-fill"></i> Spot Map</a></li>
+            <li class="has-submenu">
+                <a href="#" onclick="this.parentElement.classList.toggle('open'); return false;">
+                    <i class="bi bi-geo-alt-fill"></i> Spot Map
+                    <i class="bi bi-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="legend.php">Legend</a></li>
+                    <li><a href="purok 1.php">Purok 1</a></li>
+                    <li><a href="purok 2.php">Purok 2</a></li>
+                    <li><a href="purok 3.php">Purok 3</a></li>
+                    <li><a href="purok 4.php">Purok 4</a></li>
+                    <li><a href="purok 5.php">Purok 5</a></li>
+                    <li><a href="purok 6.php">Purok 6</a></li>
+                    <li><a href="purok 7.php">Purok 7</a></li>
+                    <li><a href="purok 8.php">Purok 8</a></li>
+                    <li><a href="purok 9.php">Purok 9</a></li>
+                </ul>
+            </li>
             <li><a href="mediagallery.php"><i class="bi bi-image-fill"></i> Media Gallery</a></li>
             <li><a href="services.php"><i class="bi bi-card-list"></i> Services</a></li>
             <li><a href="announcements.php" class="active"><i class="bi bi-megaphone-fill"></i> Announcements</a></li>
