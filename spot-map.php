@@ -18,24 +18,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="public/assets/css/style.css?v=4">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=9">
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="index.php">
-                <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" style="width: 50px; height: 50px; object-fit: contain;" class="me-2">
-                <div class="d-flex flex-column text-start">
+    <nav class="navbar sticky-top ">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="index.php">
+                <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" style="width: 50px; height: 50px; object-fit: contain; margin-right: 10px;">
+                <div class="brand-text">
                     <span class="brand-title">Barangay Maruing</span>
                     <span class="brand-tagline">Serbisyong Tapat, Para sa Lahat</span>
                 </div>
             </a>
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto text-center mt-3 mt-lg-0">
+            <div class="navbar-menu">
+                <ul class="navbar-nav nav-links">
                     <li class="nav-item">
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
@@ -64,21 +61,95 @@
                         <a class="btn-admin" href="admin/login.php">Admin Login</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ms-lg-auto text-center mt-3 mt-lg-0 gap-2">
-                </ul>
             </div>
         </div>
     </nav>
 
-    <main class="container py-5">
-        <div class="text-center mb-5">
-            <h1 class="section-title mb-3">Barangay Spot Map</h1>
-            <p class="lead text-muted">Geographic mapping, landmarks, and Purok boundaries of Barangay Maruing.</p>
-        </div>
+    <main class="container py-5 mt-4">
+        <div class="landing-spot-map-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+            <div class="spot-map-content" style="display: flex; flex-direction: column; gap: 1.5rem; padding: 0;">
+                <!-- Container 1: Spot Map Info & Legend -->
+                <div class="spot-map-card">
+                    <div class="spot-map-badge mb-2">
+                        <i class="bi bi-geo-alt-fill"></i> EXPLORE
+                    </div>
+                    <h2 class="spot-map-title" style="font-size: 2.2rem; margin-bottom: 1.5rem;">Barangay Spot Map</h2>
+                    
+                    <div style="border-top: 1px solid #edf2ef; padding-top: 1.25rem;">
+                        <h5 style="color: var(--primary-dark); font-weight: 700; margin-bottom: 1rem; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                            <i class="bi bi-map" style="color: var(--accent-color);"></i> Map Legend
+                        </h5>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; color: var(--muted-text-color);">
+                            <div style="display: flex; align-items: center; gap: 10px; font-weight: 500;"><i class="bi bi-building-fill" style="color: #4361ee; font-size: 1.2rem;"></i> Barangay Hall</div>
+                            <div style="display: flex; align-items: center; gap: 10px; font-weight: 500;"><i class="bi bi-book-half" style="color: #2a9d8f; font-size: 1.2rem;"></i> School</div>
+                            <div style="display: flex; align-items: center; gap: 10px; font-weight: 500;"><i class="bi bi-dribbble" style="color: #f4a261; font-size: 1.2rem;"></i> Court</div>
+                            <div style="display: flex; align-items: center; gap: 10px; font-weight: 500;"><i class="bi bi-heart-pulse-fill" style="color: #e63946; font-size: 1.2rem;"></i> Health Center</div>
+                            <div style="display: flex; align-items: center; gap: 10px; font-weight: 500; grid-column: span 2;"><i class="bi bi-geo-fill" style="color: #6c757d; font-size: 1.2rem;"></i> Other Landmarks</div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="empty-state max-w-md mx-auto" style="max-width: 600px;">
-            <i class="bi bi-geo-alt"></i>
-            <h5 class="text-muted mb-0">Spot Map will be available soon.</h5>
+                <!-- Container 2: 9 Puroks & Action -->
+                <div class="spot-map-card">
+                    <h5 style="color: var(--primary-dark); font-weight: 700; margin-bottom: 1rem; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="bi bi-pin-map-fill" style="color: var(--accent-color);"></i> 9 Puroks of Maruing
+                    </h5>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.5rem;">
+                        <?php 
+                        $purokImages = [
+                            1 => 'public/image/Purok/guilala.png',
+                            2 => 'public/image/Purok/orchids.png',
+                            3 => 'public/image/Purok/sampaguita.JPG',
+                            4 => 'public/image/Purok/sanfrancisco.JPG',
+                            5 => 'public/image/Purok/Purok 5.jpg',
+                            6 => 'public/image/Purok/Purok 6.jpg',
+                            7 => 'public/image/Purok/Purok 7.jpg',
+                            8 => 'public/image/Purok/Purok 8.png',
+                            9 => 'public/image/Purok/Purok 9.jpg'
+                        ];
+                        for($i=1; $i<=9; $i++): 
+                            $hasImg = isset($purokImages[$i]);
+                            $imgSrc = $hasImg ? $purokImages[$i] : '';
+                        ?>
+                            <button type="button" 
+                                    class="purok-chip-btn <?php echo $hasImg ? 'has-image' : ''; ?>" 
+                                    data-purok="<?php echo $i; ?>" 
+                                    <?php if($hasImg): ?>data-img="<?php echo $imgSrc; ?>"<?php endif; ?>
+                                    <?php if(!$hasImg): ?>disabled style="opacity: 0.55; cursor: not-allowed;" title="Map coming soon"<?php else: ?>title="Click to view Purok <?php echo $i; ?> map"<?php endif; ?>>
+                                Purok <?php echo $i; ?>
+                            </button>
+                        <?php endfor; ?>
+                    </div>
+
+                    <div>
+                        <a href="public/image/Maruing Map/download.png" id="btn-view-full-image" target="_blank" class="btn-view-map" style="display: inline-flex; align-items: center; gap: 8px;">
+                            View Full Image <i class="bi bi-arrows-fullscreen"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="spot-map-visual-wrapper" style="display: flex; flex-direction: column; width: 100%;">
+                <!-- Back to Overview Button (Positioned at the Top) -->
+                <div id="back-overview-wrapper" style="display: none; justify-content: flex-start; margin-bottom: 14px;">
+                    <button type="button" id="btn-back-overview" class="btn-back-overview" title="Back to Regional Overview Map">
+                        <i class="bi bi-arrow-left"></i> Overview Map
+                    </button>
+                </div>
+
+                <div class="spot-map-visual">
+                    <!-- Interactive Red Pin on Maruing -->
+                    <div class="map-pin-wrapper" id="maruing-pin-btn" role="button" tabindex="0" title="Click to view detailed map of Barangay Maruing">
+                        <div class="pin-pulse"></div>
+                        <div class="pin-marker">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </div>
+                        <div class="pin-tooltip">Click to View Maruing</div>
+                    </div>
+
+                    <img id="spot-map-img" src="public/image/Maruing Map/download.png" alt="Spot Map of Barangay Maruing">
+                </div>
+            </div>
         </div>
     </main>
 
@@ -126,6 +197,95 @@
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
+
+    <!-- Spot Map Interactive Pin & Image Switcher -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const spotMapImg = document.getElementById('spot-map-img');
+        const maruingPin = document.getElementById('maruing-pin-btn');
+        const btnBackOverview = document.getElementById('btn-back-overview');
+        const backOverviewWrapper = document.getElementById('back-overview-wrapper');
+        const btnViewFullImage = document.getElementById('btn-view-full-image');
+        
+        const overviewImgSrc = 'public/image/Maruing Map/download.png';
+        const detailedImgSrc = 'public/image/Maruing Map/map2.png';
+
+        const purokButtons = document.querySelectorAll('.purok-chip-btn.has-image');
+
+        function clearActivePurok() {
+            document.querySelectorAll('.purok-chip-btn').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+        }
+
+        function showDetailedMap() {
+            if (!spotMapImg) return;
+            spotMapImg.style.opacity = '0.2';
+            setTimeout(function() {
+                spotMapImg.src = detailedImgSrc;
+                spotMapImg.alt = 'Detailed Street Map of Barangay Maruing';
+                spotMapImg.style.opacity = '1';
+                if (maruingPin) maruingPin.style.display = 'none';
+                if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
+                if (btnViewFullImage) btnViewFullImage.href = detailedImgSrc;
+                clearActivePurok();
+            }, 180);
+        }
+
+        function showOverviewMap() {
+            if (!spotMapImg) return;
+            spotMapImg.style.opacity = '0.2';
+            setTimeout(function() {
+                spotMapImg.src = overviewImgSrc;
+                spotMapImg.alt = 'Spot Map of Barangay Maruing';
+                spotMapImg.style.opacity = '1';
+                if (maruingPin) maruingPin.style.display = 'flex';
+                if (backOverviewWrapper) backOverviewWrapper.style.display = 'none';
+                if (btnViewFullImage) btnViewFullImage.href = overviewImgSrc;
+                clearActivePurok();
+            }, 180);
+        }
+
+        function showPurokMap(imgSrc, purokNum, btnElement) {
+            if (!spotMapImg || !imgSrc) return;
+            spotMapImg.style.opacity = '0.2';
+            setTimeout(function() {
+                spotMapImg.src = imgSrc;
+                spotMapImg.alt = 'Map of Purok ' + purokNum + ', Barangay Maruing';
+                spotMapImg.style.opacity = '1';
+                if (maruingPin) maruingPin.style.display = 'none';
+                if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
+                if (btnViewFullImage) btnViewFullImage.href = imgSrc;
+                clearActivePurok();
+                if (btnElement) btnElement.classList.add('active');
+            }, 180);
+        }
+
+        purokButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const imgSrc = this.getAttribute('data-img');
+                const purokNum = this.getAttribute('data-purok');
+                if (imgSrc) {
+                    showPurokMap(imgSrc, purokNum, this);
+                }
+            });
+        });
+
+        if (maruingPin) {
+            maruingPin.addEventListener('click', showDetailedMap);
+            maruingPin.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showDetailedMap();
+                }
+            });
+        }
+
+        if (btnBackOverview) {
+            btnBackOverview.addEventListener('click', showOverviewMap);
+        }
+    });
+    </script>
 </body>
 </html>
 

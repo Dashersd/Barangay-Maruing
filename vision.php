@@ -55,7 +55,7 @@
 
 
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#" onclick="return false;">Spot Map</a>
+                        <a class="nav-link" href="spot-map.php">Spot Map</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="gallery.php">Gallery</a>

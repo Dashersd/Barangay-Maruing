@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom CSS (Pure CSS Responsive) -->
-    <link rel="stylesheet" href="public/assets/css/style.css?v=4">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=6">
 </head>
 
 <body>
@@ -52,7 +52,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#" onclick="return false;">Spot Map</a>
+                        <a class="nav-link" href="spot-map.php">Spot Map</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="gallery.php">Gallery</a>
@@ -283,23 +283,13 @@
                     <p class="spot-map-desc">
                         Navigate our community with ease. View important landmarks, territorial boundaries, purok zones, and key public facilities throughout Barangay Maruing.
                     </p>
-                    <a href="javascript:void(0)" class="btn-view-map" style="pointer-events: none; opacity: 0.7;" title="Coming soon">
+                    <a href="spot-map.php" class="btn-view-map">
                         View Full Map <i class="bi bi-map-fill"></i>
                     </a>
 
-                    <div style="margin-top: 3.5rem; width: 100%;">
-                        <h5 style="font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">The 9 Puroks</h5>
-                        <div class="purok-chips">
-                            <?php for($i = 1; $i <= 9; $i++): ?>
-                            <div class="purok-chip">
-                                <i class="bi bi-geo-alt"></i> Purok <?php echo $i; ?>
-                            </div>
-                            <?php endfor; ?>
-                        </div>
-                    </div>
                 </div>
                 <div class="spot-map-visual">
-                    <iframe 
+                    <!-- <iframe 
                         src="https://maps.google.com/maps?q=Barangay%20Maruing,%20Philippines&t=&z=13&ie=UTF8&iwloc=&output=embed" 
                         width="100%" 
                         height="100%" 
@@ -307,7 +297,8 @@
                         allowfullscreen="" 
                         loading="lazy" 
                         referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                    </iframe> -->
+                    <img src="public/image/Maruing Map/download.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                 </div>
             </div>
             </div>

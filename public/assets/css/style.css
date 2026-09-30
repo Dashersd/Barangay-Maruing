@@ -1153,10 +1153,10 @@ a {
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    background-color: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.06);
-    overflow: hidden;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
 }
 
 .spot-map-content {
@@ -1231,12 +1231,176 @@ a {
 }
 
 /* =========================================
+   Spot Map Dedicated Cards
+   ========================================= */
+.spot-map-card {
+    background-color: #ffffff;
+    border-radius: 18px;
+    border: 1px solid rgba(19, 117, 71, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+    padding: 2rem;
+    transition: transform var(--transition-speed, 0.25s) ease, box-shadow var(--transition-speed, 0.25s) ease;
+}
+
+.spot-map-card:hover {
+    box-shadow: 0 8px 24px rgba(19, 117, 71, 0.08);
+}
+
+/* =========================================
+   Interactive Map Pin & Controls
+   ========================================= */
+.spot-map-visual {
+    position: relative;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spot-map-visual img {
+    width: 100%;
+    height: auto;
+    max-height: 580px;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.25s ease;
+}
+
+.map-pin-wrapper {
+    position: absolute;
+    top: 30%;
+    left: 24.5%;
+    transform: translate(-50%, -100%);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease;
+    user-select: none;
+}
+
+.map-pin-wrapper:hover {
+    transform: translate(-50%, -108%) scale(1.1);
+}
+
+.pin-marker {
+    color: #e63946;
+    font-size: 2.4rem;
+    line-height: 1;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+    animation: pinFloat 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes pinFloat {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-7px); }
+}
+
+.pin-pulse {
+    position: absolute;
+    bottom: -3px;
+    width: 16px;
+    height: 16px;
+    background: rgba(230, 57, 70, 0.45);
+    border-radius: 50%;
+    animation: pinPulse 2s infinite ease-out;
+}
+
+@keyframes pinPulse {
+    0% { transform: scale(0.5); opacity: 1; }
+    100% { transform: scale(2.8); opacity: 0; }
+}
+
+.pin-tooltip {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    background: rgba(9, 61, 37, 0.95);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 0.2s ease;
+}
+
+.map-pin-wrapper:hover .pin-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.btn-back-overview {
+    background: #ffffff;
+    color: var(--primary-color, #137547);
+    border: 1px solid rgba(19, 117, 71, 0.25);
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-back-overview:hover {
+    background: var(--primary-color, #137547);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(19, 117, 71, 0.2);
+}
+
+/* =========================================
    Purok Chips (Inside Spot Map)
    ========================================= */
 .purok-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 0.8rem;
+}
+
+.purok-chip-btn {
+    background-color: rgba(255, 183, 3, 0.15);
+    color: #b78100;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    font-family: inherit;
+    line-height: 1.4;
+    outline: none;
+    border: 1px solid rgba(255, 183, 3, 0.35);
+    transition: all 0.2s ease;
+    user-select: none;
+    display: inline-block;
+}
+
+.purok-chip-btn.has-image {
+    cursor: pointer;
+}
+
+.purok-chip-btn.has-image:hover {
+    background-color: rgba(255, 183, 3, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(183, 129, 0, 0.2);
+}
+
+.purok-chip-btn.active {
+    background-color: #ffb703 !important;
+    color: #093d25 !important;
+    border-color: #dda100 !important;
+    box-shadow: 0 4px 14px rgba(255, 183, 3, 0.4) !important;
+    transform: translateY(-2px);
 }
 
 .purok-chip {
