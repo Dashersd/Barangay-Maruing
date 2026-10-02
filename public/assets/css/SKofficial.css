@@ -219,8 +219,8 @@
 }
 
 .official-avatar {
-    width: 88px;
-    height: 88px;
+    width: 120px;
+    height: 120px;
     border-radius: 8px;
     background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
     border: 3px solid #ffffff;

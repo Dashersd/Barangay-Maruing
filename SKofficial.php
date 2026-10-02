@@ -118,15 +118,7 @@
                 <div class="officials-pyramid">
                     <!-- Row 1: Secretary, Treasurer -->
                     <div class="pyramid-row">
-                        <!-- SK Secretary -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Ronaliza L. Sampayan.jpeg" alt="Ms. Ronaliza L. Sampayan" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name">Hon. Ronaliza L. Sampayan</h3>
-                            <div class="official-role">SK Secretary</div>
-                        </div>
-                    
+
                         <!-- SK Secretary (Duplicated) -->
                         <div class="official-card">
                             <div class="official-avatar">
@@ -145,14 +137,7 @@
                             <div class="official-role">SK Treasurer</div>
                         </div>
                     
-                        <!-- SK Treasurer (Duplicated) -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Mc Felco T. Bugao.jpeg" alt="Hon. Mc Felco T. Bugao" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name">Hon. Mc Felco T Bugao</h3>
-                            <div class="official-role">SK Treasurer</div>
-                        </div>
+
                     </div>
 
                     <!-- Row 2: Kagawads 1, 2, 3 -->
@@ -211,6 +196,15 @@
                                 <img src="public/image/SK Officials/Verdelyn G. Halilong.jpeg" alt="Hon. Verdelyn G. Halilong" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <h3 class="official-name">Hon. Verdelyn G. Halilong</h3>
+                            <div class="official-role">SK Kagawad</div>
+                        </div>
+
+                        <!-- Kagawad 7 -->
+                        <div class="official-card">
+                            <div class="official-avatar">
+                                <img src="public/image/SK Officials/Mc Felco T. Bugao.jpeg" alt="Hon. Mc Felco T. Bugao" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <h3 class="official-name">Hon. Mc Felco T Bugao</h3>
                             <div class="official-role">SK Kagawad</div>
                         </div>
                     </div>
