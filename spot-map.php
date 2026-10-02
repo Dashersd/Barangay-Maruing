@@ -65,47 +65,57 @@
         </div>
     </nav>
 
-    <main class="container py-5 mt-4">
-        <div class="landing-spot-map-container" style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: center;">
-            <div class="spot-map-content" style="display: flex; flex-direction: column; gap: 1.5rem; padding: 0;">
-                <!-- Container 1: Spot Map Info & Legend -->
-                <div class="spot-map-card">
-                    <div class="spot-map-badge mb-2">
-                        <i class="bi bi-geo-alt-fill"></i> EXPLORE
-                    </div>
-                    <h2 class="spot-map-title" style="font-size: 2.2rem; margin-bottom: 1.5rem;">Barangay Spot Map</h2>
-                    
-                    <div style="border-top: 1px solid #edf2ef; padding-top: 1.25rem;">
-                        <h5 style="color: var(--primary-dark); font-weight: 700; margin-bottom: 1rem; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
-                            <i class="bi bi-map" style="color: var(--accent-color);"></i> Map Legend
-                        </h5>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; color: var(--muted-text-color);">
-                            <div style="display: flex; align-items: center; gap: 10px; font-weight: 500;"><i class="bi bi-building-fill" style="color: #4361ee; font-size: 1.2rem;"></i> Barangay Hall</div>
-                            <div style="display: flex; align-items: center; gap: 10px; font-weight: 500;"><i class="bi bi-book-half" style="color: #2a9d8f; font-size: 1.2rem;"></i> School</div>
-                            <div style="display: flex; align-items: center; gap: 10px; font-weight: 500;"><i class="bi bi-dribbble" style="color: #f4a261; font-size: 1.2rem;"></i> Court</div>
-                            <div style="display: flex; align-items: center; gap: 10px; font-weight: 500;"><i class="bi bi-heart-pulse-fill" style="color: #e63946; font-size: 1.2rem;"></i> Health Center</div>
-                            <div style="display: flex; align-items: center; gap: 10px; font-weight: 500; grid-column: span 2;"><i class="bi bi-geo-fill" style="color: #6c757d; font-size: 1.2rem;"></i> Other Landmarks</div>
+    <main class="py-5 mt-4" style="width: 96%; max-width: 1400px; margin: 0 auto;">
+
+        <div class="landing-spot-map-container" style="display: grid; grid-template-columns: 360px 1fr; gap: 3rem; align-items: start;">
+            <div class="spot-map-content" style="display: flex; flex-direction: column; gap: 2rem; padding: 0; position: sticky; top: 110px;">
+                
+                <!-- Container 1: Map Legend -->
+                <div class="spot-map-card" style="background: #ffffff; padding: 2.5rem 2rem; border-radius: 20px; border: none; box-shadow: 0 4px 25px rgba(0,0,0,0.04);">
+                    <h3 style="font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: 1.5rem; color: #093d25; display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;">
+                        <i class="bi bi-map" style="color: #ffc107; font-size: 1.6rem;"></i> Map Legend
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 1rem;">
+                        <div style="display: flex; align-items: flex-start; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem;">
+                            <i class="bi bi-building-fill" style="color: #6366f1; font-size: 1.25rem;"></i>
+                            <span style="line-height: 1.2;">Barangay<br>Hall</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem;">
+                            <i class="bi bi-book-half" style="color: #10b981; font-size: 1.25rem;"></i>
+                            <span style="line-height: 1.2;">School</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem;">
+                            <i class="bi bi-dribbble" style="color: #f59e0b; font-size: 1.25rem;"></i>
+                            <span style="line-height: 1.2;">Court</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem;">
+                            <i class="bi bi-heart-pulse-fill" style="color: #e11d48; font-size: 1.25rem;"></i>
+                            <span style="line-height: 1.2;">Health Center</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem; grid-column: span 2;">
+                            <i class="bi bi-geo-fill" style="color: #94a3b8; font-size: 1.25rem;"></i>
+                            <span style="line-height: 1.2;">Other Landmarks</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Container 2: 9 Puroks & Action -->
-                <div class="spot-map-card">
-                    <h5 style="color: var(--primary-dark); font-weight: 700; margin-bottom: 1rem; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
-                        <i class="bi bi-pin-map-fill" style="color: var(--accent-color);"></i> 9 Puroks of Maruing
-                    </h5>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.5rem;">
+                <!-- Container 2: 9 Puroks of Maruing -->
+                <div class="spot-map-card" style="background: #ffffff; padding: 2.5rem 2rem; border-radius: 20px; border: none; box-shadow: 0 4px 25px rgba(0,0,0,0.04);">
+                    <h3 style="font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: 1.45rem; color: #093d25; display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;">
+                        <i class="bi bi-geo-alt-fill" style="color: #f59e0b; font-size: 1.6rem;"></i> 9 Puroks of Maruing
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%;">
                         <?php 
                         $purokImages = [
-                            1 => 'public/image/Purok/Purok 1.jpg',
-                            2 => 'public/image/Purok/Purok 2.jpg',
-                            3 => 'public/image/Purok/Purok 3.jpg',
-                            4 => 'public/image/Purok/Purok 4.jpg',
-                            5 => 'public/image/Purok/Purok 5.jpg',
-                            6 => 'public/image/Purok/Purok 6.jpg',
-                            7 => 'public/image/Purok/Purok 7.jpg',
-                            8 => 'public/image/Purok/Purok 8.png',
-                            9 => 'public/image/Purok/Purok 9.jpg'
+                            1 => 'public/image/Purok/Purok 1.jpg?v=2',
+                            2 => 'public/image/Purok/Purok 2.jpg?v=2',
+                            3 => 'public/image/Purok/Purok 3.jpg?v=2',
+                            4 => 'public/image/Purok/Purok 4.jpg?v=2',
+                            5 => 'public/image/Purok/Purok 5.jpg?v=2',
+                            6 => 'public/image/Purok/Purok 6.jpg?v=2',
+                            7 => 'public/image/Purok/Purok 7.jpg?v=2',
+                            8 => 'public/image/Purok/Purok 8.jpg?v=2',
+                            9 => 'public/image/Purok/Purok 9.jpg?v=2'
                         ];
                         for($i=1; $i<=9; $i++): 
                             $hasImg = isset($purokImages[$i]);
@@ -115,21 +125,16 @@
                                     class="purok-chip-btn <?php echo $hasImg ? 'has-image' : ''; ?>" 
                                     data-purok="<?php echo $i; ?>" 
                                     <?php if($hasImg): ?>data-img="<?php echo $imgSrc; ?>"<?php endif; ?>
-                                    <?php if(!$hasImg): ?>disabled style="opacity: 0.55; cursor: not-allowed;" title="Map coming soon"<?php else: ?>title="Click to view Purok <?php echo $i; ?> map"<?php endif; ?>>
+                                    <?php if(!$hasImg): ?>disabled style="opacity: 0.55; cursor: not-allowed; background-color: #fffbeb; color: #b45309; border: 1px solid #fde68a; border-radius: 25px; padding: 0.6rem 0; font-weight: 700; font-size: 0.85rem; width: 100%; text-align: center;" title="Map coming soon"<?php else: ?>style="background-color: #fffbeb; color: #b45309; border: 1px solid #fde68a; border-radius: 25px; padding: 0.6rem 0; font-weight: 700; font-size: 0.85rem; width: 100%; text-align: center;" title="Click to view Purok <?php echo $i; ?> map"<?php endif; ?>>
                                 Purok <?php echo $i; ?>
                             </button>
                         <?php endfor; ?>
-                    </div>
 
-                    <div>
-                        <a href="public/image/Maruing Map/download.png" id="btn-view-full-image" target="_blank" class="btn-view-map" style="display: inline-flex; align-items: center; gap: 8px;">
-                            View Full Image <i class="bi bi-arrows-fullscreen"></i>
-                        </a>
                     </div>
                 </div>
             </div>
             
-            <div class="spot-map-visual-wrapper" style="display: flex; flex-direction: column; width: 100%;">
+            <div class="spot-map-visual-wrapper" style="display: flex; flex-direction: column; width: 100%; margin-top: 3.5rem;">
                 <!-- Back to Overview Button (Positioned at the Top) -->
                 <div id="back-overview-wrapper" style="display: none; justify-content: flex-start; margin-bottom: 14px;">
                     <button type="button" id="btn-back-overview" class="btn-back-overview" title="Back to Regional Overview Map">
@@ -147,7 +152,7 @@
                         <div class="pin-tooltip">Click to View Maruing</div>
                     </div>
 
-                    <img id="spot-map-img" src="public/image/Maruing Map/download.png" alt="Spot Map of Barangay Maruing" style="width: 110%; max-width: 1200px; height: auto; object-fit: contain; margin-left: -5%; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);">
+                    <img id="spot-map-img" src="public/image/Maruing Map/download.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 100%; min-height: 750px; max-height: 85vh; object-fit: cover; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
                 </div>
             </div>
         </div>

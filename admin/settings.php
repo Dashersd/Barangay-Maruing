@@ -60,6 +60,24 @@
                     <li><a href="purok 9.php">Purok 9</a></li>
                 </ul>
             </li>
+                        <li class="has-submenu">
+                <a href="#" onclick="this.parentElement.classList.toggle('open'); return false;">
+                    <i class="bi bi-house-door-fill"></i> Households
+                    <i class="bi bi-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="legends file.php">Legends File</a></li>
+                    <li><a href="resident 1.php">Resident 1</a></li>
+                    <li><a href="resident 2.php">Resident 2</a></li>
+                    <li><a href="resident 3.php">Resident 3</a></li>
+                    <li><a href="resident 4.php">Resident 4</a></li>
+                    <li><a href="resident 5.php">Resident 5</a></li>
+                    <li><a href="resident 6.php">Resident 6</a></li>
+                    <li><a href="resident 7.php">Resident 7</a></li>
+                    <li><a href="resident 8.php">Resident 8</a></li>
+                    <li><a href="resident 9.php">Resident 9</a></li>
+                </ul>
+            </li>
             <li><a href="mediagallery.php"><i class="bi bi-image-fill"></i> Media Gallery</a></li>
             <li><a href="services.php"><i class="bi bi-card-list"></i> Services</a></li>
             <li><a href="announcements.php"><i class="bi bi-megaphone-fill"></i> Announcements</a></li>
@@ -177,5 +195,6 @@
     </div>
 </body>
 </html>
+
 
 

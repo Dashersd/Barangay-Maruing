@@ -1,0 +1,27 @@
+[
+    {
+        "id": "6abf0bebb7da2",
+        "house_number": "32",
+        "husband_name": "dg",
+        "spouse_name": "kln",
+        "marker_width": 40,
+        "marker_height": 40,
+        "top_position": 57.98,
+        "left_position": 38.19,
+        "marker_image": "uploads\/markers\/1790905323_Icon2.png",
+        "date_added": "2026-10-02 03:42:03"
+    },
+    {
+        "id": "6abf115c1abd1",
+        "house_number": "45",
+        "husband_name": "ds",
+        "spouse_name": "afs",
+        "marker_width": 40,
+        "marker_height": 40,
+        "top_position": 39.62,
+        "left_position": 50.88,
+        "marker_image": "uploads\/markers\/1790906716_Icon2.png",
+        "house_image": "uploads\/houses\/1790906716_house_Create_new_village_layout_design_20260930151017.jpg",
+        "date_added": "2026-10-02 04:05:16"
+    }
+]

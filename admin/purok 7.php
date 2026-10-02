@@ -60,6 +60,24 @@
                     <li><a href="purok 9.php">Purok 9</a></li>
                 </ul>
             </li>
+                        <li class="has-submenu">
+                <a href="#" onclick="this.parentElement.classList.toggle('open'); return false;">
+                    <i class="bi bi-house-door-fill"></i> Households
+                    <i class="bi bi-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="legends file.php">Legends File</a></li>
+                    <li><a href="resident 1.php">Resident 1</a></li>
+                    <li><a href="resident 2.php">Resident 2</a></li>
+                    <li><a href="resident 3.php">Resident 3</a></li>
+                    <li><a href="resident 4.php">Resident 4</a></li>
+                    <li><a href="resident 5.php">Resident 5</a></li>
+                    <li><a href="resident 6.php">Resident 6</a></li>
+                    <li><a href="resident 7.php">Resident 7</a></li>
+                    <li><a href="resident 8.php">Resident 8</a></li>
+                    <li><a href="resident 9.php">Resident 9</a></li>
+                </ul>
+            </li>
             <li><a href="mediagallery.php"><i class="bi bi-image-fill"></i> Media Gallery</a></li>
             <li><a href="services.php"><i class="bi bi-card-list"></i> Services</a></li>
             <li><a href="announcements.php"><i class="bi bi-megaphone-fill"></i> Announcements</a></li>
@@ -90,18 +108,40 @@
         </header>
 
         <!-- Content Area -->
-        <main class="dashboard-content">
+                <main class="dashboard-content">
+            <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+            <div style="background-color: #d1fae5; border-left: 4px solid #10b981; color: #065f46; padding: 15px 20px; margin-bottom: 20px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div><i class="bi bi-check-circle-fill" style="margin-right: 8px;"></i> Successfully saved the marker to the map!</div>
+                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: #065f46; cursor: pointer; font-size: 1.2rem; line-height: 1;">&times;</button>
+            </div>
+            <?php endif; ?>
             <div class="purok-header">
                 <h2>Add House to Map</h2>
                 <p>Upload a marker, add members, and drag the icon to save to the map</p>
             </div>
             
-            <div class="purok-map-container">
-                <img src="../public/image/Purok/Purok 7.jpg" alt="Spot Map" class="spot-map-img">
+                        <div class="purok-map-container" style="position: relative;">
+                <img src="../public/image/Purok/Purok 7.jpg" alt="Spot Map" class="spot-map-img" style="width: 100%; display: block;">
+                <?php
+                $json_file = 'data/purok7.json';
+                if (file_exists($json_file)) {
+                    $json_data = file_get_contents($json_file);
+                    $markers = json_decode($json_data, true);
+                    if (is_array($markers)) {
+                        foreach ($markers as $marker) {
+                            $imgSrc = !empty($marker['marker_image']) ? $marker['marker_image'] : '';
+                            if ($imgSrc) {
+                                echo '<img src="' . htmlspecialchars($imgSrc) . '" style="position: absolute; top: ' . $marker['top_position'] . '%; left: ' . $marker['left_position'] . '%; width: ' . $marker['marker_width'] . 'px; height: ' . $marker['marker_height'] . 'px; transform: translate(-50%, -100%); z-index: 500;" title="' . htmlspecialchars($marker['husband_name']) . '">';
+                            }
+                        }
+                    }
+                }
+                ?>
             </div>
 
             <div class="purok-form-container">
-                <form action="#" method="POST" enctype="multipart/form-data">
+                <form action="save_record.php" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="target_file" value="purok7">
                     <div class="form-group">
                         <label>House Number</label>
                         <input type="text" name="house_number" placeholder="e.g. 123" class="form-control">
@@ -117,6 +157,11 @@
                                 <input type="text" name="spouse_name" placeholder="Name of the Spouse (Maiden) (e.g. Maria Santos)" class="form-control">
                             </div>
                         </div>
+                    </div>
+
+                                        <div class="form-group">
+                        <label>House Image (Actual Photo)</label>
+                        <input type="file" name="house_image" class="form-control file-input">
                     </div>
 
                     <div class="form-group">
@@ -151,6 +196,8 @@
             </div>
         </main>
     </div>
+    <script src="Admin JS/admin.js"></script>
 </body>
 </html>
+
 
