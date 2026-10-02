@@ -54,6 +54,12 @@
                         <a class="nav-link active" href="gallery.php">Gallery</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="services.php">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="announcements.php">Announcements</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
                     </li>
                 </ul>
@@ -86,7 +92,7 @@
             <div class="gallery-grid">
                 <!-- Gallery Item 1 -->
                 <div class="gallery-item">
-                    <img src="public/image/barangay-maruing-cover.png" alt="Barangay Maruing" class="gallery-img">
+                    <img src="public/image/Maruing.png" alt="Barangay Maruing" class="gallery-img">
                     <div class="gallery-overlay">
                         <div class="gallery-overlay-content">
                             <i class="bi bi-search"></i>

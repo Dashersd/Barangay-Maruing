@@ -177,7 +177,7 @@ a {
 
 .nav-link {
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     padding: 0.5rem 0.85rem;
     position: relative;
     color: rgba(255, 255, 255, 0.88);
@@ -307,7 +307,7 @@ a {
 /* -------------------------------------------------------------------------- */
 .hero-section {
     background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(19, 117, 71, 0.84) 42%, rgba(19, 117, 71, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%),
-        url('../../image/barangay-maruing-cover.png') no-repeat center right / cover;
+        url('../../image/Maruing.png') no-repeat center right / cover;
     color: #ffffff;
     padding: 110px 0 140px;
     position: relative;

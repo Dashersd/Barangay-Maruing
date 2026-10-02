@@ -53,6 +53,12 @@
                         <a class="nav-link" href="gallery.php">Gallery</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="services.php">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="announcements.php">Announcements</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
                     </li>
                 </ul>
@@ -144,7 +150,7 @@
 
                 <div class="spot-map-visual">
                     <!-- Interactive Red Pin on Maruing -->
-                    <div class="map-pin-wrapper" id="maruing-pin-btn" role="button" tabindex="0" title="Click to view detailed map of Barangay Maruing">
+                    <div class="map-pin-wrapper" id="maruing-pin-btn" role="button" tabindex="0" title="Click to view detailed map of Barangay Maruing" style="display: none;">
                         <div class="pin-pulse"></div>
                         <div class="pin-marker">
                             <i class="bi bi-geo-alt-fill"></i>
@@ -152,7 +158,7 @@
                         <div class="pin-tooltip">Click to View Maruing</div>
                     </div>
 
-                    <img id="spot-map-img" src="public/image/Maruing Map/download.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 100%; min-height: 750px; max-height: 85vh; object-fit: cover; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                    <img id="spot-map-img" src="public/image/Maruing Map/Philippines.jpg" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 100%; min-height: 750px; max-height: 85vh; object-fit: cover; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); cursor: pointer;">
                 </div>
             </div>
         </div>
@@ -276,6 +282,31 @@
             });
         });
 
+        const mapSequence = [
+            'public/image/Maruing Map/Philippines.jpg',
+            'public/image/Maruing Map/Zamboanga del sur.jpg',
+            'public/image/Maruing Map/Lapuyan.gif',
+            'public/image/Maruing Map/download.png'
+        ];
+        let currentSequenceIndex = 0;
+
+        if (spotMapImg) {
+            spotMapImg.addEventListener('click', function() {
+                if (currentSequenceIndex < mapSequence.length - 1) {
+                    currentSequenceIndex++;
+                    spotMapImg.style.opacity = '0.2';
+                    setTimeout(function() {
+                        spotMapImg.src = mapSequence[currentSequenceIndex];
+                        spotMapImg.style.opacity = '1';
+                        
+                        if (currentSequenceIndex === mapSequence.length - 1) {
+                            if (maruingPin) maruingPin.style.display = 'flex';
+                            spotMapImg.style.cursor = 'default';
+                        }
+                    }, 180);
+                }
+            });
+        }
         if (maruingPin) {
             maruingPin.addEventListener('click', showDetailedMap);
             maruingPin.addEventListener('keydown', function(e) {

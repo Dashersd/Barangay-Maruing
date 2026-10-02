@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn about Barangay Maruing's vision, mission, and rich history.">
-    <title>About Us | Barangay Maruing Information System</title>
+    <meta name="description" content="Services offered by Barangay Maruing.">
+    <title>Services | Barangay Maruing Information System</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="public/image/Maruing Logo 2.png">
     
-    <!-- Google Fonts: Montserrat & Dancing Script -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
-    <link rel="stylesheet" href="public/assets/css/about.css?v=3">
+    <link rel="stylesheet" href="public/assets/css/services.css?v=1">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -38,7 +38,7 @@
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link active" href="about.php">About <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
+                        <a class="nav-link" href="about.php">About <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="about.php#about-us-section">History</a></li>
                             <li><a class="dropdown-item" href="vision.php">Vision</a></li>
@@ -47,13 +47,6 @@
                             <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
                         </ul>
                     </li>
-
-
-
-
-
-
-
                     <li class="nav-item">
                         <a class="nav-link" href="spot-map.php">Spot Map</a>
                     </li>
@@ -61,7 +54,7 @@
                         <a class="nav-link" href="gallery.php">Gallery</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="services.php">Services</a>
+                        <a class="nav-link active" href="services.php">Services</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="announcements.php">Announcements</a>
@@ -79,32 +72,71 @@
         </div>
     </nav>
 
-    
-    <link rel="stylesheet" href="public/assets/css/vision.css">
-    
-    <!-- Vision Hero Section -->
-    <section class="vision-hero">
+    <!-- Services Hero Section -->
+    <section class="services-hero">
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
                     <span class="hero-script-lead">Our</span>
-                    <span class="hero-title-main">VISION</span>
+                    <span class="hero-title-main">SERVICES</span>
                 </h1>
-                <p class="hero-lead">The guiding light of Barangay Maruing and our future.</p>
+                <p class="hero-lead">Access essential barangay services, permits, and clearances conveniently online.</p>
             </div>
         </div>
     </section>
 
-    <!-- Vision Content -->
-    <main class="vision-main">
-        <div class="container">
-            <div class="vision-content">
-                <i class="bi bi-eye-fill vision-icon"></i>
-                <p class="vision-text">"Envision a progressive, healthy, peaceful community empowered constituent and collectively participating in decision making gearing towards good governance with integrity and dedications. We strive to manage properly the value of the services as what we have pledge in order to gain strong foundation that serve inspiration to every individuals such that better living of all the people in Barangay Maruing is fruitful and beautiful as the year goes by."</p>
+    <!-- Main Content Section -->
+    <main class="services-main-section">
+        <div class="container services-container">
+            
+            <div class="services-grid">
+                
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <h3 class="service-title">Barangay Clearance</h3>
+                    <p class="service-description">Request a Barangay Clearance for employment, banking, or other legal purposes. Essential for verifying your residency and good standing.</p>
+                    <a href="#" class="btn-service">Request Document <i class="bi bi-arrow-right"></i></a>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="bi bi-house-heart"></i>
+                    </div>
+                    <h3 class="service-title">Certificate of Indigency</h3>
+                    <p class="service-description">Obtain a Certificate of Indigency to avail of government assistance, scholarships, and medical support programs.</p>
+                    <a href="#" class="btn-service">Request Document <i class="bi bi-arrow-right"></i></a>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="bi bi-briefcase"></i>
+                    </div>
+                    <h3 class="service-title">Business Clearance</h3>
+                    <p class="service-description">Required for all new and renewing businesses operating within the barangay jurisdiction prior to Mayor's permit application.</p>
+                    <a href="#" class="btn-service">Request Document <i class="bi bi-arrow-right"></i></a>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                    <h3 class="service-title">Certificate of Residency</h3>
+                    <p class="service-description">Proof of your residency within the barangay. Often required for school enrollments, ID applications, and other local transactions.</p>
+                    <a href="#" class="btn-service">Request Document <i class="bi bi-arrow-right"></i></a>
+                </div>
+
             </div>
+            
         </div>
     </main>
-<!-- Footer -->
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-top row">
@@ -150,7 +182,3 @@
     <script src="public/assets/js/main.js"></script>
 </body>
 </html>
-
-
-
-

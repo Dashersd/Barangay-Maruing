@@ -54,6 +54,12 @@
                         <a class="nav-link" href="gallery.php">Gallery</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="services.php">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="announcements.php">Announcements</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
                     </li>
                 </ul>
@@ -125,7 +131,7 @@
                             </div>
                             <h3 class="official-name">Barangay Secretary</h3>
                             <div class="official-role">Barangay Secretary</div>
-                            <div class="official-committee-badge">Committee on Records & Documentation</div>
+
                         </div>
 
                         <!-- Barangay Treasurer -->
@@ -135,7 +141,7 @@
                             </div>
                             <h3 class="official-name">Barangay Treasurer</h3>
                             <div class="official-role">Barangay Treasurer</div>
-                            <div class="official-committee-badge">Committee on Finance & Budget</div>
+
                         </div>
                     </div>
 
@@ -148,7 +154,7 @@
                             </div>
                             <h3 class="official-name">Barangay Kagawad 1</h3>
                             <div class="official-role">Barangay Kagawad</div>
-                            <div class="official-committee-badge">Committee on Peace & Order</div>
+
                         </div>
 
                         <!-- Kagawad 2 -->
@@ -158,7 +164,7 @@
                             </div>
                             <h3 class="official-name">Barangay Kagawad 2</h3>
                             <div class="official-role">Barangay Kagawad</div>
-                            <div class="official-committee-badge">Committee on Appropriations</div>
+
                         </div>
 
                         <!-- Kagawad 3 -->
@@ -168,7 +174,7 @@
                             </div>
                             <h3 class="official-name">Barangay Kagawad 3</h3>
                             <div class="official-role">Barangay Kagawad</div>
-                            <div class="official-committee-badge">Committee on Health & Sanitation</div>
+
                         </div>
                     </div>
 
@@ -181,7 +187,7 @@
                             </div>
                             <h3 class="official-name">Barangay Kagawad 4</h3>
                             <div class="official-role">Barangay Kagawad</div>
-                            <div class="official-committee-badge">Committee on Public Works</div>
+
                         </div>
 
                         <!-- Kagawad 5 -->
@@ -191,7 +197,7 @@
                             </div>
                             <h3 class="official-name">Barangay Kagawad 5</h3>
                             <div class="official-role">Barangay Kagawad</div>
-                            <div class="official-committee-badge">Committee on Education & Culture</div>
+
                         </div>
 
                         <!-- Kagawad 6 -->
@@ -201,7 +207,7 @@
                             </div>
                             <h3 class="official-name">Barangay Kagawad 6</h3>
                             <div class="official-role">Barangay Kagawad</div>
-                            <div class="official-committee-badge">Committee on Agriculture & Environment</div>
+
                         </div>
 
                         <!-- Kagawad 7 -->
@@ -211,7 +217,7 @@
                             </div>
                             <h3 class="official-name">Barangay Kagawad 7</h3>
                             <div class="official-role">Barangay Kagawad</div>
-                            <div class="official-committee-badge">Committee on Social Services & Welfare</div>
+
                         </div>
                     </div>
                 </div>

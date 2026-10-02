@@ -8,7 +8,7 @@
 /* -------------------------------------------------------------------------- */
 .about-hero {
     background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(19, 117, 71, 0.84) 42%, rgba(19, 117, 71, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%),
-                url('../../image/barangay-maruing-cover.png') no-repeat center right / cover;
+                url('../../image/Maruing.png') no-repeat center right / cover;
     color: #ffffff;
     padding: 110px 0 140px;
     min-height: 480px;
@@ -187,8 +187,8 @@
 .about-us-image-wrapper {
     float: right;
     margin: 0 0 2rem 3rem;
-    width: 45%;
-    max-width: 550px;
+    width: 55%;
+    max-width: 700px;
 }
 
 .about-us-img {

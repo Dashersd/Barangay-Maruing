@@ -61,6 +61,12 @@
                         <a class="nav-link" href="gallery.php">Gallery</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="services.php">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="announcements.php">Announcements</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
                     </li>
                 </ul>
@@ -98,7 +104,7 @@
                 </div>
                 <!-- Right Image (Floated) -->
                 <div class="about-us-image-wrapper">
-                    <img src="public/image/barangay_hall.jpg" alt="Barangay Hall" class="about-us-img" style="object-fit: cover; border-radius: 10px;">
+                    <img src="public/image/Barangay Maruing Community Hall.png" alt="Barangay Hall" class="about-us-img" style="object-fit: cover; border-radius: 10px;">
                 </div>
                 <h2 class="about-us-title">Our Barangay</h2>
                 <div class="about-us-text-scrollable">

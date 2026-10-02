@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn about Barangay Maruing's vision, mission, and rich history.">
-    <title>About Us | Barangay Maruing Information System</title>
+    <meta name="description" content="Announcements for Barangay Maruing.">
+    <title>Announcements | Barangay Maruing Information System</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="public/image/Maruing Logo 2.png">
     
-    <!-- Google Fonts: Montserrat & Dancing Script -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
-    <link rel="stylesheet" href="public/assets/css/about.css?v=3">
+    <link rel="stylesheet" href="public/assets/css/announcements.css?v=1">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -38,7 +38,7 @@
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link active" href="about.php">About <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
+                        <a class="nav-link" href="about.php">About <i class="bi bi-chevron-down" style="font-size: 0.75rem; margin-left: 2px;"></i></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="about.php#about-us-section">History</a></li>
                             <li><a class="dropdown-item" href="vision.php">Vision</a></li>
@@ -47,13 +47,6 @@
                             <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
                         </ul>
                     </li>
-
-
-
-
-
-
-
                     <li class="nav-item">
                         <a class="nav-link" href="spot-map.php">Spot Map</a>
                     </li>
@@ -64,7 +57,7 @@
                         <a class="nav-link" href="services.php">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="announcements.php">Announcements</a>
+                        <a class="nav-link active" href="announcements.php">Announcements</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
@@ -79,32 +72,87 @@
         </div>
     </nav>
 
-    
-    <link rel="stylesheet" href="public/assets/css/vision.css">
-    
-    <!-- Vision Hero Section -->
-    <section class="vision-hero">
+    <!-- Announcements Hero Section -->
+    <section class="announcements-hero">
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
                     <span class="hero-script-lead">Our</span>
-                    <span class="hero-title-main">VISION</span>
+                    <span class="hero-title-main">ANNOUNCEMENTS</span>
                 </h1>
-                <p class="hero-lead">The guiding light of Barangay Maruing and our future.</p>
+                <p class="hero-lead">Stay informed with the latest news, events, and important updates in Barangay Maruing.</p>
             </div>
         </div>
     </section>
 
-    <!-- Vision Content -->
-    <main class="vision-main">
-        <div class="container">
-            <div class="vision-content">
-                <i class="bi bi-eye-fill vision-icon"></i>
-                <p class="vision-text">"Envision a progressive, healthy, peaceful community empowered constituent and collectively participating in decision making gearing towards good governance with integrity and dedications. We strive to manage properly the value of the services as what we have pledge in order to gain strong foundation that serve inspiration to every individuals such that better living of all the people in Barangay Maruing is fruitful and beautiful as the year goes by."</p>
+    <!-- Main Content Section -->
+    <main class="announcements-main-section">
+        <div class="container announcements-container">
+            
+            <div class="announcements-grid">
+                <!-- Announcement 1 -->
+                <div class="announcement-card-v2">
+                    <div class="announcement-date-badge">OCT 15</div>
+                    <h3 class="announcement-card-title">General Assembly Meeting</h3>
+                    
+                    <div class="announcement-details">
+                        <p><strong>What:</strong> Bi-annual General Assembly Meeting</p>
+                        <p><strong>When:</strong> October 15, 2025 at 9:00 AM</p>
+                        <p><strong>Why:</strong> To discuss upcoming infrastructure projects and budget allocations.</p>
+                        <p><strong>Who:</strong> All residents of Barangay San Jose</p>
+                    </div>
+
+                    <div class="announcement-divider"></div>
+
+                    <div class="announcement-description">
+                        <p>We highly encourage at least one representative per household to attend this important assembly. Your voice and feedback are essential as we plan for the community's future developments.</p>
+                    </div>
+                </div>
+
+                <!-- Announcement 2 -->
+                <div class="announcement-card-v2">
+                    <div class="announcement-date-badge">OCT 22</div>
+                    <h3 class="announcement-card-title">Free Medical & Dental Mission</h3>
+                    
+                    <div class="announcement-details">
+                        <p><strong>What:</strong> Free Medical and Dental Checkups</p>
+                        <p><strong>When:</strong> October 22, 2025 starting at 8:00 AM</p>
+                        <p><strong>Why:</strong> To provide accessible healthcare services to those in need.</p>
+                        <p><strong>Who:</strong> Priority for Senior Citizens and Children</p>
+                    </div>
+
+                    <div class="announcement-divider"></div>
+
+                    <div class="announcement-description">
+                        <p>In partnership with the City Health Office and volunteer doctors, we will be providing free checkups, basic tooth extractions, and essential medicines. Please bring your valid ID and PhilHealth card if available.</p>
+                    </div>
+                </div>
+
+                <!-- Announcement 3 -->
+                <div class="announcement-card-v2">
+                    <div class="announcement-date-badge">NOV 01</div>
+                    <h3 class="announcement-card-title">Undas 2025 Traffic Advisory</h3>
+                    
+                    <div class="announcement-details">
+                        <p><strong>What:</strong> Temporary Road Closures and Rerouting</p>
+                        <p><strong>When:</strong> November 01, 2025 (All Day)</p>
+                        <p><strong>Why:</strong> To manage the expected high volume of traffic heading to the public cemetery.</p>
+                        <p><strong>Who:</strong> All Motorists and Residents</p>
+                    </div>
+
+                    <div class="announcement-divider"></div>
+
+                    <div class="announcement-description">
+                        <p>Please be advised that Main Avenue will be strictly one-way leading towards the cemetery. Expect heavy traffic. Barangay Tanods and City Traffic Enforcers will be deployed to guide motorists.</p>
+                    </div>
+                </div>
+
             </div>
+
         </div>
     </main>
-<!-- Footer -->
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-top row">
@@ -150,7 +198,3 @@
     <script src="public/assets/js/main.js"></script>
 </body>
 </html>
-
-
-
-
