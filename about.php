@@ -20,6 +20,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
     <link rel="stylesheet" href="public/assets/css/about.css?v=5">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -84,10 +85,10 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="hero-script-lead">About</span>
-                    <span class="hero-title-main">BARANGAY MARUING</span>
+                    <span class="hero-script-lead" data-aos="fade-down">About</span>
+                    <span class="hero-title-main" data-aos="zoom-in" data-aos-delay="100">BARANGAY MARUING</span>
                 </h1>
-                <p class="hero-lead">Dedicated to honest, transparent public service and cultivating a thriving, united community for all residents.</p>
+                <p class="hero-lead" data-aos="fade-up" data-aos-delay="200">Dedicated to honest, transparent public service and cultivating a thriving, united community for all residents.</p>
             </div>
         </div>
     </section>
@@ -98,16 +99,16 @@
             
             <!-- Middle Content -->
             <div class="about-us-content">
-                <div class="about-us-header">
+                <div class="about-us-header" data-aos="fade-down">
                     <span class="about-us-subtitle">ABOUT US</span>
                     <div class="about-us-line"></div>
                 </div>
                 <!-- Right Image (Floated) -->
-                <div class="about-us-image-wrapper">
+                <div class="about-us-image-wrapper" data-aos="fade-left">
                     <img src="public/image/Barangay Maruing Community Hall.png" alt="Barangay Hall" class="about-us-img" style="object-fit: cover; border-radius: 10px;">
                 </div>
-                <h2 class="about-us-title">Our Barangay</h2>
-                <div class="about-us-text-scrollable">
+                <h2 class="about-us-title" data-aos="fade-right">Our Barangay</h2>
+                <div class="about-us-text-scrollable" data-aos="fade-up">
                     <p class="about-us-text">Maruing once under the jurisdiction of Margosatubig, before it was declared as a Municipality in 1964 during the time of late Diosdado Macapagal and then reverted into Barangay in 1965. According to the Subanen leaders of Elders, the term Maruing came from two[2] Subanen words "MARU" which means bad odor and "DUWING" a Subanen word a term for gigantic wild boar having fangs that grew outrares from his mouth because of the incredible strength. According to the story, a Subanen hunter went to the forest looking for wild animals. Using his spear the hunter was able to hit a wild boar or the DUWING but unluckily failed to catch it. Thus, the hunter kept on looking the animal until found a very nice place where two rivers meet creating a big river before it proceeds to the sea. Because he did not find the wild boar but instead the beautiful place, he went home and reported to his co-villagers about a beautiful place where they could establish their community because of its strategic location and abundance of water.</p>
                     <p class="about-us-text">After few days, the hunter and his community decided to visit the said beautiful place and there they observed "MARU" or bad odor where they believed to be the "DUWING" that escaped from hunting. Since they do not know the name of the place, they conbined the two words of MARU and DUWING and they called the place Marwing. It was only changed to MARUING during the time of Barangay Captain Lorenzo Bugao.</p>
                     <p class="about-us-text">Barangay Maruing is the home of the Subanen, one of the 18 major tribes of the Lumad in Mindanao. The first Subanen families who inhabited the place were the families of Mangangot, Balabad, Bugao and Hupa and the first chinesse families were Pula, Wasing and Costan whom later killed by bandits. From the Muslim tribes, it was the families of Manopod who went and settle first in Maruing.</p>
@@ -164,8 +165,15 @@
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+          duration: 800, 
+          once: true,
+          offset: 100
+        });
+      });
+    </script>
 </body>
 </html>
-
-
-

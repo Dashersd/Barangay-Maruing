@@ -20,6 +20,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
     <link rel="stylesheet" href="public/assets/css/contact.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -77,10 +78,10 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="hero-script-lead">Contact</span>
-                    <span class="hero-title-main">BARANGAY MARUING</span>
+                    <span class="hero-script-lead" data-aos="fade-down">Contact</span>
+                    <span class="hero-title-main" data-aos="zoom-in" data-aos-delay="100">BARANGAY MARUING</span>
                 </h1>
-                <p class="hero-lead">We are here to serve. Reach out to our barangay office for public inquiries, government assistance, and community concerns.</p>
+                <p class="hero-lead" data-aos="fade-up" data-aos-delay="200">We are here to serve. Reach out to our barangay office for public inquiries, government assistance, and community concerns.</p>
             </div>
         </div>
     </section>
@@ -231,7 +232,7 @@
             <div class="contact-form-wrapper">
                 
                 <!-- Left Column: Contact Info -->
-                <div class="contact-info-col">
+                <div class="contact-info-col" data-aos="fade-right">
                     <h2>Get in touch</h2>
                     <p style="color: #64748b; margin-bottom: 2.5rem; line-height: 1.6;">Reach out to our barangay office for public inquiries, government assistance, and community concerns.</p>
                     
@@ -277,7 +278,7 @@
                 </div>
     
                 <!-- Right Column: Form -->
-                <div class="contact-form-col">
+                <div class="contact-form-col" data-aos="fade-left">
                     <h2>Send us a message</h2>
                     <form action="contact.php" method="POST">
                         <div class="form-grid">
@@ -369,5 +370,15 @@
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+          duration: 800, 
+          once: true,
+          offset: 100
+        });
+      });
+    </script>
 </body>
 </html>

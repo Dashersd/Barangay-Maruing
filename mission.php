@@ -20,6 +20,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
     <link rel="stylesheet" href="public/assets/css/about.css?v=3">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -87,10 +88,10 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="hero-script-lead">Our</span>
-                    <span class="hero-title-main">MISSION</span>
+                    <span class="hero-script-lead" data-aos="fade-down">Our</span>
+                    <span class="hero-title-main" data-aos="zoom-in" data-aos-delay="100">MISSION</span>
                 </h1>
-                <p class="hero-lead">Our daily commitment to honesty, public service, and community.</p>
+                <p class="hero-lead" data-aos="fade-up" data-aos-delay="200">Our daily commitment to honesty, public service, and community.</p>
             </div>
         </div>
     </section>
@@ -98,7 +99,7 @@
     <!-- Mission Content -->
     <main class="mission-main">
         <div class="container">
-            <div class="mission-content">
+            <div class="mission-content" data-aos="zoom-in-up">
                 <i class="bi bi-bullseye mission-icon"></i>
                 <p class="mission-text">"To formulate and enforce transparent plan, programs and regulation for the protection of the interest of the community with regards to environment, education, infrastructure, health, social services, moral financial, peace and order. Pursue collaborative effort together with our eagerness and active participation as we mobilize its constituents, we can be a progressive and productive community."</p>
             </div>
@@ -148,6 +149,16 @@
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+          duration: 800, 
+          once: true,
+          offset: 100
+        });
+      });
+    </script>
 </body>
 </html>
 

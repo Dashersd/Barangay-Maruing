@@ -19,7 +19,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
-    <link rel="stylesheet" href="public/assets/css/about.css?v=3">
+    <link rel="stylesheet" href="public/assets/css/about.css?v=3">`n    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -87,10 +87,10 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="hero-script-lead">Our</span>
-                    <span class="hero-title-main">VISION</span>
+                    <span class="hero-script-lead" data-aos="fade-down">Our</span>
+                    <span class="hero-title-main" data-aos="zoom-in" data-aos-delay="100">VISION</span>
                 </h1>
-                <p class="hero-lead">The guiding light of Barangay Maruing and our future.</p>
+                <p class="hero-lead" data-aos="fade-up" data-aos-delay="200">The guiding light of Barangay Maruing and our future.</p>
             </div>
         </div>
     </section>
@@ -98,7 +98,7 @@
     <!-- Vision Content -->
     <main class="vision-main">
         <div class="container">
-            <div class="vision-content">
+            <div class="vision-content" data-aos="zoom-in-up">
                 <i class="bi bi-eye-fill vision-icon"></i>
                 <p class="vision-text">"Envision a progressive, healthy, peaceful community empowered constituent and collectively participating in decision making gearing towards good governance with integrity and dedications. We strive to manage properly the value of the services as what we have pledge in order to gain strong foundation that serve inspiration to every individuals such that better living of all the people in Barangay Maruing is fruitful and beautiful as the year goes by."</p>
             </div>
@@ -148,6 +148,16 @@
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+          duration: 800, 
+          once: true,
+          offset: 100
+        });
+      });
+    </script>
 </body>
 </html>
 

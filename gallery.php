@@ -20,6 +20,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
     <link rel="stylesheet" href="public/assets/css/gallery.css?v=1">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -77,10 +78,10 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="hero-script-lead">Our</span>
-                    <span class="hero-title-main">GALLERY</span>
+                    <span class="hero-script-lead" data-aos="fade-down">Our</span>
+                    <span class="hero-title-main" data-aos="zoom-in" data-aos-delay="100">GALLERY</span>
                 </h1>
-                <p class="hero-lead">Explore the beauty, events, and community life of Barangay Maruing through our photo gallery.</p>
+                <p class="hero-lead" data-aos="fade-up" data-aos-delay="200">Explore the beauty, events, and community life of Barangay Maruing through our photo gallery.</p>
             </div>
         </div>
     </section>
@@ -91,7 +92,7 @@
             
             <div class="gallery-grid">
                 <!-- Gallery Item 1 -->
-                <div class="gallery-item">
+                <div class="gallery-item data-aos="zoom-in" data-aos-delay="0">
                     <img src="public/image/Maruing.png" alt="Barangay Maruing" class="gallery-img">
                     <div class="gallery-overlay">
                         <div class="gallery-overlay-content">
@@ -101,7 +102,7 @@
                     </div>
                 </div>
                 <!-- Gallery Item 2 -->
-                <div class="gallery-item">
+                <div class="gallery-item data-aos="zoom-in" data-aos-delay="100">
                     <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" class="gallery-img logo-img">
                     <div class="gallery-overlay">
                         <div class="gallery-overlay-content">
@@ -111,28 +112,28 @@
                     </div>
                 </div>
                 <!-- Gallery Item 3 (Placeholder) -->
-                <div class="gallery-item placeholder-item">
+                <div class="gallery-item placeholder-item data-aos="zoom-in" data-aos-delay="200">
                     <div class="placeholder-content">
                         <i class="bi bi-image"></i>
                         <span>More photos coming soon</span>
                     </div>
                 </div>
                 <!-- Gallery Item 4 (Placeholder) -->
-                <div class="gallery-item placeholder-item">
+                <div class="gallery-item placeholder-item data-aos="zoom-in" data-aos-delay="300">
                     <div class="placeholder-content">
                         <i class="bi bi-image"></i>
                         <span>More photos coming soon</span>
                     </div>
                 </div>
                 <!-- Gallery Item 5 (Placeholder) -->
-                <div class="gallery-item placeholder-item">
+                <div class="gallery-item placeholder-item data-aos="zoom-in" data-aos-delay="400">
                     <div class="placeholder-content">
                         <i class="bi bi-image"></i>
                         <span>More photos coming soon</span>
                     </div>
                 </div>
                 <!-- Gallery Item 6 (Placeholder) -->
-                <div class="gallery-item placeholder-item">
+                <div class="gallery-item placeholder-item data-aos="zoom-in" data-aos-delay="500">
                     <div class="placeholder-content">
                         <i class="bi bi-image"></i>
                         <span>More photos coming soon</span>
@@ -187,6 +188,16 @@
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+          duration: 800, 
+          once: true,
+          offset: 100
+        });
+      });
+    </script>
 </body>
 </html>
 

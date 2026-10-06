@@ -22,7 +22,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom CSS (Pure CSS Responsive) -->
-    <link rel="stylesheet" href="public/assets/css/style.css?v=6">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=7">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
 <body>
@@ -81,12 +82,12 @@
         <section class="hero-section">
             <div class="container hero-container">
                 <div class="hero-content">
-                    <h1 class="hero-title">
+                    <h1 class="hero-title" data-aos="fade-up">
                         <span class="hero-script-lead">Welcome to</span>
                         <span class="hero-title-main">BARANGAY MARUING</span>
                     </h1>
-                    <p class="hero-lead">Your trusted source for barangay governance, community information, and public service.</p>
-                    <div class="hero-buttons">
+                    <p class="hero-lead" data-aos="fade-up" data-aos-delay="100">Your trusted source for barangay governance, community information, and public service.</p>
+                    <div class="hero-buttons" data-aos="fade-up" data-aos-delay="200">
                         <a href="about.php" class="btn-hero-primary">Explore Information <i
                                 class="bi bi-arrow-right"></i></a>
                         <a href="officials.php" class="btn-hero-outline">Meet Officials <i
@@ -99,10 +100,10 @@
         <!-- About Section -->
         <section class="about-landing-section">
             <div class="container about-landing-container">
-                <div class="about-landing-image">
-                    <img src="public/image/Maruing.png" alt="Barangay Maruing History">
+                <div class="about-landing-image" data-aos="fade-right">
+                    <img src="public/image/Barangay Maruing Community Hall.png" alt="Barangay Maruing History">
                 </div>
-                <div class="about-landing-content">
+                <div class="about-landing-content" data-aos="fade-left">
                     <h2 class="about-landing-title">About Barangay Maruing</h2>
                     <p class="about-landing-desc">
                         Discover the rich history and vibrant community of Barangay Maruing. Our barangay is dedicated to providing honest and dedicated service to all its residents, fostering growth, unity, and a better quality of life for everyone. 
@@ -115,7 +116,7 @@
         </section>
         <section class="landing-officials-section" id="officials-section" style="padding: 5rem 0; background-color: var(--background-color, #f8faf9);">
             <div class="container">
-                <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
+                <div class="section-header" style="text-align: center; margin-bottom: 4rem;" data-aos="fade-up">
                     <span style="font-size: 0.85rem; font-weight: 800; color: var(--primary-color, #137547); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 0.8rem;">Barangay Officials</span>
                     <h2 style="font-size: 2.8rem; font-weight: 800; color: var(--primary-dark, #093d25); margin-bottom: 1rem;">Meet Our <span style="color: var(--primary-color, #137547);">Leaders</span></h2>
                     <div style="width: 50px; height: 3px; background-color: var(--primary-color, #137547); margin: 0 auto 1.5rem;"></div>
@@ -125,7 +126,7 @@
                 <div class="officials-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto;">
                     
                     <!-- Official Card 1 -->
-                    <div class="official-card" style="background: white; border-radius: 20px; padding: 3rem 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); text-align: center; transition: transform 0.3s ease;">
+                    <div class="official-card" data-aos="fade-up" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 3rem 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); text-align: center; transition: transform 0.3s ease;">
                         <div style="position: relative; width: 140px; height: 140px; margin: 0 auto 2.5rem; background-color: var(--primary-light, #e8f5ee); border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 8px rgba(19, 117, 71, 0.05);">
                             <span style="font-size: 3.5rem; font-weight: 300; color: var(--primary-dark, #093d25); font-family: sans-serif;">PB</span>
                             <div style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); background-color: var(--primary-color, #137547); color: white; padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
@@ -141,7 +142,7 @@
                     </div>
 
                     <!-- Official Card 2 -->
-                    <div class="official-card" style="background: white; border-radius: 20px; padding: 3rem 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); text-align: center; transition: transform 0.3s ease;">
+                    <div class="official-card" data-aos="fade-up" data-aos-delay="200" style="background: white; border-radius: 20px; padding: 3rem 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); text-align: center; transition: transform 0.3s ease;">
                         <div style="position: relative; width: 140px; height: 140px; margin: 0 auto 2.5rem; background-color: rgba(255, 193, 7, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 8px rgba(255, 193, 7, 0.05);">
                             <img src="public/image/SK Officials/Ryan M. Tubos.jpeg" alt="Hon. Ryan M. Tubos" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                             <div style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); background-color: var(--primary-color, #137547); color: white; padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
@@ -164,7 +165,7 @@
         <!-- Services Section -->
         <section id="services-section" class="services-section" style="padding: 5rem 0;">
             <div class="container">
-                <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
+                <div class="section-header" style="text-align: center; margin-bottom: 4rem;" data-aos="fade-up">
                     <span style="font-size: 0.85rem; font-weight: 800; color: var(--primary-color, #10b981); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 0.8rem;">What We Offer</span>
                     <h2 style="font-size: 2.8rem; font-weight: 800; color: var(--primary-dark, #1e293b); margin-bottom: 1rem;">Barangay <span style="color: var(--primary-color, #10b981);">Services</span></h2>
                     <div style="width: 50px; height: 3px; background-color: var(--primary-color, #10b981); margin: 0 auto 1.5rem;"></div>
@@ -173,7 +174,7 @@
                 <div class="services-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem;">
                     
                     <!-- Card 1 -->
-                    <div class="service-card" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
+                    <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
                         <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
                             <i class="bi bi-file-earmark-text" style="font-size: 1.8rem; color: var(--primary-color, #10b981);"></i>
                         </div>
@@ -182,7 +183,7 @@
                     </div>
 
                     <!-- Card 2 -->
-                    <div class="service-card" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
+                    <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
                         <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
                             <i class="bi bi-activity" style="font-size: 2rem; color: var(--primary-color, #10b981);"></i>
                         </div>
@@ -191,7 +192,7 @@
                     </div>
 
                     <!-- Card 3 -->
-                    <div class="service-card" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
+                    <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
                         <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
                             <i class="bi bi-shield-check" style="font-size: 1.8rem; color: var(--primary-color, #10b981);"></i>
                         </div>
@@ -200,7 +201,7 @@
                     </div>
 
                     <!-- Card 4 -->
-                    <div class="service-card" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
+                    <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
                         <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
                             <i class="bi bi-people" style="font-size: 1.8rem; color: var(--primary-color, #10b981);"></i>
                         </div>
@@ -218,7 +219,7 @@
         <!-- Announcements Section -->
         <section id="announcements-section" class="announcements-section" style="padding: 5rem 0; background-color: var(--background-color, #f8faf9);">
             <div class="container">
-                <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
+                <div class="section-header" style="text-align: center; margin-bottom: 4rem;" data-aos="fade-up">
                     <span style="font-size: 0.85rem; font-weight: 800; color: var(--primary-color, #137547); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 0.8rem;">Stay Updated</span>
                     <h2 style="font-size: 2.8rem; font-weight: 800; color: var(--primary-dark, #093d25); margin-bottom: 1rem;">Latest <span style="color: var(--primary-color, #137547);">Announcements</span></h2>
                     <div style="width: 50px; height: 3px; background-color: var(--primary-color, #137547); margin: 0 auto 1.5rem;"></div>
@@ -227,7 +228,7 @@
                 <div class="announcements-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
                     
                     <!-- Announcement 1 -->
-                    <div class="announcement-card" style="background: white; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); display: flex; gap: 1.5rem; transition: transform 0.3s ease;">
+                    <div class="announcement-card" data-aos="fade-up" data-aos-delay="100" style="background: white; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); display: flex; gap: 1.5rem; transition: transform 0.3s ease;">
                         <div class="date-box" style="background-color: var(--primary-light, #e8f5ee); border-radius: 10px; min-width: 65px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary-color, #137547);">
                             <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Oct</span>
                             <span style="font-size: 1.5rem; font-weight: 800; line-height: 1;">15</span>
@@ -242,7 +243,7 @@
                     </div>
 
                     <!-- Announcement 2 -->
-                    <div class="announcement-card" style="background: white; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); display: flex; gap: 1.5rem; transition: transform 0.3s ease;">
+                    <div class="announcement-card" data-aos="fade-up" data-aos-delay="100" style="background: white; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); display: flex; gap: 1.5rem; transition: transform 0.3s ease;">
                         <div class="date-box" style="background-color: var(--primary-light, #e8f5ee); border-radius: 10px; min-width: 65px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary-color, #137547);">
                             <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Oct</span>
                             <span style="font-size: 1.5rem; font-weight: 800; line-height: 1;">22</span>
@@ -257,7 +258,7 @@
                     </div>
 
                     <!-- Announcement 3 -->
-                    <div class="announcement-card" style="background: white; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); display: flex; gap: 1.5rem; transition: transform 0.3s ease;">
+                    <div class="announcement-card" data-aos="fade-up" data-aos-delay="100" style="background: white; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); display: flex; gap: 1.5rem; transition: transform 0.3s ease;">
                         <div class="date-box" style="background-color: var(--primary-light, #e8f5ee); border-radius: 10px; min-width: 65px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary-color, #137547);">
                             <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Nov</span>
                             <span style="font-size: 1.5rem; font-weight: 800; line-height: 1;">01</span>
@@ -287,7 +288,7 @@
                 </div>
                 
                 <div class="landing-spot-map-container">
-                <div class="spot-map-content">
+                <div class="spot-map-content" data-aos="fade-right">
                     <div class="spot-map-badge">
                         <i class="bi bi-geo-alt-fill"></i> EXPLORE
                     </div>
@@ -300,7 +301,7 @@
                     </a>
 
                 </div>
-                <div class="spot-map-visual">
+                <div class="spot-map-visual" data-aos="fade-left">
                     <!-- <iframe 
                         src="https://maps.google.com/maps?q=Barangay%20Maruing,%20Philippines&t=&z=13&ie=UTF8&iwloc=&output=embed" 
                         width="100%" 
@@ -319,46 +320,10 @@
     </main>
 
     <!-- Gallery Section -->
-    <style>
-        .gallery-section-wrapper {
-            padding: 5rem 0;
-            background-color: #ffffff;
-        }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        @media (max-width: 992px) {
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 576px) {
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .gallery-item {
-            border-radius: 12px;
-            overflow: hidden;
-            aspect-ratio: 4 / 3;
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-    </style>
+
     <section class="gallery-section-wrapper">
         <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
+            <div class="section-header" style="text-align: center; margin-bottom: 4rem;" data-aos="fade-up">
                 <h2 style="font-size: 2.8rem; font-weight: 800; color: #1e293b; margin-bottom: 0.5rem; font-family: 'Montserrat', sans-serif;">
                     Our <span style="color: var(--primary-color); position: relative;">Gallery<span style="position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 70%; height: 4px; background-color: var(--primary-color); border-radius: 2px;"></span></span>
                 </h2>
@@ -369,19 +334,19 @@
             
             <div class="gallery-grid">
                 <!-- Image 1 -->
-                <div class="gallery-item">
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
                     <img src="https://picsum.photos/seed/festival/800/600" alt="Festival">
                 </div>
                 <!-- Image 2 -->
-                <div class="gallery-item">
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
                     <img src="https://picsum.photos/seed/cleanup/800/600" alt="Community Cleanup">
                 </div>
                 <!-- Image 3 -->
-                <div class="gallery-item">
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
                     <img src="https://picsum.photos/seed/basketball/800/600" alt="Basketball Game">
                 </div>
                 <!-- Image 4 -->
-                <div class="gallery-item">
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
                     <img src="https://picsum.photos/seed/hall/800/600" alt="Barangay Hall">
                 </div>
             </div>
@@ -394,152 +359,13 @@
     </section>
 
     <!-- Contact Form Section -->
-    <style>
-        .contact-form-section {
-            padding: 6rem 0;
-            background-color: #f8faf9;
-        }
-        .contact-form-wrapper {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 4rem;
-            background: white;
-            padding: 4rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-        }
-        .contact-info-col h2, .contact-form-col h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--primary-dark, #093d25);
-            margin-bottom: 1rem;
-        }
-        .contact-info-item {
-            display: flex;
-            gap: 1.2rem;
-            margin-bottom: 1.5rem;
-        }
-        .contact-info-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--primary-color, #137547);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-        .contact-info-text h4 {
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.2rem;
-            font-size: 1.1rem;
-        }
-        .contact-info-text p {
-            color: #64748b;
-            font-size: 0.95rem;
-            margin: 0;
-            line-height: 1.5;
-        }
-        .social-links {
-            display: flex;
-            gap: 0.8rem;
-        }
-        .social-link {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--primary-color, #137547);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        .social-link:hover {
-            background-color: var(--primary-dark, #093d25);
-            color: #ffc107;
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: #64748b;
-            font-weight: 500;
-        }
-        .form-control {
-            width: 100%;
-            padding: 0.8rem 1.2rem;
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
-            background-color: #f8faf9;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.3s ease, background-color 0.3s ease;
-            font-family: inherit;
-        }
-        .form-control:focus {
-            border-color: var(--primary-color, #137547);
-            background-color: white;
-        }
-        select.form-control {
-            appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%2364748b" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 1.2rem center;
-        }
-        .btn-submit {
-            width: 100%;
-            padding: 1rem;
-            border-radius: 50px;
-            background-color: var(--primary-color, #137547);
-            color: white;
-            border: none;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            margin-top: 0.5rem;
-        }
-        .btn-submit:hover {
-            background-color: var(--primary-dark, #093d25);
-            transform: translateY(-2px);
-        }
-        
-        @media (max-width: 992px) {
-            .contact-form-wrapper {
-                grid-template-columns: 1fr;
-                padding: 2rem;
-                gap: 3rem;
-            }
-        }
-        @media (max-width: 576px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+
     <section class="contact-form-section">
         <div class="container">
             <div class="contact-form-wrapper">
                 
                 <!-- Left Column: Contact Info -->
-                <div class="contact-info-col">
+                <div class="contact-info-col" data-aos="fade-right">
                     <h2>Get in touch</h2>
                     <p style="color: #64748b; margin-bottom: 2.5rem; line-height: 1.6;">Reach out to our barangay office for public inquiries, government assistance, and community concerns.</p>
                     
@@ -585,7 +411,7 @@
                 </div>
     
                 <!-- Right Column: Form -->
-                <div class="contact-form-col">
+                <div class="contact-form-col" data-aos="fade-left">
                     <h2>Send us a message</h2>
                     <form action="contact.php" method="POST">
                         <div class="form-grid">
@@ -677,6 +503,16 @@
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+          duration: 800, 
+          once: true,
+          offset: 100
+        });
+      });
+    </script>
 </body>
 
 </html>

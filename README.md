@@ -6,19 +6,23 @@ A modern, responsive web-based information portal for Barangay Maruing built wit
 
 * **Structure**: Semantic HTML5
 * **Styling**: Pure Vanilla CSS3 (Custom responsive grid, flexbox & design system)
+* **Animations**: AOS (Animate on Scroll) Library
 * **Icons**: Bootstrap Icons
-* **Interactivity**: Vanilla JavaScript (`main.js`)
+* **Interactivity**: Vanilla JavaScript (`main.js`, `spotmap.js`)
 * **Fonts**: Google Fonts (Montserrat & Dancing Script)
 
 ## Features
 
 * **Home (`index.php`)**: Hero section, quick access cards, citizen portal overview, and recent announcements preview.
-* **About (`about.php`)**: Vision, mission, community statistics (population, puroks, households), history, and geographic profile.
-* **Officials (`officials.php`)**: Barangay Council directory featuring the Punong Barangay, Kagawads with committee assignments, SK Chairperson, and appointed administrative officers.
-* **Services (`services.php`)**: Catalog of citizen services (Barangay Clearance, Residency, Indigency, Business Clearance, First-Time Jobseeker, Lupon Mediation) with requirements, fees, processing times, category filters, and an interactive online request modal.
-* **Announcements (`announcements.php`)**: Filterable community advisories, public assembly notifications, clean-up drives, and health missions.
-* **Contact (`contact.php`)**: Barangay Hall address, office hours, contact numbers, 24/7 emergency hotlines, FAQ accordion, and an interactive inquiry form.
-* **Resident Portal (`login.php` & `register.php`)**: Account login and new resident registration interfaces with client-side validation and password toggle.
+* **About (`about.php`)**: Community statistics, history, and geographic profile.
+* **Vision & Mission (`vision.php`, `mission.php`)**: Core values and guiding principles.
+* **Officials (`officials.php`, `SKofficial.php`)**: Barangay Council and Sangguniang Kabataan directory.
+* **Spot Map (`spot-map.php`)**: Interactive map with Purok filtering, dynamic map image toggling, and animated entrance.
+* **Gallery (`gallery.php`)**: Beautiful grid showcasing community life and events.
+* **Services (`services.php`)**: Catalog of citizen services (Clearance, Indigency, etc.).
+* **Announcements (`announcements.php`)**: Community advisories and upcoming events.
+* **Contact (`contact.php`)**: Office hours, contact details, and an interactive inquiry form.
+* **Resident Portal (`login.php` & `register.php`)**: Account login and new resident registration interfaces.
 
 ## How to Run
 
@@ -38,16 +42,22 @@ http://localhost/Barangay%20Maruing%20Web-Based%20Information%20System/index.php
 Barangay Maruing Web-Based Information System/
 ├── index.php              # Homepage
 ├── about.php              # About Barangay Maruing
+├── vision.php             # Vision Statement
+├── mission.php            # Mission Statement
 ├── officials.php          # Barangay Officials Directory
-├── spot-map.php           # Barangay Spot Map
+├── SKofficial.php         # SK Officials Directory
+├── spot-map.php           # Interactive Barangay Map
+├── gallery.php            # Photo Gallery
+├── services.php           # Barangay Services
+├── announcements.php      # News and Announcements
 ├── contact.php            # Contact Details & Form
 ├── login.php              # Citizen Portal Login
 ├── register.php           # Resident Registration
 ├── README.md              # Documentation
 └── public/
     └── assets/
-        ├── css/
-        │   └── style.css   # Custom CSS styling
+        ├── css/           # Page-specific stylesheets and main style.css
         └── js/
-            └── main.js     # Client-side JavaScript logic
+            ├── main.js    # Global interactions
+            └── spotmap.js # Map switching and Purok filtering logic
 ```

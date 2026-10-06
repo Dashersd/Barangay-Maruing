@@ -20,6 +20,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
     <link rel="stylesheet" href="public/assets/css/services.css?v=1">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -77,10 +78,10 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="hero-script-lead">Our</span>
-                    <span class="hero-title-main">SERVICES</span>
+                    <span class="hero-script-lead" data-aos="fade-down">Our</span>
+                    <span class="hero-title-main" data-aos="zoom-in" data-aos-delay="100">SERVICES</span>
                 </h1>
-                <p class="hero-lead">Access essential barangay services, permits, and clearances conveniently online.</p>
+                <p class="hero-lead" data-aos="fade-up" data-aos-delay="200">Access essential barangay services, permits, and clearances conveniently online.</p>
             </div>
         </div>
     </section>
@@ -92,7 +93,7 @@
             <div class="services-grid">
                 
                 <!-- Service 1 -->
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="0">
                     <div class="service-icon">
                         <i class="bi bi-file-earmark-text"></i>
                     </div>
@@ -102,7 +103,7 @@
                 </div>
 
                 <!-- Service 2 -->
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-icon">
                         <i class="bi bi-house-heart"></i>
                     </div>
@@ -112,7 +113,7 @@
                 </div>
 
                 <!-- Service 3 -->
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-icon">
                         <i class="bi bi-briefcase"></i>
                     </div>
@@ -122,7 +123,7 @@
                 </div>
 
                 <!-- Service 4 -->
-                <div class="service-card">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="service-icon">
                         <i class="bi bi-person-badge"></i>
                     </div>
@@ -180,5 +181,15 @@
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+          duration: 800, 
+          once: true,
+          offset: 100
+        });
+      });
+    </script>
 </body>
 </html>

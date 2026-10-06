@@ -20,6 +20,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
     <link rel="stylesheet" href="public/assets/css/officials.css?v=2">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -77,10 +78,10 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="hero-script-lead">Barangay</span>
-                    <span class="hero-title-main">OFFICIALS</span>
+                    <span class="hero-script-lead" data-aos="fade-down">Barangay</span>
+                    <span class="hero-title-main" data-aos="zoom-in" data-aos-delay="100">OFFICIALS</span>
                 </h1>
-                <p class="hero-lead">Meet the dedicated leaders and council members of Barangay Maruing, committed to honest governance and servant leadership.</p>
+                <p class="hero-lead" data-aos="fade-up" data-aos-delay="200">Meet the dedicated leaders and council members of Barangay Maruing, committed to honest governance and servant leadership.</p>
             </div>
         </div>
     </section>
@@ -91,14 +92,14 @@
             
             <!-- 1. Executive Leadership: Punong Barangay -->
             <section class="captain-section">
-                <div class="category-header">
+                <div class="category-header" data-aos="fade-down">
                     <h2 class="category-title">Executive Leadership</h2>
                     <p class="category-subtitle">Head of the Barangay Government</p>
                     <div class="category-accent-bar"></div>
                 </div>
 
                 <div class="captain-wrapper">
-                    <div class="captain-card">
+                    <div class="captain-card" data-aos="zoom-in">
                         <div class="captain-avatar-col">
                             <div class="captain-avatar">
                                 <i class="bi bi-person-fill"></i>
@@ -115,7 +116,7 @@
 
             <!-- 2. Sangguniang Barangay (Councilors) -->
             <section class="councilors-section">
-                <div class="category-header">
+                <div class="category-header" data-aos="fade-down">
                     <h2 class="category-title">Sangguniang Barangay Members</h2>
                     <p class="category-subtitle">Barangay Kagawads & Committee Chairpersons</p>
                     <div class="category-accent-bar"></div>
@@ -123,7 +124,7 @@
 
                 <div class="officials-pyramid">
                     <!-- Row 1: Secretary, Treasurer -->
-                    <div class="pyramid-row">
+                    <div class="pyramid-row" data-aos="fade-up">
                         <!-- Barangay Secretary -->
                         <div class="official-card">
                             <div class="official-avatar">
@@ -146,7 +147,7 @@
                     </div>
 
                     <!-- Row 2: Kagawads 1, 2, 3 -->
-                    <div class="pyramid-row">
+                    <div class="pyramid-row" data-aos="fade-up">
                         <!-- Kagawad 1 -->
                         <div class="official-card">
                             <div class="official-avatar">
@@ -179,7 +180,7 @@
                     </div>
 
                     <!-- Row 3: Kagawads 4, 5, 6, 7 -->
-                    <div class="pyramid-row">
+                    <div class="pyramid-row" data-aos="fade-up">
                         <!-- Kagawad 4 -->
                         <div class="official-card">
                             <div class="official-avatar">
@@ -272,6 +273,16 @@
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+          duration: 800, 
+          once: true,
+          offset: 100
+        });
+      });
+    </script>
 </body>
 </html>
 

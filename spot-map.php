@@ -19,6 +19,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=9">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -77,7 +78,7 @@
             <div class="spot-map-content" style="display: flex; flex-direction: column; gap: 2rem; padding: 0; position: sticky; top: 110px;">
                 
                 <!-- Container 1: Map Legend -->
-                <div class="spot-map-card" style="background: #ffffff; padding: 2.5rem 2rem; border-radius: 20px; border: none; box-shadow: 0 4px 25px rgba(0,0,0,0.04);">
+                <div class="spot-map-card" data-aos="fade-right" style="background: #ffffff; padding: 2.5rem 2rem; border-radius: 20px; border: none; box-shadow: 0 4px 25px rgba(0,0,0,0.04);">
                     <h3 style="font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: 1.5rem; color: #093d25; display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;">
                         <i class="bi bi-map" style="color: #ffc107; font-size: 1.6rem;"></i> Map Legend
                     </h3>
@@ -106,7 +107,7 @@
                 </div>
 
                 <!-- Container 2: 9 Puroks of Maruing -->
-                <div class="spot-map-card" style="background: #ffffff; padding: 2.5rem 2rem; border-radius: 20px; border: none; box-shadow: 0 4px 25px rgba(0,0,0,0.04);">
+                <div class="spot-map-card" data-aos="fade-right" data-aos-delay="150" style="background: #ffffff; padding: 2.5rem 2rem; border-radius: 20px; border: none; box-shadow: 0 4px 25px rgba(0,0,0,0.04);">
                     <h3 style="font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: 1.45rem; color: #093d25; display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;">
                         <i class="bi bi-geo-alt-fill" style="color: #f59e0b; font-size: 1.6rem;"></i> 9 Puroks of Maruing
                     </h3>
@@ -140,7 +141,7 @@
                 </div>
             </div>
             
-            <div class="spot-map-visual-wrapper" style="display: flex; flex-direction: column; width: 100%; margin-top: 3.5rem;">
+            <div class="spot-map-visual-wrapper" data-aos="fade-left" style="display: flex; flex-direction: column; width: 100%; margin-top: 3.5rem;">
                 <!-- Back to Overview Button (Positioned at the Top) -->
                 <div id="back-overview-wrapper" style="display: none; justify-content: flex-start; margin-bottom: 14px;">
                     <button type="button" id="btn-back-overview" class="btn-back-overview" title="Back to Regional Overview Map">
@@ -158,7 +159,7 @@
                         <div class="pin-tooltip">Click to View Maruing</div>
                     </div>
 
-                    <img id="spot-map-img" src="public/image/Maruing Map/Philippines.jpg" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 100%; min-height: 750px; max-height: 85vh; object-fit: cover; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); cursor: pointer;">
+                    <img id="spot-map-img" src="public/image/Maruing Map/Philippines.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: auto; max-height: 85vh; object-fit: contain; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); cursor: pointer;">
                 </div>
             </div>
         </div>
@@ -210,117 +211,16 @@
     <script src="public/assets/js/main.js"></script>
 
     <!-- Spot Map Interactive Pin & Image Switcher -->
+    <script src="public/assets/js/spotmap.js?v=1"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const spotMapImg = document.getElementById('spot-map-img');
-        const maruingPin = document.getElementById('maruing-pin-btn');
-        const btnBackOverview = document.getElementById('btn-back-overview');
-        const backOverviewWrapper = document.getElementById('back-overview-wrapper');
-        const btnViewFullImage = document.getElementById('btn-view-full-image');
-        
-        const overviewImgSrc = 'public/image/Maruing Map/download.png';
-        const detailedImgSrc = 'public/image/Maruing Map/map2.png';
-
-        const purokButtons = document.querySelectorAll('.purok-chip-btn.has-image');
-
-        function clearActivePurok() {
-            document.querySelectorAll('.purok-chip-btn').forEach(function(btn) {
-                btn.classList.remove('active');
-            });
-        }
-
-        function showDetailedMap() {
-            if (!spotMapImg) return;
-            spotMapImg.style.opacity = '0.2';
-            setTimeout(function() {
-                spotMapImg.src = detailedImgSrc;
-                spotMapImg.alt = 'Detailed Street Map of Barangay Maruing';
-                spotMapImg.style.opacity = '1';
-                if (maruingPin) maruingPin.style.display = 'none';
-                if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
-                if (btnViewFullImage) btnViewFullImage.href = detailedImgSrc;
-                clearActivePurok();
-            }, 180);
-        }
-
-        function showOverviewMap() {
-            if (!spotMapImg) return;
-            spotMapImg.style.opacity = '0.2';
-            setTimeout(function() {
-                spotMapImg.src = overviewImgSrc;
-                spotMapImg.alt = 'Spot Map of Barangay Maruing';
-                spotMapImg.style.opacity = '1';
-                if (maruingPin) maruingPin.style.display = 'flex';
-                if (backOverviewWrapper) backOverviewWrapper.style.display = 'none';
-                if (btnViewFullImage) btnViewFullImage.href = overviewImgSrc;
-                clearActivePurok();
-            }, 180);
-        }
-
-        function showPurokMap(imgSrc, purokNum, btnElement) {
-            if (!spotMapImg || !imgSrc) return;
-            spotMapImg.style.opacity = '0.2';
-            setTimeout(function() {
-                spotMapImg.src = imgSrc;
-                spotMapImg.alt = 'Map of Purok ' + purokNum + ', Barangay Maruing';
-                spotMapImg.style.opacity = '1';
-                if (maruingPin) maruingPin.style.display = 'none';
-                if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
-                if (btnViewFullImage) btnViewFullImage.href = imgSrc;
-                clearActivePurok();
-                if (btnElement) btnElement.classList.add('active');
-            }, 180);
-        }
-
-        purokButtons.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                const imgSrc = this.getAttribute('data-img');
-                const purokNum = this.getAttribute('data-purok');
-                if (imgSrc) {
-                    showPurokMap(imgSrc, purokNum, this);
-                }
-            });
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+          duration: 800, 
+          once: true,
+          offset: 100
         });
-
-        const mapSequence = [
-            'public/image/Maruing Map/Philippines.jpg',
-            'public/image/Maruing Map/Zamboanga del sur.jpg',
-            'public/image/Maruing Map/Lapuyan.gif',
-            'public/image/Maruing Map/download.png'
-        ];
-        let currentSequenceIndex = 0;
-
-        if (spotMapImg) {
-            spotMapImg.addEventListener('click', function() {
-                if (currentSequenceIndex < mapSequence.length - 1) {
-                    currentSequenceIndex++;
-                    spotMapImg.style.opacity = '0.2';
-                    setTimeout(function() {
-                        spotMapImg.src = mapSequence[currentSequenceIndex];
-                        spotMapImg.style.opacity = '1';
-                        
-                        if (currentSequenceIndex === mapSequence.length - 1) {
-                            if (maruingPin) maruingPin.style.display = 'flex';
-                            spotMapImg.style.cursor = 'default';
-                        }
-                    }, 180);
-                }
-            });
-        }
-        if (maruingPin) {
-            maruingPin.addEventListener('click', showDetailedMap);
-            maruingPin.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    showDetailedMap();
-                }
-            });
-        }
-
-        if (btnBackOverview) {
-            btnBackOverview.addEventListener('click', showOverviewMap);
-        }
-    });
+      });
     </script>
 </body>
 </html>

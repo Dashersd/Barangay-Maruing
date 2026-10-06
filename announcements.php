@@ -20,6 +20,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
     <link rel="stylesheet" href="public/assets/css/announcements.css?v=1">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -77,10 +78,10 @@
         <div class="container hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    <span class="hero-script-lead">Our</span>
-                    <span class="hero-title-main">ANNOUNCEMENTS</span>
+                    <span class="hero-script-lead" data-aos="fade-down">Our</span>
+                    <span class="hero-title-main" data-aos="zoom-in" data-aos-delay="100">ANNOUNCEMENTS</span>
                 </h1>
-                <p class="hero-lead">Stay informed with the latest news, events, and important updates in Barangay Maruing.</p>
+                <p class="hero-lead" data-aos="fade-up" data-aos-delay="200">Stay informed with the latest news, events, and important updates in Barangay Maruing.</p>
             </div>
         </div>
     </section>
@@ -91,7 +92,7 @@
             
             <div class="announcements-grid">
                 <!-- Announcement 1 -->
-                <div class="announcement-card-v2">
+                <div class="announcement-card-v2" data-aos="fade-up" data-aos-delay="0">
                     <div class="announcement-date-badge">OCT 15</div>
                     <h3 class="announcement-card-title">General Assembly Meeting</h3>
                     
@@ -110,7 +111,7 @@
                 </div>
 
                 <!-- Announcement 2 -->
-                <div class="announcement-card-v2">
+                <div class="announcement-card-v2" data-aos="fade-up" data-aos-delay="100">
                     <div class="announcement-date-badge">OCT 22</div>
                     <h3 class="announcement-card-title">Free Medical & Dental Mission</h3>
                     
@@ -129,7 +130,7 @@
                 </div>
 
                 <!-- Announcement 3 -->
-                <div class="announcement-card-v2">
+                <div class="announcement-card-v2" data-aos="fade-up" data-aos-delay="200">
                     <div class="announcement-date-badge">NOV 01</div>
                     <h3 class="announcement-card-title">Undas 2025 Traffic Advisory</h3>
                     
@@ -196,5 +197,15 @@
 
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+          duration: 800, 
+          once: true,
+          offset: 100
+        });
+      });
+    </script>
 </body>
 </html>
