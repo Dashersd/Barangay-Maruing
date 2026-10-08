@@ -160,9 +160,47 @@
                     </div>
 
                     <img id="spot-map-img" src="public/image/Maruing Map/Philippines.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 850px !important; max-height: none !important; object-fit: fill !important; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); cursor: pointer;">
+                    
+                    <!-- Dynamic Markers Container -->
+                    <div id="map-markers-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 500;"></div>
                 </div>
             </div>
         </div>
+        
+        <!-- Household Details Modal -->
+        <div id="household-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+            <div style="background: white; border-radius: 16px; padding: 30px; width: 90%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); position: relative; animation: slideInUp 0.3s ease-out;">
+                <button type="button" id="close-modal-btn" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 1.5rem; color: #64748b; cursor: pointer;">&times;</button>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="color: #093d25; font-weight: 700; margin-bottom: 5px;">Household Details</h3>
+                    <p style="color: #64748b; font-size: 0.9rem; margin: 0;">Barangay Maruing</p>
+                </div>
+                <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                    <img id="modal-house-img" src="" alt="House Image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #f1f5f9; display: none;">
+                    <div id="modal-no-img" style="width: 120px; height: 120px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 2rem;"><i class="bi bi-house-door-fill"></i></div>
+                </div>
+                <div style="background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #64748b; font-size: 0.9rem;">House Number</span>
+                        <strong id="modal-house-no" style="color: #334155;">-</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #64748b; font-size: 0.9rem;">Husband/Head</span>
+                        <strong id="modal-husband" style="color: #334155;">-</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: #64748b; font-size: 0.9rem;">Spouse Name</span>
+                        <strong id="modal-spouse" style="color: #334155;">-</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            @keyframes slideInUp {
+                from { transform: translateY(30px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+        </style>
     </main>
 
         <!-- Footer -->
