@@ -249,7 +249,7 @@
     <script src="public/assets/js/main.js"></script>
 
     <!-- Spot Map Interactive Pin & Image Switcher -->
-    <script src="public/assets/js/spotmap.js?v=1"></script>
+    <script src="public/assets/js/spotmap.js?v=2"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
