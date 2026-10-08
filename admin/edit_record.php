@@ -1,5 +1,7 @@
 <?php
 // edit_record.php
+include 'db_connect.php';
+
 $target_file = $_GET['target_file'] ?? ($_POST['target_file'] ?? '');
 $id = $_GET['id'] ?? ($_POST['id'] ?? '');
 
@@ -9,32 +11,35 @@ if (!in_array($target_file, $allowed_targets) || empty($id)) {
     die("Invalid request.");
 }
 
-$json_file = 'data/' . $target_file . '.json';
-$record = null;
-$record_index = null;
+if ($target_file === 'legend') {
+    $table_name = "sm_legend_spots";
+} else {
+    $purok_num = str_replace('purok', '', $target_file);
+    $table_name = "sm_purok_" . $purok_num . "_spots";
+}
 
-if (file_exists($json_file)) {
-    $data = json_decode(file_get_contents($json_file), true);
-    if (is_array($data)) {
-        foreach ($data as $k => $v) {
-            if (isset($v['id']) && $v['id'] === $id) {
-                $record = $v;
-                $record_index = $k;
-                break;
-            }
-        }
+$record = null;
+$stmt = $conn->prepare("SELECT * FROM $table_name WHERE id = ?");
+if ($stmt) {
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $record = $row;
     }
+    $stmt->close();
 }
 
 if (!$record) {
-    die("Record not found.");
+    die("Record not found in the database. (If you recently updated from JSON, this record might not exist in the new database).");
 }
 
 // Handle POST to update
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $data[$record_index]['house_number'] = $_POST['house_number'] ?? '';
-    $data[$record_index]['husband_name'] = $_POST['husband_name'] ?? '';
-    $data[$record_index]['spouse_name'] = $_POST['spouse_name'] ?? '';
+    $house_number = $_POST['house_number'] ?? '';
+    $husband_name = $_POST['husband_name'] ?? '';
+    $spouse_name = $_POST['spouse_name'] ?? '';
+    $house_image_path = $record['house_image'];
     
     // Handle House Image Update
     if (isset($_FILES['house_image']) && $_FILES['house_image']['error'] == UPLOAD_ERR_OK) {
@@ -44,14 +49,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if (move_uploaded_file($_FILES["house_image"]["tmp_name"], $target_file_path)) {
             // Delete old image if exists
-            if (!empty($data[$record_index]['house_image']) && file_exists($data[$record_index]['house_image'])) {
-                @unlink($data[$record_index]['house_image']);
+            if (!empty($house_image_path) && file_exists($house_image_path)) {
+                @unlink($house_image_path);
             }
-            $data[$record_index]['house_image'] = $target_file_path;
+            $house_image_path = $target_file_path;
         }
     }
     
-    file_put_contents($json_file, json_encode($data, JSON_PRETTY_PRINT));
+    $stmt = $conn->prepare("UPDATE $table_name SET house_number = ?, husband_name = ?, spouse_name = ?, house_image = ? WHERE id = ?");
+    if ($stmt) {
+        $stmt->bind_param("ssssi", $house_number, $husband_name, $spouse_name, $house_image_path, $id);
+        $stmt->execute();
+        $stmt->close();
+    }
     
     $redirect = '';
     if ($target_file === 'legend') {
@@ -101,28 +111,30 @@ if ($target_file === 'legend') {
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($id); ?>">
             
             <div class="form-group">
-                <label>House Number</label>
+                <label>House Number (Optional)</label>
                 <input type="text" name="house_number" value="<?php echo htmlspecialchars($record['house_number'] ?? ''); ?>">
             </div>
             
             <div class="form-group">
-                <label>Husband Name</label>
-                <input type="text" name="husband_name" value="<?php echo htmlspecialchars($record['husband_name'] ?? ''); ?>">
+                <label>Husband Name / Household Head</label>
+                <input type="text" name="husband_name" value="<?php echo htmlspecialchars($record['husband_name'] ?? ''); ?>" required>
             </div>
             
             <div class="form-group">
                 <label>Spouse Name</label>
-                <input type="text" name="spouse_name" value="<?php echo htmlspecialchars($record['spouse_name'] ?? ''); ?>">
+                <input type="text" name="spouse_name" value="<?php echo htmlspecialchars($record['spouse_name'] ?? ''); ?>" required>
             </div>
             
             <div class="form-group">
-                <label>Update House Image (Optional)</label>
-                <?php if(!empty($record['house_image'])): ?>
+                <label>Household Image (Optional)</label>
+                <?php if (!empty($record['house_image'])): ?>
                     <div class="current-image">
                         <img src="<?php echo htmlspecialchars($record['house_image']); ?>" alt="Current House Image">
+                        <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px;">Current image</div>
                     </div>
                 <?php endif; ?>
                 <input type="file" name="house_image" accept="image/*">
+                <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px;">Leave empty to keep the current image</div>
             </div>
             
             <button type="submit" class="btn btn-save">Save Changes</button>
