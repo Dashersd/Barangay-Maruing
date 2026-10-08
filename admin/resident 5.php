@@ -140,13 +140,15 @@
                         </thead>
                         <tbody id="records-tbody">
                             <?php
-                            $json_file = 'data/purok5.json';
+                            include 'db_connect.php';
+                            
                             $records = [];
-                            if (file_exists($json_file)) {
-                                $json_data = file_get_contents($json_file);
-                                $decoded = json_decode($json_data, true);
-                                if (is_array($decoded)) {
-                                    $records = $decoded;
+                            $sql = "SELECT * FROM sm_purok_5_spots ORDER BY created_at DESC";
+                            $result = $conn->query($sql);
+                            if ($result && $result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    $row['date_added'] = $row['created_at'];
+                                    $records[] = $row;
                                 }
                             }
                             

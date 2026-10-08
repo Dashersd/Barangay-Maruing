@@ -123,20 +123,21 @@
             <div class="purok-map-container" style="position: relative;">
                 <img src="../public/image/Purok/Purok 1.jpg" alt="Spot Map" class="spot-map-img" style="width: 100%; display: block;">
                 <?php
-                $json_file = 'data/purok1.json';
-                if (file_exists($json_file)) {
-                    $json_data = file_get_contents($json_file);
-                    $markers = json_decode($json_data, true);
-                    if (is_array($markers)) {
-                        foreach ($markers as $marker) {
-                            $imgSrc = !empty($marker['marker_image']) ? $marker['marker_image'] : '';
-                            if ($imgSrc) {
-                                echo '<img src="' . htmlspecialchars($imgSrc) . '" style="position: absolute; top: ' . $marker['top_position'] . '%; left: ' . $marker['left_position'] . '%; width: ' . $marker['marker_width'] . 'px; height: ' . $marker['marker_height'] . 'px; transform: translate(-50%, -100%); z-index: 500;" title="' . htmlspecialchars($marker['husband_name']) . '">';
-                            }
+                include 'db_connect.php';
+                
+                $sql = "SELECT * FROM sm_purok_1_spots";
+                $result = $conn->query($sql);
+
+                if ($result && $result->num_rows > 0) {
+                    while ($marker = $result->fetch_assoc()) {
+                        $imgSrc = !empty($marker['marker_image']) ? $marker['marker_image'] : '';
+                        if ($imgSrc) {
+                            echo '<img src="' . htmlspecialchars($imgSrc) . '" style="position: absolute; top: ' . $marker['top_position'] . '%; left: ' . $marker['left_position'] . '%; width: ' . $marker['marker_width'] . 'px; height: ' . $marker['marker_height'] . 'px; transform: translate(-50%, -100%); z-index: 500;" title="' . htmlspecialchars($marker['husband_name']) . '">';
                         }
                     }
                 }
                 ?>
+
             </div>
 
             <div class="purok-form-container">
