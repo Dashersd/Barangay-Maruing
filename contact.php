@@ -381,8 +381,6 @@ if (!isset($_SESSION['chat_user_name'])) {
                         bindChatEvents(currentUserName);
                     }
                 });
-                    }
-                });
 
                 function sendChatMessage(senderName, message, callback) {
                     const formData = new URLSearchParams();

@@ -308,6 +308,13 @@
                         });
                     }
                 });
+                
+                document.getElementById('admin-chat-input').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        document.getElementById('admin-chat-send-btn').click();
+                    }
+                });
             });
 
             function fetchThreads() {
