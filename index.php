@@ -416,63 +416,77 @@ if (!isset($_SESSION['chat_user_name'])) {
                         </div>
                     </div>
     
-                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 1.5rem;">
-                    
-                    <h4 style="font-weight: 700; color: #1e293b; margin-bottom: 1rem; font-size: 1rem;">Follow our social media</h4>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
-                    </div>
                 </div>
     
                 <!-- Right Column: Chat Interface -->
                 <div class="contact-form-col" data-aos="fade-left" id="chat-widget-container">
-                    <?php if (empty($_SESSION['chat_user_name'])): ?>
-                    <h2>Start a Live Chat</h2>
-                    <form id="start-chat-form">
-                        <div class="form-group">
-                            <label>Your Name</label>
-                            <input type="text" id="chat-name" class="form-control" placeholder="Enter your name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Service Type</label>
-                            <select id="chat-service-type" class="form-control" required>
-                                <option value="" disabled selected>Select service</option>
-                                <option value="Barangay Clearance">Barangay Clearance</option>
-                                <option value="Certificate of Indigency">Certificate of Indigency</option>
-                                <option value="Business Clearance">Business Clearance</option>
-                                <option value="Certificate of Residency">Certificate of Residency</option>
-                                <option value="Other Inquiry">Other Inquiry</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Initial Message</label>
-                            <textarea id="chat-initial-message" class="form-control" placeholder="How can we help you?" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn-submit">Start Chat</button>
-                    </form>
-                    <?php else: ?>
-                    <h2>Live Chat Support</h2>
-                    <div id="live-chat-box" style="border: 1px solid #e2e8f0; border-radius: 10px; height: 400px; display: flex; flex-direction: column; background: #fff;">
-                        <div id="chat-messages" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f8faf9;">
-                            <!-- Messages will be loaded here via AJAX -->
-                        </div>
-                        <div style="padding: 15px; border-top: 1px solid #e2e8f0; display: flex; gap: 10px;">
-                            <input type="text" id="chat-reply-input" class="form-control" placeholder="Type a message..." style="margin-bottom:0;">
-                            <button id="chat-reply-btn" class="btn-submit" style="width: auto; padding: 0.8rem 1.5rem; margin-top:0;">Send</button>
+                    <?php $has_chat = !empty($_SESSION['chat_user_name']); ?>
+                    <div id="start-chat-container" style="<?php echo $has_chat ? 'display:none;' : ''; ?>">
+                        <h2>Start a Live Chat</h2>
+                        <form id="start-chat-form">
+                            <div class="form-group">
+                                <label>Your Name</label>
+                                <input type="text" id="chat-name" class="form-control" placeholder="Enter your name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Service Type</label>
+                                <select id="chat-service-type" class="form-control" required>
+                                    <option value="" disabled selected>Select service</option>
+                                    <option value="Barangay Clearance">Barangay Clearance</option>
+                                    <option value="Certificate of Indigency">Certificate of Indigency</option>
+                                    <option value="Business Clearance">Business Clearance</option>
+                                    <option value="Certificate of Residency">Certificate of Residency</option>
+                                    <option value="Other Inquiry">Other Inquiry</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Initial Message</label>
+                                <textarea id="chat-initial-message" class="form-control" placeholder="How can we help you?" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-submit">Start Chat</button>
+                        </form>
+                    </div>
+
+                    <div id="live-chat-container" style="<?php echo $has_chat ? '' : 'display:none;'; ?>">
+                        <h2>Live Chat Support</h2>
+                        <div id="live-chat-box" style="border: 1px solid #e2e8f0; border-radius: 10px; height: 400px; display: flex; flex-direction: column; background: #fff;">
+                            <div id="chat-messages" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f8faf9;">
+                                <!-- Messages will be loaded here via AJAX -->
+                            </div>
+                            <div style="padding: 15px; border-top: 1px solid #e2e8f0; display: flex; gap: 10px;">
+                                <input type="text" id="chat-reply-input" class="form-control" placeholder="Type a message..." style="margin-bottom:0;">
+                                <button id="chat-reply-btn" class="btn-submit" style="width: auto; padding: 0.8rem 1.5rem; margin-top:0;">Send</button>
+                            </div>
                         </div>
                     </div>
-                    <?php endif; ?>
                 </div>
 
                 <script>
                 const threadId = "<?php echo $_SESSION['chat_thread_id']; ?>";
-                const currentUserName = "<?php echo $_SESSION['chat_user_name']; ?>";
+                let currentUserName = "<?php echo $_SESSION['chat_user_name'] ?? ''; ?>";
 
                 document.addEventListener('DOMContentLoaded', () => {
                     const startForm = document.getElementById('start-chat-form');
+                    
+                    function bindChatEvents(name) {
+                        currentUserName = name;
+                        fetchMessages();
+                        setInterval(fetchMessages, 3000);
+
+                        const replyBtn = document.getElementById('chat-reply-btn');
+                        if (replyBtn) {
+                            replyBtn.addEventListener('click', () => {
+                                const input = document.getElementById('chat-reply-input');
+                                if (input.value.trim() !== '') {
+                                    sendChatMessage(currentUserName, input.value.trim(), () => {
+                                        input.value = '';
+                                        fetchMessages();
+                                    });
+                                }
+                            });
+                        }
+                    }
+
                     if (startForm) {
                         startForm.addEventListener('submit', function(e) {
                             e.preventDefault();
@@ -488,25 +502,18 @@ if (!isset($_SESSION['chat_user_name'])) {
                                 body: 'name=' + encodeURIComponent(name)
                             }).then(() => {
                                 sendChatMessage(name, message, () => {
-                                    window.location.reload();
+                                    document.getElementById('start-chat-container').style.display = 'none';
+                                    document.getElementById('live-chat-container').style.display = 'block';
+                                    bindChatEvents(name);
                                 });
                             });
                         });
                     }
 
-                    if (currentUserName) {
-                        fetchMessages();
-                        setInterval(fetchMessages, 3000);
-
-                        document.getElementById('chat-reply-btn').addEventListener('click', () => {
-                            const input = document.getElementById('chat-reply-input');
-                            if (input.value.trim() !== '') {
-                                sendChatMessage(currentUserName, input.value.trim(), () => {
-                                    input.value = '';
-                                    fetchMessages();
-                                });
-                            }
-                        });
+                    if (currentUserName && document.getElementById('live-chat-container').style.display !== 'none') {
+                        bindChatEvents(currentUserName);
+                    }
+                });
                     }
                 });
 
