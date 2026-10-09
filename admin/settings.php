@@ -82,6 +82,7 @@
             <li><a href="services.php"><i class="bi bi-card-list"></i> Services</a></li>
             <li><a href="announcements.php"><i class="bi bi-megaphone-fill"></i> Announcements</a></li>
             <li><a href="#"><i class="bi bi-telephone-fill"></i> Contact</a></li>
+            <li><a href="feedback_chat.php"><i class="bi bi-chat-dots-fill"></i> Feedback chat</a></li>
             <li><a href="settings.php" class="active"><i class="bi bi-gear-fill"></i> Settings</a></li>
         </ul>
         <div class="sidebar-footer">

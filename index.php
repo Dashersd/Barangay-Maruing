@@ -1,3 +1,20 @@
+<?php
+session_start();
+// Reset chat after 1 day (86400 seconds)
+if (isset($_SESSION['chat_start_time']) && (time() - $_SESSION['chat_start_time'] > 86400)) {
+    unset($_SESSION['chat_thread_id']);
+    unset($_SESSION['chat_user_name']);
+    unset($_SESSION['chat_start_time']);
+}
+
+if (!isset($_SESSION['chat_thread_id'])) {
+    $_SESSION['chat_thread_id'] = uniqid('thread_');
+    $_SESSION['chat_start_time'] = time();
+}
+if (!isset($_SESSION['chat_user_name'])) {
+    $_SESSION['chat_user_name'] = '';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -410,50 +427,139 @@
                     </div>
                 </div>
     
-                <!-- Right Column: Form -->
-                <div class="contact-form-col" data-aos="fade-left">
-                    <h2>Send us a message</h2>
-                    <form action="contact.php" method="POST">
-                        <div class="form-grid">
-                            <div>
-                                <label>Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Name" required>
-                            </div>
-                            <div>
-                                <label>Service Type</label>
-                                <select name="service_type" class="form-control" required>
-                                    <option value="" disabled selected>Select service</option>
-                                    <option value="clearance">Barangay Clearance</option>
-                                    <option value="indigency">Certificate of Indigency</option>
-                                    <option value="business">Business Clearance</option>
-                                    <option value="residency">Certificate of Residency</option>
-                                    <option value="blotter">File a Blotter</option>
-                                    <option value="other">General Inquiry</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label>Phone</label>
-                                <input type="text" name="phone" class="form-control" placeholder="Phone" required>
-                            </div>
-                            <div>
-                                <label>Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="Email" required>
-                            </div>
-                        </div>
-                        
+                <!-- Right Column: Chat Interface -->
+                <div class="contact-form-col" data-aos="fade-left" id="chat-widget-container">
+                    <?php if (empty($_SESSION['chat_user_name'])): ?>
+                    <h2>Start a Live Chat</h2>
+                    <form id="start-chat-form">
                         <div class="form-group">
-                            <label>Subject</label>
-                            <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+                            <label>Your Name</label>
+                            <input type="text" id="chat-name" class="form-control" placeholder="Enter your name" required>
                         </div>
-                        
                         <div class="form-group">
-                            <label>Message</label>
-                            <textarea name="message" class="form-control" placeholder="Message" rows="4" style="resize: vertical;" required></textarea>
+                            <label>Service Type</label>
+                            <select id="chat-service-type" class="form-control" required>
+                                <option value="" disabled selected>Select service</option>
+                                <option value="Barangay Clearance">Barangay Clearance</option>
+                                <option value="Certificate of Indigency">Certificate of Indigency</option>
+                                <option value="Business Clearance">Business Clearance</option>
+                                <option value="Certificate of Residency">Certificate of Residency</option>
+                                <option value="Other Inquiry">Other Inquiry</option>
+                            </select>
                         </div>
-                        
-                        <button type="submit" class="btn-submit">Send</button>
+                        <div class="form-group">
+                            <label>Initial Message</label>
+                            <textarea id="chat-initial-message" class="form-control" placeholder="How can we help you?" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">Start Chat</button>
                     </form>
+                    <?php else: ?>
+                    <h2>Live Chat Support</h2>
+                    <div id="live-chat-box" style="border: 1px solid #e2e8f0; border-radius: 10px; height: 400px; display: flex; flex-direction: column; background: #fff;">
+                        <div id="chat-messages" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f8faf9;">
+                            <!-- Messages will be loaded here via AJAX -->
+                        </div>
+                        <div style="padding: 15px; border-top: 1px solid #e2e8f0; display: flex; gap: 10px;">
+                            <input type="text" id="chat-reply-input" class="form-control" placeholder="Type a message..." style="margin-bottom:0;">
+                            <button id="chat-reply-btn" class="btn-submit" style="width: auto; padding: 0.8rem 1.5rem; margin-top:0;">Send</button>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                 </div>
+
+                <script>
+                const threadId = "<?php echo $_SESSION['chat_thread_id']; ?>";
+                const currentUserName = "<?php echo $_SESSION['chat_user_name']; ?>";
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    const startForm = document.getElementById('start-chat-form');
+                    if (startForm) {
+                        startForm.addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            const name = document.getElementById('chat-name').value;
+                            const serviceTypeSelect = document.getElementById('chat-service-type');
+                            const serviceType = serviceTypeSelect.options[serviceTypeSelect.selectedIndex].text;
+                            const rawMessage = document.getElementById('chat-initial-message').value;
+                            const message = `[Service: ${serviceType}]\n\n${rawMessage}`;
+
+                            fetch('set_chat_session.php', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                                body: 'name=' + encodeURIComponent(name)
+                            }).then(() => {
+                                sendChatMessage(name, message, () => {
+                                    window.location.reload();
+                                });
+                            });
+                        });
+                    }
+
+                    if (currentUserName) {
+                        fetchMessages();
+                        setInterval(fetchMessages, 3000);
+
+                        document.getElementById('chat-reply-btn').addEventListener('click', () => {
+                            const input = document.getElementById('chat-reply-input');
+                            if (input.value.trim() !== '') {
+                                sendChatMessage(currentUserName, input.value.trim(), () => {
+                                    input.value = '';
+                                    fetchMessages();
+                                });
+                            }
+                        });
+                    }
+                });
+
+                function sendChatMessage(senderName, message, callback) {
+                    const formData = new URLSearchParams();
+                    formData.append('thread_id', threadId);
+                    formData.append('sender_name', senderName);
+                    formData.append('sender_type', 'user');
+                    formData.append('message', message);
+
+                    fetch('api/chat_send.php', {
+                        method: 'POST',
+                        body: formData
+                    }).then(r => r.json()).then(res => {
+                        if (res.status === 'success' && callback) callback();
+                    });
+                }
+
+                function fetchMessages() {
+                    fetch(`api/chat_fetch.php?thread_id=${threadId}&reader_type=user`)
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                const container = document.getElementById('chat-messages');
+                                container.innerHTML = '';
+                                data.messages.forEach(msg => {
+                                    const isUser = msg.sender_type === 'user';
+                                    const msgDiv = document.createElement('div');
+                                    msgDiv.style.maxWidth = '75%';
+                                    msgDiv.style.padding = '10px 15px';
+                                    msgDiv.style.borderRadius = '10px';
+                                    msgDiv.style.fontSize = '0.9rem';
+                                    
+                                    if (isUser) {
+                                        msgDiv.style.alignSelf = 'flex-end';
+                                        msgDiv.style.backgroundColor = '#137547';
+                                        msgDiv.style.color = '#fff';
+                                        msgDiv.style.borderBottomRightRadius = '0';
+                                    } else {
+                                        msgDiv.style.alignSelf = 'flex-start';
+                                        msgDiv.style.backgroundColor = '#e2e8f0';
+                                        msgDiv.style.color = '#1e293b';
+                                        msgDiv.style.borderBottomLeftRadius = '0';
+                                    }
+                                    
+                                    msgDiv.innerHTML = `<strong>${msg.sender_name}</strong><br>${msg.message}<div style="font-size:0.7rem; margin-top:5px; opacity:0.8; text-align:right;">${msg.created_at}</div>`;
+                                    container.appendChild(msgDiv);
+                                });
+                                container.scrollTop = container.scrollHeight;
+                            }
+                        });
+                }
+                </script>
                 
             </div>
         </div>
