@@ -341,14 +341,21 @@ if (!isset($_SESSION['chat_user_name'])) {
                         setInterval(fetchMessages, 3000);
 
                         const replyBtn = document.getElementById('chat-reply-btn');
-                        if (replyBtn) {
+                        const replyInput = document.getElementById('chat-reply-input');
+                        if (replyBtn && replyInput) {
                             replyBtn.addEventListener('click', () => {
-                                const input = document.getElementById('chat-reply-input');
-                                if (input.value.trim() !== '') {
-                                    sendChatMessage(currentUserName, input.value.trim(), () => {
-                                        input.value = '';
+                                if (replyInput.value.trim() !== '') {
+                                    sendChatMessage(currentUserName, replyInput.value.trim(), () => {
+                                        replyInput.value = '';
                                         fetchMessages();
                                     });
+                                }
+                            });
+                            
+                            replyInput.addEventListener('keypress', function(e) {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    replyBtn.click();
                                 }
                             });
                         }
