@@ -14,6 +14,24 @@ if (!isset($_SESSION['chat_thread_id'])) {
 if (!isset($_SESSION['chat_user_name'])) {
     $_SESSION['chat_user_name'] = '';
 }
+
+require_once 'admin/db_connect.php';
+
+// Fetch latest gallery media items for the homepage showcase
+$home_gallery_items = [];
+$gallery_sql = "SELECT m.*, f.name as folder_name 
+                FROM gallery_media m 
+                JOIN gallery_folders f ON m.folder_id = f.id 
+                ORDER BY m.id DESC 
+                LIMIT 6";
+$gallery_res = $conn->query($gallery_sql);
+if ($gallery_res) {
+    while ($row = $gallery_res->fetch_assoc()) {
+        if (file_exists('admin/' . $row['file_path'])) {
+            $home_gallery_items[] = $row;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +57,8 @@ if (!isset($_SESSION['chat_user_name'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom CSS (Pure CSS Responsive) -->
-    <link rel="stylesheet" href="public/assets/css/style.css?v=7">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=6">
+    <link rel="stylesheet" href="public/assets/css/gallery.css?v=6">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
@@ -114,23 +133,6 @@ if (!isset($_SESSION['chat_user_name'])) {
             </div>
         </section>
 
-        <!-- About Section -->
-        <section class="about-landing-section">
-            <div class="container about-landing-container">
-                <div class="about-landing-image" data-aos="fade-right">
-                    <img src="public/image/Barangay Maruing Community Hall.png" alt="Barangay Maruing History">
-                </div>
-                <div class="about-landing-content" data-aos="fade-left">
-                    <h2 class="about-landing-title">About Barangay Maruing</h2>
-                    <p class="about-landing-desc">
-                        Discover the rich history and vibrant community of Barangay Maruing. Our barangay is dedicated to providing honest and dedicated service to all its residents, fostering growth, unity, and a better quality of life for everyone. 
-                    </p>
-                    <a href="about.php#about-us-section" class="btn-learn-more">
-                        Learn more <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
         <section class="landing-officials-section" id="officials-section" style="padding: 5rem 0; background-color: var(--background-color, #f8faf9);">
             <div class="container">
                 <div class="section-header" style="text-align: center; margin-bottom: 4rem;" data-aos="fade-up">
@@ -152,7 +154,7 @@ if (!isset($_SESSION['chat_user_name'])) {
                         </div>
                         <h4 style="color: var(--primary-dark, #093d25); margin-bottom: 0.5rem; font-weight: 800; font-size: 1.3rem;">Hon. Punong Barangay</h4>
                         <p style="color: var(--primary-color, #137547); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;">Barangay Captain</p>
-                        <p style="color: var(--muted-text-color, #6b7280); font-size: 0.95rem; font-style: italic; line-height: 1.6;">"Committed to providing transparent and dedicated public service for the betterment of every resident in Barangay Maruing."</p>
+                        <p style="color: var(--muted-text-color, #6b7280); font-size: 0.95rem; font-style: italic; line-height: 1.6;">"To our residents, partners, and every member of our community, thank you for your trust, cooperation, and unwavering support. At Barangay Maruing, we remain committed to delivering honest and transparent public service that promotes safety, unity, and progress for all. Together, let us continue building a barangay where every family feels heard, respected, and supported."</p>
                         <a href="officials.php" class="btn-officials-outline" style="display: inline-block; margin-top: 1.5rem; padding: 0.6rem 1.5rem; background-color: white; border: 2px solid var(--primary-color, #137547); color: var(--primary-color, #137547) !important; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;">
                             View Barangay Officials <i class="bi bi-arrow-right"></i>
                         </a>
@@ -179,6 +181,23 @@ if (!isset($_SESSION['chat_user_name'])) {
             </div>
         </section>
 
+        <!-- About Section -->
+        <section class="about-landing-section">
+            <div class="container about-landing-container">
+                <div class="about-landing-image" data-aos="fade-right">
+                    <img src="public/image/Barangay Maruing Community Hall.png" alt="Barangay Maruing History">
+                </div>
+                <div class="about-landing-content" data-aos="fade-left">
+                    <h2 class="about-landing-title">About Barangay Maruing</h2>
+                    <p class="about-landing-desc">
+                        Discover the rich history and vibrant community of Barangay Maruing. Our barangay is dedicated to providing honest and dedicated service to all its residents, fostering growth, unity, and a better quality of life for everyone. 
+                    </p>
+                    <a href="about.php#about-us-section" class="btn-learn-more">
+                        Learn more <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
         <!-- Services Section -->
         <section id="services-section" class="services-section" style="padding: 5rem 0;">
             <div class="container">
@@ -349,23 +368,70 @@ if (!isset($_SESSION['chat_user_name'])) {
                 </p>
             </div>
             
-            <div class="gallery-grid">
-                <!-- Image 1 -->
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://picsum.photos/seed/festival/800/600" alt="Festival">
-                </div>
-                <!-- Image 2 -->
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://picsum.photos/seed/cleanup/800/600" alt="Community Cleanup">
-                </div>
-                <!-- Image 3 -->
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://picsum.photos/seed/basketball/800/600" alt="Basketball Game">
-                </div>
-                <!-- Image 4 -->
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://picsum.photos/seed/hall/800/600" alt="Barangay Hall">
-                </div>
+            <div class="gallery-grid" id="homeGalleryGrid">
+                <?php if (!empty($home_gallery_items)): ?>
+                    <?php foreach ($home_gallery_items as $index => $item): 
+                        $formatted_date = date('M d, Y', strtotime($item['created_at']));
+                        $formatted_time = date('h:i A', strtotime($item['created_at']));
+                        $full_timestamp = $formatted_date . ' • ' . $formatted_time;
+                    ?>
+                        <div class="gallery-item" 
+                             data-aos="fade-up" 
+                             data-aos-delay="<?= ($index % 6) * 100 ?>" 
+                             data-src="admin/<?= htmlspecialchars($item['file_path']) ?>" 
+                             data-caption="<?= htmlspecialchars($item['caption'] ?? $item['folder_name']) ?>" 
+                             data-category="<?= htmlspecialchars($item['folder_name']) ?>"
+                             data-timestamp="<?= htmlspecialchars($full_timestamp) ?>"
+                             onclick="openHomeLightboxByIndex(<?= $index ?>)">
+                            <img src="admin/<?= htmlspecialchars($item['file_path']) ?>" alt="<?= htmlspecialchars($item['caption'] ?? 'Barangay Maruing Gallery') ?>" class="gallery-img" loading="lazy">
+                            <div class="gallery-overlay">
+                                <div class="gallery-overlay-content">
+                                    <span class="gallery-zoom-icon"><i class="bi bi-arrows-fullscreen"></i></span>
+                                    <span class="gallery-caption"><?= htmlspecialchars($item['caption'] ?? $item['folder_name']) ?></span>
+                                    <span class="gallery-folder-tag"><i class="bi bi-folder-fill"></i> <?= htmlspecialchars($item['folder_name']) ?></span>
+                                    <span class="gallery-timestamp"><i class="bi bi-clock-history"></i> <?= htmlspecialchars($full_timestamp) ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="gallery-item" 
+                         data-aos="fade-up" 
+                         data-aos-delay="0" 
+                         data-src="public/image/Maruing.png" 
+                         data-caption="Barangay Hall" 
+                         data-category="Barangay Center"
+                         data-timestamp="Oct 13, 2026 • 10:00 AM"
+                         onclick="openHomeLightbox('public/image/Maruing.png', 'Barangay Hall', 'Barangay Center', 'Oct 13, 2026 • 10:00 AM')">
+                        <img src="public/image/Maruing.png" alt="Barangay Hall" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <span class="gallery-zoom-icon"><i class="bi bi-arrows-fullscreen"></i></span>
+                                <span class="gallery-caption">Barangay Hall</span>
+                                <span class="gallery-folder-tag"><i class="bi bi-folder-fill"></i> Barangay Center</span>
+                                <span class="gallery-timestamp"><i class="bi bi-clock-history"></i> Oct 13, 2026 • 10:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery-item" 
+                         data-aos="fade-up" 
+                         data-aos-delay="100" 
+                         data-src="public/image/Maruing Logo 2.png" 
+                         data-caption="Official Logo" 
+                         data-category="Official"
+                         data-timestamp="Oct 13, 2026 • 10:00 AM"
+                         onclick="openHomeLightbox('public/image/Maruing Logo 2.png', 'Official Logo', 'Official', 'Oct 13, 2026 • 10:00 AM')">
+                        <img src="public/image/Maruing Logo 2.png" alt="Official Logo" class="gallery-img logo-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-content">
+                                <span class="gallery-zoom-icon"><i class="bi bi-arrows-fullscreen"></i></span>
+                                <span class="gallery-caption">Official Logo</span>
+                                <span class="gallery-folder-tag"><i class="bi bi-folder-fill"></i> Official</span>
+                                <span class="gallery-timestamp"><i class="bi bi-clock-history"></i> Oct 13, 2026 • 10:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
             
             <!-- View Galleries Button -->
@@ -619,16 +685,131 @@ if (!isset($_SESSION['chat_user_name'])) {
         </div>
     </footer>
 
+    <!-- Interactive Lightbox Modal for Homepage -->
+    <div id="homeLightbox" class="public-lightbox" onclick="closeHomeLightbox()">
+        <!-- Close Button -->
+        <button type="button" class="public-lightbox-close" title="Close (Esc)" onclick="closeHomeLightbox()">&times;</button>
+        
+        <!-- Previous & Next Controls -->
+        <button type="button" class="lightbox-arrow lightbox-prev" title="Previous Image" onclick="prevHomeLightbox(event)">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+        <button type="button" class="lightbox-arrow lightbox-next" title="Next Image" onclick="nextHomeLightbox(event)">
+            <i class="bi bi-chevron-right"></i>
+        </button>
+
+        <div class="public-lightbox-container" onclick="event.stopPropagation()">
+            <div class="lightbox-image-wrapper">
+                <img src="" alt="Photo" id="homeLightboxImg" class="public-lightbox-img">
+            </div>
+            <div class="public-lightbox-caption-wrap">
+                <div class="lightbox-info-row">
+                    <span id="homeLightboxCategory" class="public-lightbox-cat"></span>
+                    <span id="homeLightboxTimestamp" class="public-lightbox-timestamp"></span>
+                    <span id="homeLightboxCounter" class="public-lightbox-counter"></span>
+                </div>
+                <h4 id="homeLightboxCaption"></h4>
+            </div>
+        </div>
+    </div>
+
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+      let homeVisibleItems = [];
+      let homeLightboxIndex = 0;
+
+      function initHomeGalleryItems() {
+          homeVisibleItems = [];
+          const allItems = document.querySelectorAll('#homeGalleryGrid .gallery-item[data-src]');
+          allItems.forEach(item => {
+              homeVisibleItems.push({
+                  src: item.getAttribute('data-src'),
+                  caption: item.getAttribute('data-caption') || '',
+                  category: item.getAttribute('data-category') || '',
+                  timestamp: item.getAttribute('data-timestamp') || ''
+              });
+          });
+      }
+
+      function openHomeLightboxByIndex(index) {
+          if (!homeVisibleItems.length) initHomeGalleryItems();
+          const item = homeVisibleItems[index];
+          if (item) {
+              homeLightboxIndex = index;
+              renderHomeLightboxContent(item.src, item.caption, item.category, item.timestamp);
+          }
+      }
+
+      function openHomeLightbox(src, caption, category, timestamp) {
+          renderHomeLightboxContent(src, caption, category, timestamp);
+      }
+
+      function renderHomeLightboxContent(src, caption, category, timestamp) {
+          const lb = document.getElementById('homeLightbox');
+          const img = document.getElementById('homeLightboxImg');
+          const cap = document.getElementById('homeLightboxCaption');
+          const cat = document.getElementById('homeLightboxCategory');
+          const timeEl = document.getElementById('homeLightboxTimestamp');
+          const counter = document.getElementById('homeLightboxCounter');
+
+          if (lb && img) {
+              img.src = src;
+              cap.textContent = caption || '';
+              cat.innerHTML = category ? '<i class="bi bi-folder-fill"></i> ' + category : '';
+              if (timeEl) {
+                  timeEl.innerHTML = timestamp ? '<i class="bi bi-clock-history"></i> ' + timestamp : '';
+              }
+              if (homeVisibleItems.length > 0) {
+                  counter.textContent = (homeLightboxIndex + 1) + ' / ' + homeVisibleItems.length;
+              } else {
+                  counter.textContent = '';
+              }
+              lb.style.display = 'flex';
+              document.body.style.overflow = 'hidden';
+          }
+      }
+
+      function prevHomeLightbox(e) {
+          if (e) e.stopPropagation();
+          if (homeVisibleItems.length <= 1) return;
+          homeLightboxIndex = (homeLightboxIndex - 1 + homeVisibleItems.length) % homeVisibleItems.length;
+          const item = homeVisibleItems[homeLightboxIndex];
+          renderHomeLightboxContent(item.src, item.caption, item.category, item.timestamp);
+      }
+
+      function nextHomeLightbox(e) {
+          if (e) e.stopPropagation();
+          if (homeVisibleItems.length <= 1) return;
+          homeLightboxIndex = (homeLightboxIndex + 1) % homeVisibleItems.length;
+          const item = homeVisibleItems[homeLightboxIndex];
+          renderHomeLightboxContent(item.src, item.caption, item.category, item.timestamp);
+      }
+
+      function closeHomeLightbox() {
+          const lb = document.getElementById('homeLightbox');
+          if (lb) {
+              lb.style.display = 'none';
+              document.body.style.overflow = '';
+          }
+      }
+
+      document.addEventListener('keydown', function(e) {
+          const lb = document.getElementById('homeLightbox');
+          if (lb && lb.style.display === 'flex') {
+              if (e.key === 'Escape') closeHomeLightbox();
+              else if (e.key === 'ArrowLeft') prevHomeLightbox();
+              else if (e.key === 'ArrowRight') nextHomeLightbox();
+          }
+      });
       document.addEventListener('DOMContentLoaded', function() {
         AOS.init({
           duration: 800, 
           once: true,
           offset: 100
         });
+        initHomeGalleryItems();
       });
     </script>
 </body>

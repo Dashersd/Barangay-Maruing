@@ -150,16 +150,16 @@
                 </div>
 
                 <div class="spot-map-visual">
-                    <!-- Interactive Red Pin on Maruing -->
-                    <div class="map-pin-wrapper" id="maruing-pin-btn" role="button" tabindex="0" title="Click to view detailed map of Barangay Maruing" style="display: none;">
+                    <!-- Interactive Red Pin on Map -->
+                    <div class="map-pin-wrapper" id="maruing-pin-btn" role="button" tabindex="0" title="Click to view Mindanao" style="display: flex; top: 77.5%; left: 61.5%;">
                         <div class="pin-pulse"></div>
                         <div class="pin-marker">
                             <i class="bi bi-geo-alt-fill"></i>
                         </div>
-                        <div class="pin-tooltip">Click to View Maruing</div>
+                        <div class="pin-tooltip" id="pin-tooltip-text">Click to View Mindanao</div>
                     </div>
 
-                    <img id="spot-map-img" src="public/image/Maruing Map/Philippines.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 850px !important; max-height: none !important; object-fit: fill !important; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); cursor: pointer;">
+                    <img id="spot-map-img" src="public/image/Maruing Map/Philippines.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 850px !important; max-height: none !important; object-fit: fill !important; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); cursor: default;">
                     
                     <!-- Dynamic Markers Container -->
                     <div id="map-markers-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 500;"></div>
@@ -248,8 +248,7 @@
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
 
-    <!-- Spot Map Interactive Pin & Image Switcher -->
-    <script src="public/assets/js/spotmap.js?v=2"></script>
+    <script src="public/assets/js/spotmap.js?v=3"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {

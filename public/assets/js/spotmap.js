@@ -1,15 +1,83 @@
 document.addEventListener('DOMContentLoaded', function () {
     const spotMapImg = document.getElementById('spot-map-img');
     const maruingPin = document.getElementById('maruing-pin-btn');
+    const pinTooltipText = document.getElementById('pin-tooltip-text') || (maruingPin ? maruingPin.querySelector('.pin-tooltip') : null);
     const btnBackOverview = document.getElementById('btn-back-overview');
     const backOverviewWrapper = document.getElementById('back-overview-wrapper');
     const btnViewFullImage = document.getElementById('btn-view-full-image');
     const markersContainer = document.getElementById('map-markers-container');
 
-    const overviewImgSrc = 'public/image/Maruing Map/Maruing.jpg';
     const detailedImgSrc = 'public/image/Maruing Map/Aerial View.png';
-
     const purokButtons = document.querySelectorAll('.purok-chip-btn.has-image');
+
+    const mapSequence = [
+        {
+            src: 'public/image/Maruing Map/Philippines.png',
+            alt: 'Map of the Philippines',
+            pin: {
+                top: '77.5%',
+                left: '61.5%',
+                tooltip: 'Click to View Mindanao',
+                title: 'Mindanao, Philippines'
+            }
+        },
+        {
+            src: 'public/image/Maruing Map/Mindanao.jpg',
+            alt: 'Map of Mindanao',
+            pin: {
+                top: '57%',
+                left: '30.5%',
+                tooltip: 'Click to View Zamboanga del Sur',
+                title: 'Zamboanga del Sur'
+            }
+        },
+        {
+            src: 'public/image/Maruing Map/Zamboanga del Sur.jpg',
+            alt: 'Map of Zamboanga del Sur',
+            pin: {
+                top: '64%',
+                left: '42.5%',
+                tooltip: 'Click to View Lapuyan',
+                title: 'Municipality of Lapuyan'
+            }
+        },
+        {
+            src: 'public/image/Maruing Map/Lapuyan.gif',
+            alt: 'Map of Lapuyan',
+            pin: {
+                top: '50%',
+                left: '50%',
+                tooltip: 'Click to View Barangay Maruing',
+                title: 'Barangay Maruing'
+            }
+        },
+        {
+            src: 'public/image/Maruing Map/Maruing.jpg',
+            alt: 'Spot Map of Barangay Maruing',
+            pin: {
+                top: '34.5%',
+                left: '27.5%',
+                tooltip: 'Click to View Aerial Map of Maruing',
+                title: 'Barangay Maruing Center'
+            }
+        }
+    ];
+
+    let currentSequenceIndex = 0;
+
+    function applyPinStep(index) {
+        if (!maruingPin) return;
+        const step = mapSequence[index];
+        if (!step) return;
+
+        maruingPin.style.top = step.pin.top;
+        maruingPin.style.left = step.pin.left;
+        maruingPin.setAttribute('title', step.pin.title);
+        if (pinTooltipText) {
+            pinTooltipText.textContent = step.pin.tooltip;
+        }
+        maruingPin.style.display = 'flex';
+    }
 
     function clearActivePurok() {
         document.querySelectorAll('.purok-chip-btn').forEach(function (btn) {
@@ -42,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             img.style.width = marker.marker_width + 'px';
                             img.style.height = marker.marker_height + 'px';
                             img.style.transform = 'translate(-50%, -100%)';
-                            img.style.pointerEvents = 'auto'; // allow hover for title
+                            img.style.pointerEvents = 'auto';
                             img.style.cursor = 'pointer';
 
                             img.addEventListener('click', function (e) {
@@ -91,14 +159,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showOverviewMap() {
         if (!spotMapImg) return;
+        currentSequenceIndex = 0;
         spotMapImg.style.opacity = '0.2';
         setTimeout(function () {
-            spotMapImg.src = overviewImgSrc;
-            spotMapImg.alt = 'Spot Map of Barangay Maruing';
+            const step0 = mapSequence[0];
+            spotMapImg.src = step0.src;
+            spotMapImg.alt = step0.alt;
             spotMapImg.style.opacity = '1';
-            if (maruingPin) maruingPin.style.display = 'flex';
+            applyPinStep(0);
             if (backOverviewWrapper) backOverviewWrapper.style.display = 'none';
-            if (btnViewFullImage) btnViewFullImage.href = overviewImgSrc;
+            if (btnViewFullImage) btnViewFullImage.href = step0.src;
             clearActivePurok();
             clearMarkers();
         }, 180);
@@ -118,7 +188,6 @@ document.addEventListener('DOMContentLoaded', function () {
             clearMarkers();
             if (btnElement) btnElement.classList.add('active');
 
-            // Fetch and plot markers for this purok
             fetchAndPlotMarkers(purokNum);
         }, 180);
     }
@@ -133,42 +202,42 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    const mapSequence = [
-        'public/image/Maruing Map/Philippines.png',
-        'public/image/Maruing Map/Mindanao.jpg',
-        'public/image/Maruing Map/Zamboanga del Sur.jpg',
-        'public/image/Maruing Map/Lapuyan.gif',
-        'public/image/Maruing Map/Maruing.jpg'
-    ];
-    let currentSequenceIndex = 0;
+    // Advance sequence ONLY when Pin is clicked
+    function onPinClicked(e) {
+        if (e) e.stopPropagation();
 
-    if (spotMapImg) {
-        spotMapImg.addEventListener('click', function () {
-            if (currentSequenceIndex < mapSequence.length - 1) {
-                currentSequenceIndex++;
-                spotMapImg.style.opacity = '0.2';
-                setTimeout(function () {
-                    spotMapImg.src = mapSequence[currentSequenceIndex];
-                    spotMapImg.style.opacity = '1';
+        if (currentSequenceIndex < mapSequence.length - 1) {
+            currentSequenceIndex++;
+            const nextStep = mapSequence[currentSequenceIndex];
+            spotMapImg.style.opacity = '0.2';
 
-                    if (currentSequenceIndex === mapSequence.length - 1) {
-                        if (maruingPin) maruingPin.style.display = 'flex';
-                        spotMapImg.style.cursor = 'default';
-                    }
-                    clearMarkers();
-                }, 180);
-            }
-        });
+            setTimeout(function () {
+                spotMapImg.src = nextStep.src;
+                spotMapImg.alt = nextStep.alt;
+                spotMapImg.style.opacity = '1';
+                applyPinStep(currentSequenceIndex);
+                if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
+                if (btnViewFullImage) btnViewFullImage.href = nextStep.src;
+                clearMarkers();
+            }, 180);
+        } else {
+            // Last sequence map (Maruing.jpg) -> opens Aerial View
+            showDetailedMap();
+        }
     }
+
     if (maruingPin) {
-        maruingPin.addEventListener('click', showDetailedMap);
+        maruingPin.addEventListener('click', onPinClicked);
         maruingPin.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                showDetailedMap();
+                onPinClicked(e);
             }
         });
     }
+
+    // Initialize Pin on Step 0 (Philippines map)
+    applyPinStep(0);
 
     if (btnBackOverview) {
         btnBackOverview.addEventListener('click', showOverviewMap);
