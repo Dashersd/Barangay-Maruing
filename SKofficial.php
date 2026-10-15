@@ -1,3 +1,151 @@
+<?php
+function get_sk_public_photo_src($photo) {
+    if (empty($photo) || strpos($photo, 'placeholder') !== false) {
+        return '';
+    }
+    if (strpos($photo, 'http://') === 0 || strpos($photo, 'https://') === 0) {
+        return $photo;
+    }
+    $trimmed = ltrim($photo, '/\\');
+    if (strpos($trimmed, 'public/') === 0) {
+        return $trimmed;
+    }
+    if (strpos($trimmed, 'admin/') === 0) {
+        return $trimmed;
+    }
+    return 'admin/' . $trimmed;
+}
+
+// Default SK officials data
+$all_sk_officials = [
+    'chairperson' => [
+        'name' => 'Hon. Ryan M. Tubos',
+        'role' => 'SK Chairperson',
+        'photo' => 'public/image/SK Officials/Ryan M. Tubos.jpeg',
+        'message' => 'Presiding officer of the Sangguniang Kabataan, leading executive policies, community welfare programs, and youth development in Barangay Maruing.'
+    ],
+    'secretary' => [
+        'name' => 'Hon. Rosemer G. Banagan',
+        'role' => 'SK Secretary',
+        'photo' => 'public/image/SK Officials/Rosmer G. Banagan.jpeg'
+    ],
+    'treasurer' => [
+        'name' => 'Hon. Judith G. Tambagel',
+        'role' => 'SK Treasurer',
+        'photo' => 'public/image/SK Officials/Judith G. Tambagel.jpeg'
+    ],
+    'kagawad_1' => [
+        'name' => 'Hon. Renzarr L. Roxas',
+        'role' => 'SK Kagawad',
+        'photo' => 'public/image/SK Officials/Renzarr L. Roxas.jpeg'
+    ],
+    'kagawad_2' => [
+        'name' => 'Hon. Benie L. Ligao',
+        'role' => 'SK Kagawad',
+        'photo' => 'public/image/SK Officials/Benie L. Ligao.jpeg'
+    ],
+    'kagawad_3' => [
+        'name' => 'Hon. Jhon Mark Charton D. Singue',
+        'role' => 'SK Kagawad',
+        'photo' => 'public/image/SK Officials/Jhon Mark Charton D. Singue.jpeg'
+    ],
+    'kagawad_4' => [
+        'name' => 'Hon. Mark A. Alpay',
+        'role' => 'SK Kagawad',
+        'photo' => 'public/image/SK Officials/Mark A. Alpay.jpeg'
+    ],
+    'kagawad_5' => [
+        'name' => 'Hon. Marlon B. Amplao',
+        'role' => 'SK Kagawad',
+        'photo' => 'public/image/SK Officials/Marlon B. Amplao.jpeg'
+    ],
+    'kagawad_6' => [
+        'name' => 'Hon. Verdelyn G. Halilong',
+        'role' => 'SK Kagawad',
+        'photo' => 'public/image/SK Officials/Verdelyn G. Halilong.jpeg'
+    ],
+    'kagawad_7' => [
+        'name' => 'Hon. Mc Felco T Bugao',
+        'role' => 'SK Kagawad',
+        'photo' => 'public/image/SK Officials/Mc Felco T. Bugao.jpeg'
+    ]
+];
+
+// 1. Fetch from MySQL Database
+@include_once __DIR__ . '/admin/db_connect.php';
+if (isset($conn) && !$conn->connect_error) {
+    $res = $conn->query("SELECT * FROM sk_officials");
+    if ($res && $res->num_rows > 0) {
+        while ($row = $res->fetch_assoc()) {
+            $k = !empty($row['official_key']) ? $row['official_key'] : '';
+            if (empty($k)) {
+                $pos_l = strtolower($row['position']);
+                if (strpos($pos_l, 'chair') !== false) $k = 'chairperson';
+                elseif (strpos($pos_l, 'secretary') !== false) $k = 'secretary';
+                elseif (strpos($pos_l, 'treasurer') !== false) $k = 'treasurer';
+            }
+            if (!empty($k) && isset($all_sk_officials[$k])) {
+                if (!empty($row['name']) && $row['name'] !== 'Name') {
+                    $all_sk_officials[$k]['name'] = $row['name'];
+                }
+                if (!empty($row['position'])) {
+                    $all_sk_officials[$k]['role'] = $row['position'];
+                }
+                if (!empty($row['photo'])) {
+                    $all_sk_officials[$k]['photo'] = get_sk_public_photo_src($row['photo']);
+                }
+                if ($k === 'chairperson' && !empty($row['message'])) {
+                    $all_sk_officials['chairperson']['message'] = $row['message'];
+                }
+            }
+        }
+    }
+}
+
+// 2. Fallback and merge with JSON cache
+$sk_json_file = __DIR__ . '/admin/data/sk_officials.json';
+if (file_exists($sk_json_file)) {
+    $sk_json_data = json_decode(file_get_contents($sk_json_file), true);
+    if (is_array($sk_json_data)) {
+        foreach ($sk_json_data as $k => $item) {
+            if (isset($all_sk_officials[$k])) {
+                if (!empty($item['name']) && $item['name'] !== 'Name' && ($all_sk_officials[$k]['name'] === 'Hon. Ryan M. Tubos' || empty($all_sk_officials[$k]['name']) || $all_sk_officials[$k]['name'] === 'Name')) {
+                    $all_sk_officials[$k]['name'] = $item['name'];
+                }
+                if (!empty($item['role'])) {
+                    $all_sk_officials[$k]['role'] = $item['role'];
+                }
+                if (!empty($item['photo'])) {
+                    $all_sk_officials[$k]['photo'] = get_sk_public_photo_src($item['photo']);
+                }
+                if ($k === 'chairperson' && !empty($item['message'])) {
+                    $all_sk_officials['chairperson']['message'] = $item['message'];
+                }
+            }
+        }
+    }
+}
+
+// Helper to render public official card
+function render_sk_official_card($official, $default_name, $default_role) {
+    $name = (!empty($official['name']) && $official['name'] !== 'Name') ? $official['name'] : $default_name;
+    $role = !empty($official['role']) ? $official['role'] : $default_role;
+    $photo = !empty($official['photo']) ? $official['photo'] : '';
+    ?>
+    <div class="official-card">
+        <div class="official-avatar">
+            <?php if (!empty($photo)): ?>
+                <img src="<?= htmlspecialchars($photo) ?>" alt="<?= htmlspecialchars($name) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+            <?php else: ?>
+                <i class="bi bi-person"></i>
+            <?php endif; ?>
+        </div>
+        <h3 class="official-name"><?= htmlspecialchars($name) ?></h3>
+        <div class="official-role"><?= htmlspecialchars($role) ?></div>
+    </div>
+    <?php
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +167,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
-    <link rel="stylesheet" href="public/assets/css/SKofficial.css?v=2">`n    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/assets/css/SKofficial.css?v=2">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
@@ -90,7 +238,7 @@
     <main class="officials-main-section">
         <div class="officials-container">
             
-            <!-- 1. Executive Leadership: Punong Barangay -->
+            <!-- 1. Executive Leadership: SK Chairperson -->
             <section class="captain-section">
                 <div class="category-header" data-aos="fade-down">
                     <h2 class="category-title">Executive Leadership</h2>
@@ -102,19 +250,23 @@
                     <div class="captain-card" data-aos="zoom-in">
                         <div class="captain-avatar-col">
                             <div class="captain-avatar">
-                                <img src="public/image/SK Officials/Ryan M. Tubos.jpeg" alt="Hon. Ryan M. Tubos" style="width: 100%; height: 100%; object-fit: cover;">
+                                <?php if (!empty($all_sk_officials['chairperson']['photo'])): ?>
+                                    <img src="<?= htmlspecialchars($all_sk_officials['chairperson']['photo']) ?>" alt="<?= htmlspecialchars($all_sk_officials['chairperson']['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                <?php else: ?>
+                                    <i class="bi bi-person" style="font-size: 5rem; color: #a0aec0;"></i>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="captain-info-col">
-                            <h3 class="captain-name">Hon. Ryan M. Tubos</h3>
-                            <div class="captain-role">SK Chairperson</div>
-                            <p class="captain-desc">Presiding officer of the Sangguniang Kabataan, leading executive policies, community welfare programs, and peace and order in Barangay Maruing.</p>
+                            <h3 class="captain-name"><?= htmlspecialchars($all_sk_officials['chairperson']['name']) ?></h3>
+                            <div class="captain-role"><?= htmlspecialchars($all_sk_officials['chairperson']['role']) ?></div>
+                            <p class="captain-desc"><?= nl2br(htmlspecialchars($all_sk_officials['chairperson']['message'] ?? 'Presiding officer of the Sangguniang Kabataan, leading executive policies, community welfare programs, and youth development in Barangay Maruing.')) ?></p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 2. Sangguniang Barangay (Councilors) -->
+            <!-- 2. Sangguniang Kabataan Members -->
             <section class="councilors-section">
                 <div class="category-header" data-aos="fade-down">
                     <h2 class="category-title">Sangguniang Kabataan Members</h2>
@@ -125,102 +277,30 @@
                 <div class="officials-pyramid">
                     <!-- Row 1: Secretary, Treasurer -->
                     <div class="pyramid-row" data-aos="fade-up">
-
-                        <!-- SK Secretary (Duplicated) -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Rosmer G. Banagan.jpeg" alt="Hon. Rosemer G. Banagan" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name">Hon. Rosemer G. Banagan</h3>
-                            <div class="official-role">SK Secretary</div>
-                        </div>
-                    
-                        <!-- SK Treasurer -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Judith G. Tambagel.jpeg" alt="Hon. Judith G. Tambagel" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name">Hon. Judith G. Tambagel</h3>
-                            <div class="official-role">SK Treasurer</div>
-                        </div>
-                    
-
+                        <?php render_sk_official_card($all_sk_officials['secretary'], 'Hon. Rosemer G. Banagan', 'SK Secretary'); ?>
+                        <?php render_sk_official_card($all_sk_officials['treasurer'], 'Hon. Judith G. Tambagel', 'SK Treasurer'); ?>
                     </div>
 
                     <!-- Row 2: Kagawads 1, 2, 3 -->
                     <div class="pyramid-row" data-aos="fade-up">
-                        <!-- Kagawad 1 -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Renzarr L. Roxas.jpeg" alt="Hon. Renzarr L. Roxas" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name">Hon. Renzarr L. Roxas</h3>
-                            <div class="official-role">SK Kagawad</div>
-                        </div>
-
-                        <!-- Kagawad 2 -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Benie L. Ligao.jpeg" alt="Hon. Benie L. Ligao" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name">Hon. Benie L. Ligao</h3>
-                            <div class="official-role">SK Kagawad</div>
-                        </div>
-
-                        <!-- Kagawad 3 -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Jhon Mark Charton D. Singue.jpeg" alt="Jhon Mark Charton D. Singue" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name"> Hon. Jhon Mark Charton D. Singue</h3>
-                            <div class="official-role">SK Kagawad</div>
-                        </div>
+                        <?php render_sk_official_card($all_sk_officials['kagawad_1'], 'Hon. Renzarr L. Roxas', 'SK Kagawad'); ?>
+                        <?php render_sk_official_card($all_sk_officials['kagawad_2'], 'Hon. Benie L. Ligao', 'SK Kagawad'); ?>
+                        <?php render_sk_official_card($all_sk_officials['kagawad_3'], 'Hon. Jhon Mark Charton D. Singue', 'SK Kagawad'); ?>
                     </div>
 
                     <!-- Row 3: Kagawads 4, 5, 6, 7 -->
                     <div class="pyramid-row" data-aos="fade-up">
-                        <!-- Kagawad 4 -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Mark A. Alpay.jpeg" alt="Hon. Mark A. Alpay" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name">Hon. Mark A. Alpay</h3>
-                            <div class="official-role">SK Kagawad</div>
-                        </div>
-
-                        <!-- Kagawad 5 -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Marlon B. Amplao.jpeg" alt="Hon. Marlon B. Amplao" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name">Hon. Marlon B. Amplao</h3>
-                            <div class="official-role">SK Kagawad</div>
-                        </div>
-
-                        <!-- Kagawad 6 -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Verdelyn G. Halilong.jpeg" alt="Hon. Verdelyn G. Halilong" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name">Hon. Verdelyn G. Halilong</h3>
-                            <div class="official-role">SK Kagawad</div>
-                        </div>
-
-                        <!-- Kagawad 7 -->
-                        <div class="official-card">
-                            <div class="official-avatar">
-                                <img src="public/image/SK Officials/Mc Felco T. Bugao.jpeg" alt="Hon. Mc Felco T. Bugao" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <h3 class="official-name">Hon. Mc Felco T Bugao</h3>
-                            <div class="official-role">SK Kagawad</div>
-                        </div>
+                        <?php render_sk_official_card($all_sk_officials['kagawad_4'], 'Hon. Mark A. Alpay', 'SK Kagawad'); ?>
+                        <?php render_sk_official_card($all_sk_officials['kagawad_5'], 'Hon. Marlon B. Amplao', 'SK Kagawad'); ?>
+                        <?php render_sk_official_card($all_sk_officials['kagawad_6'], 'Hon. Verdelyn G. Halilong', 'SK Kagawad'); ?>
+                        <?php render_sk_official_card($all_sk_officials['kagawad_7'], 'Hon. Mc Felco T Bugao', 'SK Kagawad'); ?>
                     </div>
                 </div>
             </section>
         </div>
     </main>
 
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-top row">
@@ -274,18 +354,5 @@
         });
       });
     </script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        AOS.init({
-          duration: 800, 
-          once: true,
-          offset: 100
-        });
-      });
-    </script>
 </body>
 </html>
-
-
-

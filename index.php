@@ -32,6 +32,113 @@ if ($gallery_res) {
         }
     }
 }
+
+// Fetch Barangay Captain details for the Meet Our Leaders section
+$captain_name = 'Hon. Punong Barangay';
+$captain_role = 'Barangay Captain';
+$captain_photo = '';
+$captain_desc = 'To our residents, partners, and every member of our community, thank you for your trust, cooperation, and unwavering support. At Barangay Maruing, we remain committed to delivering honest and transparent public service that promotes safety, unity, and progress for all. Together, let us continue building a barangay where every family feels heard, respected, and supported.';
+
+function resolve_leader_photo($photo) {
+    if (empty($photo) || strpos($photo, 'placeholder') !== false) return '';
+    if (strpos($photo, 'http://') === 0 || strpos($photo, 'https://') === 0) return $photo;
+    $trimmed = ltrim($photo, '/\\');
+    if (strpos($trimmed, 'public/') === 0) return $trimmed;
+    if (strpos($trimmed, 'admin/') === 0) return $trimmed;
+    return 'admin/' . $trimmed;
+}
+
+$captain_found = false;
+if (isset($conn) && !$conn->connect_error) {
+    $c_stmt = $conn->query("SELECT * FROM officials WHERE official_key = 'captain' OR position LIKE '%Captain%' OR position LIKE '%Punong Barangay%' LIMIT 1");
+    if ($c_stmt && $c_stmt->num_rows > 0) {
+        $c_row = $c_stmt->fetch_assoc();
+        if (!empty($c_row['name']) && $c_row['name'] !== 'Name') {
+            $captain_name = $c_row['name'];
+        }
+        if (!empty($c_row['position'])) {
+            $captain_role = $c_row['position'];
+        }
+        if (!empty($c_row['photo'])) {
+            $captain_photo = resolve_leader_photo($c_row['photo']);
+        }
+        if (!empty($c_row['message'])) {
+            $captain_desc = $c_row['message'];
+        }
+        $captain_found = true;
+    }
+}
+
+if (!$captain_found || empty($captain_photo)) {
+    $json_officials_file = __DIR__ . '/admin/data/barangay_officials.json';
+    if (file_exists($json_officials_file)) {
+        $j_data = json_decode(file_get_contents($json_officials_file), true);
+        $j_cap = $j_data['captain'] ?? [];
+        if (!$captain_found) {
+            if (!empty($j_cap['name']) && $j_cap['name'] !== 'Name') {
+                $captain_name = $j_cap['name'];
+            }
+            if (!empty($j_cap['role'])) {
+                $captain_role = $j_cap['role'];
+            }
+            if (!empty($j_cap['message'])) {
+                $captain_desc = $j_cap['message'];
+            }
+        }
+        if (empty($captain_photo) && !empty($j_cap['photo'])) {
+            $captain_photo = resolve_leader_photo($j_cap['photo']);
+        }
+    }
+}
+
+// Fetch SK Chairman details for the Meet Our Leaders section
+$sk_chair_name = 'Hon. Ryan M. Tubos';
+$sk_chair_role = 'Sangguniang Kabataan Chairman';
+$sk_chair_photo = 'public/image/SK Officials/Ryan M. Tubos.jpeg';
+$sk_chair_desc = 'Empowering the youth of Barangay Maruing through active participation in sports, education, and community development.';
+
+$sk_chair_found = false;
+if (isset($conn) && !$conn->connect_error) {
+    $sk_stmt = $conn->query("SELECT * FROM sk_officials WHERE official_key = 'chairperson' OR position LIKE '%Chairman%' OR position LIKE '%Chairperson%' LIMIT 1");
+    if ($sk_stmt && $sk_stmt->num_rows > 0) {
+        $sk_row = $sk_stmt->fetch_assoc();
+        if (!empty($sk_row['name']) && $sk_row['name'] !== 'Name') {
+            $sk_chair_name = $sk_row['name'];
+        }
+        if (!empty($sk_row['position'])) {
+            $sk_chair_role = $sk_row['position'];
+        }
+        if (!empty($sk_row['photo'])) {
+            $sk_chair_photo = resolve_leader_photo($sk_row['photo']);
+        }
+        if (!empty($sk_row['message'])) {
+            $sk_chair_desc = $sk_row['message'];
+        }
+        $sk_chair_found = true;
+    }
+}
+
+if (!$sk_chair_found || empty($sk_chair_photo)) {
+    $json_sk_file = __DIR__ . '/admin/data/sk_officials.json';
+    if (file_exists($json_sk_file)) {
+        $j_sk_data = json_decode(file_get_contents($json_sk_file), true);
+        $j_sk_chair = $j_sk_data['chairperson'] ?? [];
+        if (!$sk_chair_found) {
+            if (!empty($j_sk_chair['name']) && $j_sk_chair['name'] !== 'Name') {
+                $sk_chair_name = $j_sk_chair['name'];
+            }
+            if (!empty($j_sk_chair['role'])) {
+                $sk_chair_role = $j_sk_chair['role'];
+            }
+            if (!empty($j_sk_chair['message'])) {
+                $sk_chair_desc = $j_sk_chair['message'];
+            }
+        }
+        if (empty($sk_chair_photo) && !empty($j_sk_chair['photo'])) {
+            $sk_chair_photo = resolve_leader_photo($j_sk_chair['photo']);
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,14 +254,18 @@ if ($gallery_res) {
                     <!-- Official Card 1 -->
                     <div class="official-card" data-aos="fade-up" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 3rem 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); text-align: center; transition: transform 0.3s ease;">
                         <div style="position: relative; width: 140px; height: 140px; margin: 0 auto 2.5rem; background-color: var(--primary-light, #e8f5ee); border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 8px rgba(19, 117, 71, 0.05);">
-                            <span style="font-size: 3.5rem; font-weight: 300; color: var(--primary-dark, #093d25); font-family: sans-serif;">PB</span>
+                            <?php if (!empty($captain_photo)): ?>
+                                <img src="<?= htmlspecialchars($captain_photo) ?>" alt="<?= htmlspecialchars($captain_name) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                            <?php else: ?>
+                                <span style="font-size: 3.5rem; font-weight: 300; color: var(--primary-dark, #093d25); font-family: sans-serif;">PB</span>
+                            <?php endif; ?>
                             <div style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); background-color: var(--primary-color, #137547); color: white; padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                                 Punong Barangay
                             </div>
                         </div>
-                        <h4 style="color: var(--primary-dark, #093d25); margin-bottom: 0.5rem; font-weight: 800; font-size: 1.3rem;">Hon. Punong Barangay</h4>
-                        <p style="color: var(--primary-color, #137547); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;">Barangay Captain</p>
-                        <p style="color: var(--muted-text-color, #6b7280); font-size: 0.95rem; font-style: italic; line-height: 1.6;">"To our residents, partners, and every member of our community, thank you for your trust, cooperation, and unwavering support. At Barangay Maruing, we remain committed to delivering honest and transparent public service that promotes safety, unity, and progress for all. Together, let us continue building a barangay where every family feels heard, respected, and supported."</p>
+                        <h4 style="color: var(--primary-dark, #093d25); margin-bottom: 0.5rem; font-weight: 800; font-size: 1.3rem;"><?= htmlspecialchars($captain_name) ?></h4>
+                        <p style="color: var(--primary-color, #137547); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;"><?= htmlspecialchars($captain_role) ?></p>
+                        <p style="color: var(--muted-text-color, #6b7280); font-size: 0.95rem; font-style: italic; line-height: 1.6;">"<?= htmlspecialchars($captain_desc) ?>"</p>
                         <a href="officials.php" class="btn-officials-outline" style="display: inline-block; margin-top: 1.5rem; padding: 0.6rem 1.5rem; background-color: white; border: 2px solid var(--primary-color, #137547); color: var(--primary-color, #137547) !important; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;">
                             View Barangay Officials <i class="bi bi-arrow-right"></i>
                         </a>
@@ -163,14 +274,18 @@ if ($gallery_res) {
                     <!-- Official Card 2 -->
                     <div class="official-card" data-aos="fade-up" data-aos-delay="200" style="background: white; border-radius: 20px; padding: 3rem 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); text-align: center; transition: transform 0.3s ease;">
                         <div style="position: relative; width: 140px; height: 140px; margin: 0 auto 2.5rem; background-color: rgba(255, 193, 7, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 8px rgba(255, 193, 7, 0.05);">
-                            <img src="public/image/SK Officials/Ryan M. Tubos.jpeg" alt="Hon. Ryan M. Tubos" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                            <?php if (!empty($sk_chair_photo)): ?>
+                                <img src="<?= htmlspecialchars($sk_chair_photo) ?>" alt="<?= htmlspecialchars($sk_chair_name) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                            <?php else: ?>
+                                <span style="font-size: 3.5rem; font-weight: 300; color: var(--primary-dark, #093d25); font-family: sans-serif;">SK</span>
+                            <?php endif; ?>
                             <div style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); background-color: var(--primary-color, #137547); color: white; padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                                 SK Chairman
                             </div>
                         </div>
-                        <h4 style="color: var(--primary-dark, #093d25); margin-bottom: 0.5rem; font-weight: 800; font-size: 1.3rem;">Hon. Ryan M. Tubos</h4>
-                        <p style="color: var(--primary-color, #137547); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;">Sangguniang Kabataan Chairman</p>
-                        <p style="color: var(--muted-text-color, #6b7280); font-size: 0.95rem; font-style: italic; line-height: 1.6;">"Empowering the youth of Barangay Maruing through active participation in sports, education, and community development."</p>
+                        <h4 style="color: var(--primary-dark, #093d25); margin-bottom: 0.5rem; font-weight: 800; font-size: 1.3rem;"><?= htmlspecialchars($sk_chair_name) ?></h4>
+                        <p style="color: var(--primary-color, #137547); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;"><?= htmlspecialchars($sk_chair_role) ?></p>
+                        <p style="color: var(--muted-text-color, #6b7280); font-size: 0.95rem; font-style: italic; line-height: 1.6;">"<?= htmlspecialchars($sk_chair_desc) ?>"</p>
                         <a href="SKofficial.php" class="btn-officials-outline" style="display: inline-block; margin-top: 1.5rem; padding: 0.6rem 1.5rem; background-color: white; border: 2px solid var(--primary-color, #137547); color: var(--primary-color, #137547) !important; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;">
                             View SK Officials <i class="bi bi-arrow-right"></i>
                         </a>

@@ -1,0 +1,63 @@
+{
+    "captain": {
+        "id": "captain",
+        "role": "BARANGAY CAPTAIN",
+        "name": "Flutes",
+        "photo": "uploads\/officials\/official_captain_1792033619.jpg",
+        "message": "To our residents, partners, and every member of our community, thank you for your trust, cooperation, and unwavering support. At Barangay Maruing, we remain committed to delivering honest and transparent public service that promotes safety, unity, and progress for all. Together, let us continue building a barangay where every family feels heard, respected, and supported."
+    },
+    "secretary": {
+        "id": "secretary",
+        "role": "BARANGAY Secretary",
+        "name": "dgsd",
+        "photo": "uploads\/officials\/official_secretary_1792034185.png"
+    },
+    "treasurer": {
+        "id": "treasurer",
+        "role": "BARANGAY Treasurer",
+        "name": "Name",
+        "photo": "https:\/\/via.placeholder.com\/150\/e2e8f0\/64748b?text=Photo"
+    },
+    "kagawad_1": {
+        "id": "kagawad_1",
+        "role": "BARANGAY KAGAWAD 1",
+        "name": "Name",
+        "photo": "https:\/\/via.placeholder.com\/150\/e2e8f0\/64748b?text=Photo"
+    },
+    "kagawad_2": {
+        "id": "kagawad_2",
+        "role": "BARANGAY KAGAWAD 2",
+        "name": "Name",
+        "photo": "https:\/\/via.placeholder.com\/150\/e2e8f0\/64748b?text=Photo"
+    },
+    "kagawad_3": {
+        "id": "kagawad_3",
+        "role": "BARANGAY KAGAWAD 3",
+        "name": "Name",
+        "photo": "https:\/\/via.placeholder.com\/150\/e2e8f0\/64748b?text=Photo"
+    },
+    "kagawad_4": {
+        "id": "kagawad_4",
+        "role": "BARANGAY KAGAWAD 4",
+        "name": "Name",
+        "photo": "https:\/\/via.placeholder.com\/150\/e2e8f0\/64748b?text=Photo"
+    },
+    "kagawad_5": {
+        "id": "kagawad_5",
+        "role": "BARANGAY KAGAWAD 5",
+        "name": "Name",
+        "photo": "https:\/\/via.placeholder.com\/150\/e2e8f0\/64748b?text=Photo"
+    },
+    "kagawad_6": {
+        "id": "kagawad_6",
+        "role": "BARANGAY KAGAWAD 6",
+        "name": "Name",
+        "photo": "https:\/\/via.placeholder.com\/150\/e2e8f0\/64748b?text=Photo"
+    },
+    "kagawad_7": {
+        "id": "kagawad_7",
+        "role": "BARANGAY KAGAWAD 7",
+        "name": "Name",
+        "photo": "https:\/\/via.placeholder.com\/150\/e2e8f0\/64748b?text=Photo"
+    }
+}

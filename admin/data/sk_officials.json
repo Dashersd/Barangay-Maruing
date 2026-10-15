@@ -1,0 +1,63 @@
+{
+    "chairperson": {
+        "id": "chairperson",
+        "role": "SK CHAIRPERSON",
+        "name": "Hon. Ryan M. Tubos",
+        "photo": "public\/image\/SK Officials\/Ryan M. Tubos.jpeg",
+        "message": "Hellp"
+    },
+    "secretary": {
+        "id": "secretary",
+        "role": "SK SECRETARY",
+        "name": "Hon. Rosemer G. Banagan",
+        "photo": "public\/image\/SK Officials\/Rosmer G. Banagan.jpeg"
+    },
+    "treasurer": {
+        "id": "treasurer",
+        "role": "SK TREASURER",
+        "name": "Hon. Judith G. Tambagel",
+        "photo": "public\/image\/SK Officials\/Judith G. Tambagel.jpeg"
+    },
+    "kagawad_1": {
+        "id": "kagawad_1",
+        "role": "SK KAGAWAD 1",
+        "name": "Hon. Renzarr L. Roxas",
+        "photo": "public\/image\/SK Officials\/Renzarr L. Roxas.jpeg"
+    },
+    "kagawad_2": {
+        "id": "kagawad_2",
+        "role": "SK KAGAWAD 2",
+        "name": "Hon. Benie L. Ligao",
+        "photo": "public\/image\/SK Officials\/Benie L. Ligao.jpeg"
+    },
+    "kagawad_3": {
+        "id": "kagawad_3",
+        "role": "SK KAGAWAD 3",
+        "name": "Hon. Jhon Mark Charton D. Singue",
+        "photo": "public\/image\/SK Officials\/Jhon Mark Charton D. Singue.jpeg"
+    },
+    "kagawad_4": {
+        "id": "kagawad_4",
+        "role": "SK KAGAWAD 4",
+        "name": "Hon. Mark A. Alpay",
+        "photo": "public\/image\/SK Officials\/Mark A. Alpay.jpeg"
+    },
+    "kagawad_5": {
+        "id": "kagawad_5",
+        "role": "SK KAGAWAD 5",
+        "name": "Hon. Marlon B. Amplao",
+        "photo": "public\/image\/SK Officials\/Marlon B. Amplao.jpeg"
+    },
+    "kagawad_6": {
+        "id": "kagawad_6",
+        "role": "SK KAGAWAD 6",
+        "name": "Hon. Verdelyn G. Halilong",
+        "photo": "public\/image\/SK Officials\/Verdelyn G. Halilong.jpeg"
+    },
+    "kagawad_7": {
+        "id": "kagawad_7",
+        "role": "SK KAGAWAD 7",
+        "name": "Hon. Mc Felco T Bugao",
+        "photo": "public\/image\/SK Officials\/Mc Felco T. Bugao.jpeg"
+    }
+}
