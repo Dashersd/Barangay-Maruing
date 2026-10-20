@@ -33,6 +33,31 @@ if ($gallery_res) {
     }
 }
 
+// Format date badge for announcements
+if (!function_exists('format_announcement_badge')) {
+    function format_announcement_badge($when_date, $created_at) {
+        if (!empty($when_date)) {
+            $ts = strtotime($when_date);
+            if ($ts && $ts > 0) {
+                return strtoupper(date('M d', $ts));
+            }
+        }
+        $ts = !empty($created_at) ? strtotime($created_at) : time();
+        return strtoupper(date('M d', $ts));
+    }
+}
+
+// Fetch latest published announcements for the homepage showcase
+$home_announcements = [];
+if (isset($conn) && !$conn->connect_error) {
+    $ann_res = $conn->query("SELECT * FROM announcements WHERE status = 'published' ORDER BY created_at DESC LIMIT 3");
+    if ($ann_res) {
+        while ($row = $ann_res->fetch_assoc()) {
+            $home_announcements[] = $row;
+        }
+    }
+}
+
 // Fetch Barangay Captain details for the Meet Our Leaders section
 $captain_name = 'Hon. Punong Barangay';
 $captain_role = 'Barangay Captain';
@@ -166,6 +191,7 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
     <!-- Custom CSS (Pure CSS Responsive) -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=6">
     <link rel="stylesheet" href="public/assets/css/gallery.css?v=6">
+    <link rel="stylesheet" href="public/assets/css/announcements.css?v=2">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
@@ -362,7 +388,7 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
 
                 </div>
                 <div style="text-align: center; margin-top: 3rem;">
-                    <a href="admin/services.php" class="btn-learn-more">View All Services <i class="bi bi-arrow-right"></i></a>
+                    <a href="services.php" class="btn-learn-more">View All Services <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </section>
@@ -376,53 +402,60 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
                     <div style="width: 50px; height: 3px; background-color: var(--primary-color, #137547); margin: 0 auto 1.5rem;"></div>
                     <p style="font-size: 1.1rem; color: var(--muted-text-color, #6b7280);">Keep track of upcoming events, meetings, and important notices in our barangay.</p>
                 </div>
-                <div class="announcements-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
-                    
-                    <!-- Announcement 1 -->
-                    <div class="announcement-card" data-aos="fade-up" data-aos-delay="100" style="background: white; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); display: flex; gap: 1.5rem; transition: transform 0.3s ease;">
-                        <div class="date-box" style="background-color: var(--primary-light, #e8f5ee); border-radius: 10px; min-width: 65px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary-color, #137547);">
-                            <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Oct</span>
-                            <span style="font-size: 1.5rem; font-weight: 800; line-height: 1;">15</span>
+                <div class="announcements-grid <?= (count($home_announcements) === 1) ? 'single-announcement' : '' ?>">
+                    <?php if (empty($home_announcements)): ?>
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: white; border-radius: 16px; border: 1px dashed #cbd5e1; width: 100%; max-width: 600px; margin: 0 auto;">
+                            <i class="bi bi-megaphone" style="font-size: 3rem; color: #94a3b8; display: block; margin-bottom: 15px;"></i>
+                            <h3 style="color: #334155; margin-bottom: 8px;">No Announcements Yet</h3>
+                            <p style="color: #64748b; margin: 0;">Stay tuned! New community updates and notices will be posted here soon.</p>
                         </div>
-                        <div class="announcement-content">
-                            <h4 style="color: var(--text-color, #1f2937); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">General Assembly Meeting</h4>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong style="color: var(--text-color, #1f2937);">What:</strong> General Assembly Meeting</p>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong style="color: var(--text-color, #1f2937);">When:</strong> 9:00 AM, October 15</p>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong style="color: var(--text-color, #1f2937);">Why:</strong> Discuss infrastructure projects & budgets.</p>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0;"><strong style="color: var(--text-color, #1f2937);">Who:</strong> All Barangay Residents</p>
-                        </div>
-                    </div>
+                    <?php else: ?>
+                        <?php foreach ($home_announcements as $idx => $ann): ?>
+                            <div class="announcement-card-v2" data-aos="fade-up" data-aos-delay="<?= ($idx % 3) * 100 ?>">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.2rem;">
+                                    <div class="announcement-date-badge" style="margin-bottom: 0;">
+                                        <?= htmlspecialchars(format_announcement_badge($ann['when_date'], $ann['created_at'])) ?>
+                                    </div>
+                                    <span style="font-size: 0.8rem; color: #94a3b8;"><i class="bi bi-calendar3"></i> <?= date('M d, Y', strtotime($ann['created_at'])) ?></span>
+                                </div>
 
-                    <!-- Announcement 2 -->
-                    <div class="announcement-card" data-aos="fade-up" data-aos-delay="100" style="background: white; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); display: flex; gap: 1.5rem; transition: transform 0.3s ease;">
-                        <div class="date-box" style="background-color: var(--primary-light, #e8f5ee); border-radius: 10px; min-width: 65px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary-color, #137547);">
-                            <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Oct</span>
-                            <span style="font-size: 1.5rem; font-weight: 800; line-height: 1;">22</span>
-                        </div>
-                        <div class="announcement-content">
-                            <h4 style="color: var(--text-color, #1f2937); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">Free Medical & Dental Mission</h4>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong style="color: var(--text-color, #1f2937);">What:</strong> Free Medical & Dental Mission</p>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong style="color: var(--text-color, #1f2937);">When:</strong> 8:00 AM, October 22</p>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong style="color: var(--text-color, #1f2937);">Why:</strong> Offer free checkups and medicines.</p>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0;"><strong style="color: var(--text-color, #1f2937);">Who:</strong> Senior Citizens and Children</p>
-                        </div>
-                    </div>
+                                <?php if (!empty($ann['cover_image']) && file_exists('admin/' . $ann['cover_image'])): ?>
+                                    <div class="announcement-image-wrapper" onclick="openAnnouncementLightbox('admin/<?= htmlspecialchars($ann['cover_image'], ENT_QUOTES) ?>', '<?= htmlspecialchars(addslashes($ann['title']), ENT_QUOTES) ?>')" title="Click to view full image">
+                                        <img class="announcement-img-backdrop" src="admin/<?= htmlspecialchars($ann['cover_image']) ?>" alt="" aria-hidden="true">
+                                        <img class="announcement-img-main" src="admin/<?= htmlspecialchars($ann['cover_image']) ?>" alt="<?= htmlspecialchars($ann['title']) ?>">
+                                        <span class="announcement-img-badge"><i class="bi bi-arrows-fullscreen"></i> View Full Image</span>
+                                    </div>
+                                <?php endif; ?>
 
-                    <!-- Announcement 3 -->
-                    <div class="announcement-card" data-aos="fade-up" data-aos-delay="100" style="background: white; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); display: flex; gap: 1.5rem; transition: transform 0.3s ease;">
-                        <div class="date-box" style="background-color: var(--primary-light, #e8f5ee); border-radius: 10px; min-width: 65px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary-color, #137547);">
-                            <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Nov</span>
-                            <span style="font-size: 1.5rem; font-weight: 800; line-height: 1;">01</span>
-                        </div>
-                        <div class="announcement-content">
-                            <h4 style="color: var(--text-color, #1f2937); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">Undas 2025 Traffic Advisory</h4>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong style="color: var(--text-color, #1f2937);">What:</strong> Undas 2025 Traffic Advisory</p>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong style="color: var(--text-color, #1f2937);">When:</strong> All Day, November 01</p>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0.5rem;"><strong style="color: var(--text-color, #1f2937);">Why:</strong> Road closures and rerouting for Undas.</p>
-                            <p style="color: var(--muted-text-color, #6b7280); font-size: 0.9rem; margin-bottom: 0;"><strong style="color: var(--text-color, #1f2937);">Who:</strong> All Motorists and Residents</p>
-                        </div>
-                    </div>
+                                <h3 class="announcement-card-title"><?= htmlspecialchars($ann['title']) ?></h3>
+                                
+                                <div class="announcement-details">
+                                    <?php if (!empty($ann['what'])): ?>
+                                        <p><strong>What:</strong> <?= htmlspecialchars($ann['what']) ?></p>
+                                    <?php endif; ?>
+                                    <?php if (!empty($ann['when_date'])): ?>
+                                        <p><strong>When:</strong> <?= htmlspecialchars($ann['when_date']) ?></p>
+                                    <?php endif; ?>
+                                    <?php if (!empty($ann['where_place'])): ?>
+                                        <p><strong>Where:</strong> <?= htmlspecialchars($ann['where_place']) ?></p>
+                                    <?php endif; ?>
+                                    <?php if (!empty($ann['who'])): ?>
+                                        <p><strong>Who:</strong> <?= htmlspecialchars($ann['who']) ?></p>
+                                    <?php endif; ?>
+                                    <?php if (!empty($ann['why'])): ?>
+                                        <p><strong>Why:</strong> <?= htmlspecialchars($ann['why']) ?></p>
+                                    <?php endif; ?>
+                                </div>
 
+                                <?php if (!empty($ann['content'])): ?>
+                                    <div class="announcement-divider"></div>
+                                    <div class="announcement-description">
+                                        <p><?= nl2br(htmlspecialchars($ann['content'])) ?></p>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
                 <div style="text-align: center; margin-top: 3rem;">
                     <a href="announcements.php" class="btn-learn-more">View All Announcements <i class="bi bi-arrow-right"></i></a>
@@ -828,6 +861,15 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
         </div>
     </div>
 
+    <!-- Announcement Fullscreen Lightbox Modal -->
+    <div id="announcementLightbox" class="announcement-lightbox" onclick="closeAnnouncementLightbox(event)">
+        <button type="button" class="announcement-lightbox-close" onclick="closeAnnouncementLightbox(event)" title="Close (Esc)">&times;</button>
+        <div class="announcement-lightbox-content" onclick="event.stopPropagation()">
+            <img id="announcementLightboxImg" src="" alt="Full Announcement Image">
+            <div id="announcementLightboxTitle" class="announcement-lightbox-title"></div>
+        </div>
+    </div>
+
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -910,12 +952,36 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
           }
       }
 
+      function openAnnouncementLightbox(src, title) {
+          var modal = document.getElementById('announcementLightbox');
+          var img = document.getElementById('announcementLightboxImg');
+          var titleEl = document.getElementById('announcementLightboxTitle');
+          if (modal && img) {
+              img.src = src;
+              if (titleEl) titleEl.textContent = title || '';
+              modal.classList.add('active');
+              document.body.style.overflow = 'hidden';
+          }
+      }
+
+      function closeAnnouncementLightbox(e) {
+          if (e && e.stopPropagation) e.stopPropagation();
+          var modal = document.getElementById('announcementLightbox');
+          if (modal) {
+              modal.classList.remove('active');
+              document.body.style.overflow = '';
+          }
+      }
+
       document.addEventListener('keydown', function(e) {
           const lb = document.getElementById('homeLightbox');
           if (lb && lb.style.display === 'flex') {
               if (e.key === 'Escape') closeHomeLightbox();
               else if (e.key === 'ArrowLeft') prevHomeLightbox();
               else if (e.key === 'ArrowRight') nextHomeLightbox();
+          }
+          if (e.key === 'Escape') {
+              closeAnnouncementLightbox();
           }
       });
       document.addEventListener('DOMContentLoaded', function() {
