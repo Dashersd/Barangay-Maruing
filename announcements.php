@@ -1,3 +1,25 @@
+<?php
+require_once 'admin/db_connect.php';
+
+function format_announcement_badge($when_date, $created_at) {
+    if (!empty($when_date)) {
+        $ts = strtotime($when_date);
+        if ($ts && $ts > 0) {
+            return strtoupper(date('M d', $ts));
+        }
+    }
+    $ts = !empty($created_at) ? strtotime($created_at) : time();
+    return strtoupper(date('M d', $ts));
+}
+
+$announcements = [];
+$res = $conn->query("SELECT * FROM announcements WHERE status = 'published' ORDER BY created_at DESC");
+if ($res) {
+    while ($row = $res->fetch_assoc()) {
+        $announcements[] = $row;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +41,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
-    <link rel="stylesheet" href="public/assets/css/announcements.css?v=1">
+    <link rel="stylesheet" href="public/assets/css/announcements.css?v=2">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
@@ -90,64 +112,60 @@
     <main class="announcements-main-section">
         <div class="container announcements-container">
             
-            <div class="announcements-grid">
-                <!-- Announcement 1 -->
-                <div class="announcement-card-v2" data-aos="fade-up" data-aos-delay="0">
-                    <div class="announcement-date-badge">OCT 15</div>
-                    <h3 class="announcement-card-title">General Assembly Meeting</h3>
-                    
-                    <div class="announcement-details">
-                        <p><strong>What:</strong> Bi-annual General Assembly Meeting</p>
-                        <p><strong>When:</strong> October 15, 2025 at 9:00 AM</p>
-                        <p><strong>Why:</strong> To discuss upcoming infrastructure projects and budget allocations.</p>
-                        <p><strong>Who:</strong> All residents of Barangay San Jose</p>
+            <div class="announcements-grid <?php echo (count($announcements) === 1) ? 'single-announcement' : ''; ?>">
+                <?php if (empty($announcements)): ?>
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: white; border-radius: 16px; border: 1px dashed #cbd5e1;">
+                        <i class="bi bi-megaphone" style="font-size: 3rem; color: #94a3b8; display: block; margin-bottom: 15px;"></i>
+                        <h3 style="color: #334155; margin-bottom: 8px;">No Announcements Yet</h3>
+                        <p style="color: #64748b; margin: 0;">Stay tuned! New community updates and notices will be posted here soon.</p>
                     </div>
+                <?php else: ?>
+                    <?php foreach ($announcements as $idx => $ann): ?>
+                        <div class="announcement-card-v2" data-aos="fade-up" data-aos-delay="<?php echo ($idx % 3) * 100; ?>">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.2rem;">
+                                <div class="announcement-date-badge" style="margin-bottom: 0;">
+                                    <?php echo htmlspecialchars(format_announcement_badge($ann['when_date'], $ann['created_at'])); ?>
+                                </div>
+                                <span style="font-size: 0.8rem; color: #94a3b8;"><i class="bi bi-calendar3"></i> <?php echo date('M d, Y', strtotime($ann['created_at'])); ?></span>
+                            </div>
 
-                    <div class="announcement-divider"></div>
+                            <?php if (!empty($ann['cover_image']) && file_exists('admin/' . $ann['cover_image'])): ?>
+                                <div class="announcement-image-wrapper" onclick="openAnnouncementLightbox('admin/<?php echo htmlspecialchars($ann['cover_image'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars(addslashes($ann['title']), ENT_QUOTES); ?>')" title="Click to view full image">
+                                    <img class="announcement-img-backdrop" src="admin/<?php echo htmlspecialchars($ann['cover_image']); ?>" alt="" aria-hidden="true">
+                                    <img class="announcement-img-main" src="admin/<?php echo htmlspecialchars($ann['cover_image']); ?>" alt="<?php echo htmlspecialchars($ann['title']); ?>">
+                                    <span class="announcement-img-badge"><i class="bi bi-arrows-fullscreen"></i> View Full Image</span>
+                                </div>
+                            <?php endif; ?>
 
-                    <div class="announcement-description">
-                        <p>We highly encourage at least one representative per household to attend this important assembly. Your voice and feedback are essential as we plan for the community's future developments.</p>
-                    </div>
-                </div>
+                            <h3 class="announcement-card-title"><?php echo htmlspecialchars($ann['title']); ?></h3>
+                            
+                            <div class="announcement-details">
+                                <?php if (!empty($ann['what'])): ?>
+                                    <p><strong>What:</strong> <?php echo htmlspecialchars($ann['what']); ?></p>
+                                <?php endif; ?>
+                                <?php if (!empty($ann['when_date'])): ?>
+                                    <p><strong>When:</strong> <?php echo htmlspecialchars($ann['when_date']); ?></p>
+                                <?php endif; ?>
+                                <?php if (!empty($ann['where_place'])): ?>
+                                    <p><strong>Where:</strong> <?php echo htmlspecialchars($ann['where_place']); ?></p>
+                                <?php endif; ?>
+                                <?php if (!empty($ann['who'])): ?>
+                                    <p><strong>Who:</strong> <?php echo htmlspecialchars($ann['who']); ?></p>
+                                <?php endif; ?>
+                                <?php if (!empty($ann['why'])): ?>
+                                    <p><strong>Why:</strong> <?php echo htmlspecialchars($ann['why']); ?></p>
+                                <?php endif; ?>
+                            </div>
 
-                <!-- Announcement 2 -->
-                <div class="announcement-card-v2" data-aos="fade-up" data-aos-delay="100">
-                    <div class="announcement-date-badge">OCT 22</div>
-                    <h3 class="announcement-card-title">Free Medical & Dental Mission</h3>
-                    
-                    <div class="announcement-details">
-                        <p><strong>What:</strong> Free Medical and Dental Checkups</p>
-                        <p><strong>When:</strong> October 22, 2025 starting at 8:00 AM</p>
-                        <p><strong>Why:</strong> To provide accessible healthcare services to those in need.</p>
-                        <p><strong>Who:</strong> Priority for Senior Citizens and Children</p>
-                    </div>
-
-                    <div class="announcement-divider"></div>
-
-                    <div class="announcement-description">
-                        <p>In partnership with the City Health Office and volunteer doctors, we will be providing free checkups, basic tooth extractions, and essential medicines. Please bring your valid ID and PhilHealth card if available.</p>
-                    </div>
-                </div>
-
-                <!-- Announcement 3 -->
-                <div class="announcement-card-v2" data-aos="fade-up" data-aos-delay="200">
-                    <div class="announcement-date-badge">NOV 01</div>
-                    <h3 class="announcement-card-title">Undas 2025 Traffic Advisory</h3>
-                    
-                    <div class="announcement-details">
-                        <p><strong>What:</strong> Temporary Road Closures and Rerouting</p>
-                        <p><strong>When:</strong> November 01, 2025 (All Day)</p>
-                        <p><strong>Why:</strong> To manage the expected high volume of traffic heading to the public cemetery.</p>
-                        <p><strong>Who:</strong> All Motorists and Residents</p>
-                    </div>
-
-                    <div class="announcement-divider"></div>
-
-                    <div class="announcement-description">
-                        <p>Please be advised that Main Avenue will be strictly one-way leading towards the cemetery. Expect heavy traffic. Barangay Tanods and City Traffic Enforcers will be deployed to guide motorists.</p>
-                    </div>
-                </div>
-
+                            <?php if (!empty($ann['content'])): ?>
+                                <div class="announcement-divider"></div>
+                                <div class="announcement-description">
+                                    <p><?php echo nl2br(htmlspecialchars($ann['content'])); ?></p>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
 
         </div>
@@ -195,6 +213,15 @@
         </div>
     </footer>
 
+    <!-- Announcement Fullscreen Lightbox Modal -->
+    <div id="announcementLightbox" class="announcement-lightbox" onclick="closeAnnouncementLightbox(event)">
+        <button type="button" class="announcement-lightbox-close" onclick="closeAnnouncementLightbox(event)" title="Close (Esc)">&times;</button>
+        <div class="announcement-lightbox-content" onclick="event.stopPropagation()">
+            <img id="announcementLightboxImg" src="" alt="Full Announcement Image">
+            <div id="announcementLightboxTitle" class="announcement-lightbox-title"></div>
+        </div>
+    </div>
+
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -205,6 +232,33 @@
           once: true,
           offset: 100
         });
+      });
+
+      function openAnnouncementLightbox(src, title) {
+          var modal = document.getElementById('announcementLightbox');
+          var img = document.getElementById('announcementLightboxImg');
+          var titleEl = document.getElementById('announcementLightboxTitle');
+          if (modal && img) {
+              img.src = src;
+              if (titleEl) titleEl.textContent = title || '';
+              modal.classList.add('active');
+              document.body.style.overflow = 'hidden';
+          }
+      }
+
+      function closeAnnouncementLightbox(e) {
+          if (e && e.stopPropagation) e.stopPropagation();
+          var modal = document.getElementById('announcementLightbox');
+          if (modal) {
+              modal.classList.remove('active');
+              document.body.style.overflow = '';
+          }
+      }
+
+      document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+              closeAnnouncementLightbox();
+          }
       });
     </script>
 </body>
