@@ -10,7 +10,7 @@ if ($purok_num >= 1 && $purok_num <= 9) {
     
     // Select the spots. We also prefix paths with 'admin/' since images were uploaded in 'admin/uploads/'
     // But the public page is at the root, so 'admin/uploads/markers/...' will resolve correctly from root.
-    $sql = "SELECT house_number, husband_name, spouse_name, marker_width, marker_height, top_position, left_position, marker_image, house_image FROM " . $table_name;
+    $sql = "SELECT house_number, husband_name, spouse_name, children, marker_width, marker_height, top_position, left_position, marker_image, house_image FROM " . $table_name;
     
     $result = $conn->query($sql);
     

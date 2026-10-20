@@ -188,9 +188,15 @@
                         <span style="color: #64748b; font-size: 0.9rem;">Husband/Head</span>
                         <strong id="modal-husband" style="color: #334155;">-</strong>
                     </div>
-                    <div style="display: flex; justify-content: space-between;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                         <span style="color: #64748b; font-size: 0.9rem;">Spouse Name</span>
                         <strong id="modal-spouse" style="color: #334155;">-</strong>
+                    </div>
+                    <div style="border-top: 1px dashed #e2e8f0; padding-top: 10px; margin-top: 10px;">
+                        <span style="color: #64748b; font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 6px;">Children / Dependents</span>
+                        <div id="modal-children-list" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 120px; overflow-y: auto;">
+                            <!-- Populated dynamically -->
+                        </div>
                     </div>
                 </div>
             </div>

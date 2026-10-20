@@ -161,6 +161,17 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <label style="margin: 0; font-weight: 600;">Children / Dependents (Optional)</label>
+                            <button type="button" id="btn-add-child" class="btn" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; border-radius: 6px; padding: 4px 10px; font-size: 0.82rem; cursor: pointer; font-weight: 500;">
+                                <i class="bi bi-plus-circle"></i> + Add Child
+                            </button>
+                        </div>
+                        <div id="children-container"></div>
+                        <small style="color: #94a3b8; font-size: 0.8rem; display: block; margin-top: 4px;">Click "+ Add Child" if this household has children or dependents.</small>
+                    </div>
+
                                         <div class="form-group">
                         <label>House Image (Actual Photo)</label>
                         <input type="file" name="house_image" class="form-control file-input">

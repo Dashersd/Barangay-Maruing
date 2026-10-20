@@ -135,6 +135,7 @@
                                 <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">House Number</th>
                                 <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">Husband Name</th>
                                 <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">Spouse Name</th>
+                                <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">Children / Dependents</th>
                                 <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">Date Added</th>
                                 <th style="padding: 15px 20px; text-align: center; font-weight: 600; color: #334155; font-size: 0.95rem;">Actions</th>
                             </tr>
@@ -156,7 +157,7 @@
                             if (empty($records)):
                             ?>
                                 <tr>
-                                    <td colspan="6" style="padding: 30px; text-align: center; color: #64748b; font-style: italic;">No records found.</td>
+                                    <td colspan="7" style="padding: 30px; text-align: center; color: #64748b; font-style: italic;">No records found.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($records as $record): ?>
@@ -171,6 +172,22 @@
                                         <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['house_number'] ?? ''); ?></td>
                                         <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['husband_name'] ?? ''); ?></td>
                                         <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['spouse_name'] ?? ''); ?></td>
+                                        <td style="padding: 15px 20px; color: #475569;">
+                                            <?php 
+                                            $children = !empty($record['children']) ? json_decode($record['children'], true) : [];
+                                            if (!empty($children) && is_array($children)): 
+                                            ?>
+                                                <div style="display: flex; flex-wrap: wrap; gap: 4px; max-width: 250px;">
+                                                    <?php foreach ($children as $c): ?>
+                                                        <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 500; display: inline-block;">
+                                                            <?php echo htmlspecialchars($c); ?>
+                                                        </span>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            <?php else: ?>
+                                                <span style="color: #94a3b8; font-size: 0.85rem; font-style: italic;">None</span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['date_added'] ?? ''); ?></td>
                                         <td style="padding: 15px 20px; text-align: center;">
                                             <a href="edit_record.php?target_file=purok8&id=<?php echo htmlspecialchars($record['id'] ?? ''); ?>" style="background: #0f766e; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; margin-right: 5px; text-decoration: none; display: inline-block;"><i class="bi bi-pencil-square"></i> Edit</a>

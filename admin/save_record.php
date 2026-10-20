@@ -58,6 +58,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $house_number = isset($_POST['house_number']) ? trim($_POST['house_number']) : '';
     $husband_name = isset($_POST['husband_name']) ? trim($_POST['husband_name']) : '';
     $spouse_name = isset($_POST['spouse_name']) ? trim($_POST['spouse_name']) : '';
+    
+    // Process multiple children
+    $children = isset($_POST['children']) && is_array($_POST['children']) ? array_filter(array_map('trim', $_POST['children'])) : [];
+    $children_json = !empty($children) ? json_encode(array_values($children), JSON_UNESCAPED_UNICODE) : null;
+
     $marker_width = isset($_POST['marker_width']) ? (int)$_POST['marker_width'] : 40;
     $marker_height = isset($_POST['marker_height']) ? (int)$_POST['marker_height'] : 40;
     $top_position = isset($_POST['top_position']) ? (float)$_POST['top_position'] : 50.00;
@@ -65,14 +70,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // 4. Save to MySQL database using Prepared Statement to prevent SQL injection
     $sql = "INSERT INTO " . $table_name . " 
-            (house_number, husband_name, spouse_name, marker_width, marker_height, top_position, left_position, marker_image, house_image) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            (house_number, husband_name, spouse_name, children, marker_width, marker_height, top_position, left_position, marker_image, house_image) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
     $stmt = $conn->prepare($sql);
     
     if ($stmt) {
-        // "sss" for 3 strings, "ii" for 2 ints, "dd" for 2 decimals, "ss" for 2 strings
-        $stmt->bind_param("sssiiddss", $house_number, $husband_name, $spouse_name, $marker_width, $marker_height, $top_position, $left_position, $marker_image_path, $house_image_path);
+        // "ssss" for 4 strings, "ii" for 2 ints, "dd" for 2 decimals, "ss" for 2 strings
+        $stmt->bind_param("ssssiiddss", $house_number, $husband_name, $spouse_name, $children_json, $marker_width, $marker_height, $top_position, $left_position, $marker_image_path, $house_image_path);
         
         $stmt->execute();
         $stmt->close();

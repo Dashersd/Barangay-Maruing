@@ -131,6 +131,23 @@ document.addEventListener('DOMContentLoaded', function () {
                                     modalNoImg.style.display = 'flex';
                                 }
 
+                                const childrenContainer = document.getElementById('modal-children-list');
+                                if (childrenContainer) {
+                                    let children = [];
+                                    try {
+                                        children = marker.children ? JSON.parse(marker.children) : [];
+                                    } catch(err) {
+                                        children = [];
+                                    }
+                                    if (Array.isArray(children) && children.length > 0) {
+                                        childrenContainer.innerHTML = children.map(c => 
+                                            `<span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 500; display: inline-block;">${c}</span>`
+                                        ).join('');
+                                    } else {
+                                        childrenContainer.innerHTML = '<span style="color: #94a3b8; font-style: italic; font-size: 0.85rem;">None listed</span>';
+                                    }
+                                }
+
                                 document.getElementById('household-modal').style.display = 'flex';
                             });
 

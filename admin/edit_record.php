@@ -39,6 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $house_number = $_POST['house_number'] ?? '';
     $husband_name = $_POST['husband_name'] ?? '';
     $spouse_name = $_POST['spouse_name'] ?? '';
+    
+    // Process multiple children
+    $children = isset($_POST['children']) && is_array($_POST['children']) ? array_filter(array_map('trim', $_POST['children'])) : [];
+    $children_json = !empty($children) ? json_encode(array_values($children), JSON_UNESCAPED_UNICODE) : null;
+    
     $house_image_path = $record['house_image'];
     
     // Handle House Image Update
@@ -56,9 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     
-    $stmt = $conn->prepare("UPDATE $table_name SET house_number = ?, husband_name = ?, spouse_name = ?, house_image = ? WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE $table_name SET house_number = ?, husband_name = ?, spouse_name = ?, children = ?, house_image = ? WHERE id = ?");
     if ($stmt) {
-        $stmt->bind_param("ssssi", $house_number, $husband_name, $spouse_name, $house_image_path, $id);
+        $stmt->bind_param("sssssi", $house_number, $husband_name, $spouse_name, $children_json, $house_image_path, $id);
         $stmt->execute();
         $stmt->close();
     }
@@ -71,6 +76,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     header("Location: " . $redirect . "?edited=1");
     exit();
+}
+
+$existing_children = !empty($record['children']) ? json_decode($record['children'], true) : [];
+if (!is_array($existing_children)) {
+    $existing_children = [];
 }
 
 $back_url = '';
@@ -126,6 +136,24 @@ if ($target_file === 'legend') {
             </div>
             
             <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="margin: 0; font-weight: 600;">Children / Dependents (Optional)</label>
+                    <button type="button" id="btn-add-child" class="btn" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; border-radius: 6px; padding: 4px 10px; font-size: 0.82rem; cursor: pointer; font-weight: 600;">
+                        + Add Child
+                    </button>
+                </div>
+                <div id="children-container" style="display: flex; flex-direction: column; gap: 8px;">
+                    <?php foreach ($existing_children as $child): ?>
+                        <div class="child-input-row" style="display: flex; gap: 8px; align-items: center;">
+                            <input type="text" name="children[]" value="<?php echo htmlspecialchars($child); ?>" placeholder="Child's Full Name (e.g. Juan Dela Cruz Jr.)" class="form-control" style="flex: 1;" required>
+                            <button type="button" class="btn-remove-child" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; border-radius: 6px; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;" title="Remove Child">&times;</button>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <small style="color: #94a3b8; font-size: 0.8rem; display: block; margin-top: 4px;">Click "+ Add Child" to add more children or dependents.</small>
+            </div>
+            
+            <div class="form-group">
                 <label>Household Image (Optional)</label>
                 <?php if (!empty($record['house_image'])): ?>
                     <div class="current-image">
@@ -141,5 +169,33 @@ if ($target_file === 'legend') {
             <a href="<?php echo htmlspecialchars($back_url); ?>" class="btn btn-cancel">Cancel</a>
         </form>
     </div>
+
+    <script>
+        const btnAddChild = document.getElementById('btn-add-child');
+        const childrenContainer = document.getElementById('children-container');
+
+        if (btnAddChild && childrenContainer) {
+            btnAddChild.addEventListener('click', function() {
+                const row = document.createElement('div');
+                row.className = 'child-input-row';
+                row.style.cssText = 'display: flex; gap: 8px; align-items: center;';
+                row.innerHTML = `
+                    <input type="text" name="children[]" placeholder="Child's Full Name (e.g. Juan Dela Cruz Jr.)" class="form-control" style="flex: 1;" required>
+                    <button type="button" class="btn-remove-child" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; border-radius: 6px; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;" title="Remove Child">&times;</button>
+                `;
+                childrenContainer.appendChild(row);
+                const input = row.querySelector('input');
+                if (input) input.focus();
+            });
+
+            childrenContainer.addEventListener('click', function(e) {
+                const removeBtn = e.target.closest('.btn-remove-child');
+                if (removeBtn) {
+                    const row = removeBtn.closest('.child-input-row');
+                    if (row) row.remove();
+                }
+            });
+        }
+    </script>
 </body>
 </html>

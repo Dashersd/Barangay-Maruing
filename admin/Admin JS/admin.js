@@ -97,4 +97,42 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Dynamic Children / Dependents Builder
+    const btnAddChild = document.getElementById('btn-add-child');
+    const childrenContainer = document.getElementById('children-container');
+
+    if (btnAddChild && childrenContainer) {
+        btnAddChild.addEventListener('click', function() {
+            addChildRow();
+        });
+    }
+
+    if (childrenContainer) {
+        childrenContainer.addEventListener('click', function(e) {
+            const removeBtn = e.target.closest('.btn-remove-child');
+            if (removeBtn) {
+                const row = removeBtn.closest('.child-input-row');
+                if (row) {
+                    row.remove();
+                }
+            }
+        });
+    }
+
+    function addChildRow(nameValue = '') {
+        if (!childrenContainer) return;
+        const row = document.createElement('div');
+        row.className = 'child-input-row';
+        row.style.cssText = 'display: flex; gap: 8px; align-items: center; margin-bottom: 8px;';
+
+        const safeValue = (nameValue || '').replace(/"/g, '&quot;');
+        row.innerHTML = `
+            <input type="text" name="children[]" value="${safeValue}" placeholder="Child's Full Name (e.g. Juan Dela Cruz Jr.)" class="form-control" style="flex: 1;" required>
+            <button type="button" class="btn-remove-child" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; border-radius: 6px; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;" title="Remove Child">&times;</button>
+        `;
+        childrenContainer.appendChild(row);
+        const input = row.querySelector('input');
+        if (input && !nameValue) input.focus();
+    }
 });

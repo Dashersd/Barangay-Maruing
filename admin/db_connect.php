@@ -1,13 +1,22 @@
 <?php
 // admin/db_connect.php
 
-$servername = "localhost";
+$servername = "127.0.0.1";
 $username = "root";
 $password = "";
 $dbname = "barangay_maruing";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    $conn = new mysqli($servername, $username, $password, $dbname);
+} catch (mysqli_sql_exception $e) {
+    // Fallback to localhost if 127.0.0.1 fails
+    try {
+        $conn = new mysqli("localhost", $username, $password, $dbname);
+    } catch (mysqli_sql_exception $e2) {
+        die("Database connection failed: " . $e2->getMessage());
+    }
+}
 
 // Check connection
 if ($conn->connect_error) {
