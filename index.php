@@ -58,6 +58,18 @@ if (isset($conn) && !$conn->connect_error) {
     }
 }
 
+// Fetch active services for the homepage showcase
+$home_services = [];
+if (isset($conn) && !$conn->connect_error) {
+    $svc_res = $conn->query("SELECT * FROM services WHERE status = 'active' ORDER BY display_order ASC, id ASC LIMIT 4");
+    if ($svc_res) {
+        while ($row = $svc_res->fetch_assoc()) {
+            $home_services[] = $row;
+        }
+    }
+}
+
+
 // Fetch Barangay Captain details for the Meet Our Leaders section
 $captain_name = 'Hon. Punong Barangay';
 $captain_role = 'Barangay Captain';
@@ -349,42 +361,80 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
                     <p style="font-size: 1.1rem; color: var(--muted-text-color, #64748b);">Accessible and efficient services dedicated to the welfare of our residents.</p>
                 </div>
                 <div class="services-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem;">
-                    
-                    <!-- Card 1 -->
-                    <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
-                        <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
-                            <i class="bi bi-file-earmark-text" style="font-size: 1.8rem; color: var(--primary-color, #10b981);"></i>
-                        </div>
-                        <h4 style="color: var(--primary-dark, #1e293b); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">Document Issuance</h4>
-                        <p style="color: var(--muted-text-color, #64748b); font-size: 0.95rem; line-height: 1.6;">Get your Barangay Clearance, Certificate of Indigency, and other important documents with ease.</p>
-                    </div>
+                    <?php if (!empty($home_services)): ?>
+                        <?php foreach ($home_services as $s_idx => $svc): 
+                            $svcIcon = !empty($svc['icon']) ? htmlspecialchars($svc['icon']) : 'bi-file-earmark-text';
+                            $btnText = !empty($svc['button_text']) ? htmlspecialchars($svc['button_text']) : 'Request Document';
+                            $fee = !empty($svc['fee']) ? htmlspecialchars($svc['fee']) : 'Free';
+                            $procTime = !empty($svc['processing_time']) ? htmlspecialchars($svc['processing_time']) : 'Same Day';
+                        ?>
+                            <div class="service-card" data-aos="zoom-in" data-aos-delay="<?= ($s_idx * 100) ?>" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem;">
+                                        <i class="bi <?= $svcIcon ?>" style="font-size: 1.8rem; color: var(--primary-color, #10b981);"></i>
+                                    </div>
 
-                    <!-- Card 2 -->
-                    <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
-                        <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
-                            <i class="bi bi-activity" style="font-size: 2rem; color: var(--primary-color, #10b981);"></i>
-                        </div>
-                        <h4 style="color: var(--primary-dark, #1e293b); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">Health Center</h4>
-                        <p style="color: var(--muted-text-color, #64748b); font-size: 0.95rem; line-height: 1.6;">Free consultations, vaccinations, and maternal care services for every Maruing resident.</p>
-                    </div>
+                                    <h4 style="margin-bottom: 0.6rem; font-weight: 700; font-size: 1.15rem;">
+                                        <a href="services.php#service-<?= $svc['id'] ?>" style="color: var(--primary-dark, #1e293b); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#137547'" onmouseout="this.style.color='#1e293b'">
+                                            <?= htmlspecialchars($svc['name']) ?>
+                                        </a>
+                                    </h4>
 
-                    <!-- Card 3 -->
-                    <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
-                        <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
-                            <i class="bi bi-shield-check" style="font-size: 1.8rem; color: var(--primary-color, #10b981);"></i>
-                        </div>
-                        <h4 style="color: var(--primary-dark, #1e293b); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">Peace & Order</h4>
-                        <p style="color: var(--muted-text-color, #64748b); font-size: 0.95rem; line-height: 1.6;">File a blotter or request assistance from our active Barangay Tanods who patrol 24/7.</p>
-                    </div>
+                                    <div style="display: flex; gap: 6px; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap;">
+                                        <span style="background: #e8f5ee; color: #137547; font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 20px;">
+                                            <i class="bi bi-cash-stack"></i> <?= $fee ?>
+                                        </span>
+                                        <span style="background: #f1f5f9; color: #475569; font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 20px;">
+                                            <i class="bi bi-clock"></i> <?= $procTime ?>
+                                        </span>
+                                    </div>
 
-                    <!-- Card 4 -->
-                    <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
-                        <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
-                            <i class="bi bi-people" style="font-size: 1.8rem; color: var(--primary-color, #10b981);"></i>
+                                    <p style="color: var(--muted-text-color, #64748b); font-size: 0.92rem; line-height: 1.6; margin: 0;"><?= htmlspecialchars(mb_strimwidth($svc['description'], 0, 110, '...')) ?></p>
+                                </div>
+                                <div style="margin-top: 1.5rem;">
+                                    <a href="services.php#service-<?= $svc['id'] ?>" style="color: var(--primary-color, #10b981); font-weight: 700; font-size: 0.88rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s;">
+                                        <?= $btnText ?> <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <!-- Card 1 -->
+                        <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
+                            <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                                <i class="bi bi-file-earmark-text" style="font-size: 1.8rem; color: var(--primary-color, #10b981);"></i>
+                            </div>
+                            <h4 style="color: var(--primary-dark, #1e293b); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">Document Issuance</h4>
+                            <p style="color: var(--muted-text-color, #64748b); font-size: 0.95rem; line-height: 1.6;">Get your Barangay Clearance, Certificate of Indigency, and other important documents with ease.</p>
                         </div>
-                        <h4 style="color: var(--primary-dark, #1e293b); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">Community Programs</h4>
-                        <p style="color: var(--muted-text-color, #64748b); font-size: 0.95rem; line-height: 1.6;">Participate in livelihood seminars, youth sports leagues, and regular clean-up drives.</p>
-                    </div>
+
+                        <!-- Card 2 -->
+                        <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
+                            <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                                <i class="bi bi-activity" style="font-size: 2rem; color: var(--primary-color, #10b981);"></i>
+                            </div>
+                            <h4 style="color: var(--primary-dark, #1e293b); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">Health Center</h4>
+                            <p style="color: var(--muted-text-color, #64748b); font-size: 0.95rem; line-height: 1.6;">Free consultations, vaccinations, and maternal care services for every Maruing resident.</p>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
+                            <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                                <i class="bi bi-shield-check" style="font-size: 1.8rem; color: var(--primary-color, #10b981);"></i>
+                            </div>
+                            <h4 style="color: var(--primary-dark, #1e293b); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">Peace & Order</h4>
+                            <p style="color: var(--muted-text-color, #64748b); font-size: 0.95rem; line-height: 1.6;">File a blotter or request assistance from our active Barangay Tanods who patrol 24/7.</p>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="service-card" data-aos="zoom-in" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s ease;">
+                            <div style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                                <i class="bi bi-people" style="font-size: 1.8rem; color: var(--primary-color, #10b981);"></i>
+                            </div>
+                            <h4 style="color: var(--primary-dark, #1e293b); margin-bottom: 1rem; font-weight: 700; font-size: 1.1rem;">Community Programs</h4>
+                            <p style="color: var(--muted-text-color, #64748b); font-size: 0.95rem; line-height: 1.6;">Participate in livelihood seminars, youth sports leagues, and regular clean-up drives.</p>
+                        </div>
+                    <?php endif; ?>
 
                 </div>
                 <div style="text-align: center; margin-top: 3rem;">
@@ -427,7 +477,11 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
                                     </div>
                                 <?php endif; ?>
 
-                                <h3 class="announcement-card-title"><?= htmlspecialchars($ann['title']) ?></h3>
+                                <h3 class="announcement-card-title">
+                                    <a href="announcements.php#announcement-<?= $ann['id'] ?>" class="announcement-title-link" title="Click to view full announcement">
+                                        <?= htmlspecialchars($ann['title']) ?>
+                                    </a>
+                                </h3>
                                 
                                 <div class="announcement-details">
                                     <?php if (!empty($ann['what'])): ?>
@@ -453,6 +507,12 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
                                         <p><?= nl2br(htmlspecialchars($ann['content'])) ?></p>
                                     </div>
                                 <?php endif; ?>
+
+                                <div class="announcement-card-action" style="margin-top: auto; padding-top: 1.25rem;">
+                                    <a href="announcements.php#announcement-<?= $ann['id'] ?>" class="announcement-read-more">
+                                        Read Full Announcement <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -804,17 +864,20 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
                     </div>
                 </div>
                 <!-- Column 2 -->
-                <div class="col-md-2 footer-links">
+                <div class="col-md-2 col-6 footer-links">
                     <a href="index.php">HOME</a>
                     <a href="about.php">ABOUT US</a>
+                    <a href="vision.php">VISION</a>
                 </div>
                 <!-- Column 3 -->
-                <div class="col-md-2 footer-links">
-                    <a href="officials.php">OFFICIALS</a>
-                    <a href="spot-map.php">SPOT MAP</a>
+                <div class="col-md-3 col-6 footer-links">
+                    <a href="mission.php">MISSION</a>
+                    <a href="officials.php">BARANGAY OFFICIALS</a>
+                    <a href="SKofficial.php">SK OFFICIALS</a>
                 </div>
                 <!-- Column 4 -->
-                <div class="col-md-2 footer-links">
+                <div class="col-md-3 col-6 footer-links">
+                    <a href="spot-map.php">SPOT MAP</a>
                     <a href="gallery.php">GALLERY</a>
                     <a href="contact.php">CONTACT US</a>
                 </div>

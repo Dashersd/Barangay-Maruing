@@ -1500,6 +1500,7 @@ a {
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: color 0.2s ease;
+    white-space: nowrap;
 }
 
 .footer-links a:hover {

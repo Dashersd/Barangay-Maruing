@@ -88,11 +88,27 @@ CREATE TABLE `services` (
   `id` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
   `description` text DEFAULT NULL,
+  `icon` varchar(100) DEFAULT 'bi-file-earmark-text',
   `requirements` text DEFAULT NULL,
+  `fee` varchar(100) DEFAULT 'Free',
+  `processing_time` varchar(100) DEFAULT '15-30 Minutes',
+  `button_text` varchar(100) DEFAULT 'Request Document',
+  `button_url` varchar(255) DEFAULT 'contact.php',
+  `display_order` int(11) DEFAULT 0,
   `status` enum('active','inactive') DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `services`
+--
+
+INSERT INTO `services` (`id`, `name`, `description`, `icon`, `requirements`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Barangay Clearance', 'Request a Barangay Clearance for employment, banking, or other legal purposes. Essential for verifying your residency and good standing.', 'bi-file-earmark-text', 'Valid Government ID, 2x2 Photo, Cedula / Community Tax Certificate', 'active', '2026-10-21 03:30:00', '2026-10-21 03:30:00'),
+(2, 'Certificate of Indigency', 'Obtain a Certificate of Indigency to avail of government assistance, scholarships, and medical support programs.', 'bi-house-heart', 'Valid Government ID, Proof of Low Income / Endorsement', 'active', '2026-10-21 03:30:00', '2026-10-21 03:30:00'),
+(3, 'Business Clearance', 'Required for all new and renewing businesses operating within the barangay jurisdiction prior to Mayor''s permit application.', 'bi-briefcase', 'DTI / SEC Registration, Contract of Lease or Title, Previous Barangay Clearance (if renewal)', 'active', '2026-10-21 03:30:00', '2026-10-21 03:30:00'),
+(4, 'Certificate of Residency', 'Proof of your residency within the barangay. Often required for school enrollments, ID applications, and other local transactions.', 'bi-person-badge', 'Valid Government ID, Proof of Billing or Landlord Certification', 'active', '2026-10-21 03:30:00', '2026-10-21 03:30:00');
 
 -- --------------------------------------------------------
 

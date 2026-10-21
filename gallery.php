@@ -275,17 +275,20 @@ $total_media_count = count($media_items);
                     </div>
                 </div>
                 <!-- Column 2 -->
-                <div class="col-md-2 footer-links">
+                <div class="col-md-2 col-6 footer-links">
                     <a href="index.php">HOME</a>
                     <a href="about.php">ABOUT US</a>
+                    <a href="vision.php">VISION</a>
                 </div>
                 <!-- Column 3 -->
-                <div class="col-md-2 footer-links">
-                    <a href="officials.php">OFFICIALS</a>
-                    <a href="spot-map.php">SPOT MAP</a>
+                <div class="col-md-3 col-6 footer-links">
+                    <a href="mission.php">MISSION</a>
+                    <a href="officials.php">BARANGAY OFFICIALS</a>
+                    <a href="SKofficial.php">SK OFFICIALS</a>
                 </div>
                 <!-- Column 4 -->
-                <div class="col-md-2 footer-links">
+                <div class="col-md-3 col-6 footer-links">
+                    <a href="spot-map.php">SPOT MAP</a>
                     <a href="gallery.php">GALLERY</a>
                     <a href="contact.php">CONTACT US</a>
                 </div>
