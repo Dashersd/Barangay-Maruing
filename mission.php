@@ -1,10 +1,25 @@
+<?php
+@include_once __DIR__ . '/admin/db_connect.php';
+
+$default_mission = "To formulate and enforce transparent plan, programs and regulation for the protection of the interest of the community with regards to environment, education, infrastructure, health, social services, moral financial, peace and order. Pursue collaborative effort together with our eagerness and active participation as we mobilize its constituents, we can be a progressive and productive community.";
+
+$mission_text = $default_mission;
+if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
+    $res = $conn->query("SELECT mission FROM about_content WHERE id = 1 LIMIT 1");
+    if ($res && $row = $res->fetch_assoc()) {
+        if (!empty($row['mission'])) {
+            $mission_text = $row['mission'];
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Learn about Barangay Maruing's vision, mission, and rich history.">
-    <title>About Us | Barangay Maruing Information System</title>
+    <title>Mission | Barangay Maruing Information System</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="public/image/Maruing Logo 2.png">
@@ -21,6 +36,7 @@
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
     <link rel="stylesheet" href="public/assets/css/about.css?v=3">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/assets/css/mission.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -48,13 +64,6 @@
                             <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
                         </ul>
                     </li>
-
-
-
-
-
-
-
                     <li class="nav-item">
                         <a class="nav-link" href="spot-map.php">Spot Map</a>
                     </li>
@@ -80,9 +89,6 @@
         </div>
     </nav>
 
-    
-    <link rel="stylesheet" href="public/assets/css/mission.css">
-    
     <!-- Mission Hero Section -->
     <section class="mission-hero">
         <div class="container hero-container">
@@ -101,11 +107,12 @@
         <div class="container">
             <div class="mission-content" data-aos="zoom-in-up">
                 <i class="bi bi-bullseye mission-icon"></i>
-                <p class="mission-text">"To formulate and enforce transparent plan, programs and regulation for the protection of the interest of the community with regards to environment, education, infrastructure, health, social services, moral financial, peace and order. Pursue collaborative effort together with our eagerness and active participation as we mobilize its constituents, we can be a progressive and productive community."</p>
+                <p class="mission-text">"<?= nl2br(htmlspecialchars($mission_text)) ?>"</p>
             </div>
         </div>
     </main>
-<!-- Footer -->
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-top row">
@@ -164,7 +171,3 @@
     </script>
 </body>
 </html>
-
-
-
-

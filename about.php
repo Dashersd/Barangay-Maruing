@@ -1,3 +1,27 @@
+<?php
+@include_once __DIR__ . '/admin/db_connect.php';
+
+$default_image = "public/image/Barangay Maruing Community Hall.png";
+$default_history = "Maruing once under the jurisdiction of Margosatubig, before it was declared as a Municipality in 1964 during the time of late Diosdado Macapagal and then reverted into Barangay in 1965. According to the Subanen leaders of Elders, the term Maruing came from two[2] Subanen words \"MARU\" which means bad odor and \"DUWING\" a Subanen word a term for gigantic wild boar having fangs that grew outrares from his mouth because of the incredible strength. According to the story, a Subanen hunter went to the forest looking for wild animals. Using his spear the hunter was able to hit a wild boar or the DUWING but unluckily failed to catch it. Thus, the hunter kept on looking the animal until found a very nice place where two rivers meet creating a big river before it proceeds to the sea. Because he did not find the wild boar but instead the beautiful place, he went home and reported to his co-villagers about a beautiful place where they could establish their community because of its strategic location and abundance of water.\n\nAfter few days, the hunter and his community decided to visit the said beautiful place and there they observed \"MARU\" or bad odor where they believed to be the \"DUWING\" that escaped from hunting. Since they do not know the name of the place, they conbined the two words of MARU and DUWING and they called the place Marwing. It was only changed to MARUING during the time of Barangay Captain Lorenzo Bugao.\n\nBarangay Maruing is the home of the Subanen, one of the 18 major tribes of the Lumad in Mindanao. The first Subanen families who inhabited the place were the families of Mangangot, Balabad, Bugao and Hupa and the first chinesse families were Pula, Wasing and Costan whom later killed by bandits. From the Muslim tribes, it was the families of Manopod who went and settle first in Maruing.\n\nBased on the record, of the Municipal Planning Development Office of Lapuyan, Zamboanga del Sur, Maruing was created into Barangay on January 17,1958 by Virtue of Republic Act 226 from from being a Sitio of once Barangay Lapuyan, which was under the Municipality of Margosatubig. Even before the formal creation of Barangay Maruing, the American Government had already appointed a Teniente del Barrio or Chief Executive aside from the traditional political set-up of Datu System, which is headed by Datu Sapalao. In fact, there were times that Datu Sapalao was also appointed as Teniente del Barrio, particularly Datu Sapalao Consing Bugao in 1930's and Datu Sapalao Mandag Humoa in 1940's.\n\nThe second Teniente del Barrio or Barrio at Large after Maruing was fully recognized as a Barangay was Tere Mangangot who served from 1958-1961. His councillors include Ajerol Arip, John Banagan, Tumandio Lesayao, Tumindeg Tahupis, and Tumanghis Antay. During his term, they constructed a bridged at the center of Barangay and they actively participated the clean and green Revolution Program of the National Government. In 1961, Timuay Tumindeg Tahupis, member of the Tribal Leaders of Maruing succeeded Tere Mangangot until 1964. He continued the projects of his predecessor and led in developing the sports activities and competitions with other municipalities.";
+
+$about_data = null;
+if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
+    $res = $conn->query("SELECT * FROM about_content WHERE id = 1 LIMIT 1");
+    if ($res && $row = $res->fetch_assoc()) {
+        $about_data = $row;
+    }
+}
+
+$history_text = !empty($about_data['history']) ? $about_data['history'] : $default_history;
+$image_src = $default_image;
+if (!empty($about_data['image_path'])) {
+    if (strpos($about_data['image_path'], 'uploads/about/') === 0) {
+        $image_src = 'admin/' . $about_data['image_path'];
+    } else {
+        $image_src = $about_data['image_path'];
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,13 +72,6 @@
                             <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
                         </ul>
                     </li>
-
-
-
-
-
-
-
                     <li class="nav-item">
                         <a class="nav-link" href="spot-map.php">Spot Map</a>
                     </li>
@@ -105,15 +122,21 @@
                 </div>
                 <!-- Right Image (Floated) -->
                 <div class="about-us-image-wrapper" data-aos="fade-left">
-                    <img src="public/image/Barangay Maruing Community Hall.png" alt="Barangay Hall" class="about-us-img" style="object-fit: cover; border-radius: 10px;">
+                    <img src="<?= htmlspecialchars($image_src) ?>" alt="Barangay Hall" class="about-us-img" style="object-fit: cover; border-radius: 10px;">
                 </div>
                 <h2 class="about-us-title" data-aos="fade-right">Our Barangay</h2>
                 <div class="about-us-text-scrollable" data-aos="fade-up">
-                    <p class="about-us-text">Maruing once under the jurisdiction of Margosatubig, before it was declared as a Municipality in 1964 during the time of late Diosdado Macapagal and then reverted into Barangay in 1965. According to the Subanen leaders of Elders, the term Maruing came from two[2] Subanen words "MARU" which means bad odor and "DUWING" a Subanen word a term for gigantic wild boar having fangs that grew outrares from his mouth because of the incredible strength. According to the story, a Subanen hunter went to the forest looking for wild animals. Using his spear the hunter was able to hit a wild boar or the DUWING but unluckily failed to catch it. Thus, the hunter kept on looking the animal until found a very nice place where two rivers meet creating a big river before it proceeds to the sea. Because he did not find the wild boar but instead the beautiful place, he went home and reported to his co-villagers about a beautiful place where they could establish their community because of its strategic location and abundance of water.</p>
-                    <p class="about-us-text">After few days, the hunter and his community decided to visit the said beautiful place and there they observed "MARU" or bad odor where they believed to be the "DUWING" that escaped from hunting. Since they do not know the name of the place, they conbined the two words of MARU and DUWING and they called the place Marwing. It was only changed to MARUING during the time of Barangay Captain Lorenzo Bugao.</p>
-                    <p class="about-us-text">Barangay Maruing is the home of the Subanen, one of the 18 major tribes of the Lumad in Mindanao. The first Subanen families who inhabited the place were the families of Mangangot, Balabad, Bugao and Hupa and the first chinesse families were Pula, Wasing and Costan whom later killed by bandits. From the Muslim tribes, it was the families of Manopod who went and settle first in Maruing.</p>
-                    <p class="about-us-text">Based on the record, of the Municipal Planning Development Office of Lapuyan, Zamboanga del Sur, Maruing was created into Barangay on January 17,1958 by Virtue of Republic Act 226 from from being a Sitio of once Barangay Lapuyan, which was under the Municipality of Margosatubig. Even before the formal creation of Barangay Maruing, the American Government had already appointed a Teniente del Barrio or Chief Executive aside from the traditional political set-up of Datu System, which is headed by Datu Sapalao. In fact, there were times that Datu Sapalao was also appointed as Teniente del Barrio, particularly Datu Sapalao Consing Bugao in 1930's and Datu Sapalao Mandag Humoa in 1940's.</p>
-                    <p class="about-us-text">The second Teniente del Barrio or Barrio at Large after Maruing was fully recognized as a Barangay was Tere Mangangot who served from 1958-1961. His councillors include Ajerol Arip, John Banagan, Tumandio Lesayao, Tumindeg Tahupis, and Tumanghis Antay. During his term, they constructed a bridged at the center of Barangay and they actively participated the clean and green Revolution Program of the National Government. In 1961, Timuay Tumindeg Tahupis, member of the Tribal Leaders of Maruing succeeded Tere Mangangot until 1964. He continued the projects of his predecessor and led in developing the sports activities and competitions with other municipalities.</p>
+                    <?php 
+                    $paragraphs = preg_split('/(\r\n|\n|\r){2,}/', trim($history_text));
+                    foreach ($paragraphs as $para):
+                        $clean_para = trim($para);
+                        if (!empty($clean_para)):
+                    ?>
+                        <p class="about-us-text"><?= nl2br(htmlspecialchars($clean_para)) ?></p>
+                    <?php 
+                        endif;
+                    endforeach; 
+                    ?>
                 </div>
             </div>
             
@@ -121,7 +144,7 @@
         </div>
     </section>
 
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-top row">

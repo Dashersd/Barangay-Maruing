@@ -1,10 +1,25 @@
+<?php
+@include_once __DIR__ . '/admin/db_connect.php';
+
+$default_vision = "Envision a progressive, healthy, peaceful community empowered constituent and collectively participating in decision making gearing towards good governance with integrity and dedications. We strive to manage properly the value of the services as what we have pledge in order to gain strong foundation that serve inspiration to every individuals such that better living of all the people in Barangay Maruing is fruitful and beautiful as the year goes by.";
+
+$vision_text = $default_vision;
+if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
+    $res = $conn->query("SELECT vision FROM about_content WHERE id = 1 LIMIT 1");
+    if ($res && $row = $res->fetch_assoc()) {
+        if (!empty($row['vision'])) {
+            $vision_text = $row['vision'];
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Learn about Barangay Maruing's vision, mission, and rich history.">
-    <title>About Us | Barangay Maruing Information System</title>
+    <title>Vision | Barangay Maruing Information System</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="public/image/Maruing Logo 2.png">
@@ -19,7 +34,9 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/assets/css/style.css?v=4">
-    <link rel="stylesheet" href="public/assets/css/about.css?v=3">`n    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/assets/css/about.css?v=3">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/assets/css/vision.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -47,13 +64,6 @@
                             <li><a class="dropdown-item" href="SKofficial.php">SK Officials</a></li>
                         </ul>
                     </li>
-
-
-
-
-
-
-
                     <li class="nav-item">
                         <a class="nav-link" href="spot-map.php">Spot Map</a>
                     </li>
@@ -79,9 +89,6 @@
         </div>
     </nav>
 
-    
-    <link rel="stylesheet" href="public/assets/css/vision.css">
-    
     <!-- Vision Hero Section -->
     <section class="vision-hero">
         <div class="container hero-container">
@@ -100,11 +107,12 @@
         <div class="container">
             <div class="vision-content" data-aos="zoom-in-up">
                 <i class="bi bi-eye-fill vision-icon"></i>
-                <p class="vision-text">"Envision a progressive, healthy, peaceful community empowered constituent and collectively participating in decision making gearing towards good governance with integrity and dedications. We strive to manage properly the value of the services as what we have pledge in order to gain strong foundation that serve inspiration to every individuals such that better living of all the people in Barangay Maruing is fruitful and beautiful as the year goes by."</p>
+                <p class="vision-text">"<?= nl2br(htmlspecialchars($vision_text)) ?>"</p>
             </div>
         </div>
     </main>
-<!-- Footer -->
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-top row">
@@ -163,7 +171,3 @@
     </script>
 </body>
 </html>
-
-
-
-
