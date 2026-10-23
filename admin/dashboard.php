@@ -180,10 +180,8 @@ if ($res_core) {
                 </a>
             </li>
             <li><a href="settings.php"><i class="bi bi-gear-fill"></i> Settings</a></li>
+            <li><a href="login.php" class="logout-link"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
         </ul>
-        <div class="sidebar-footer">
-            <a href="login.php"><i class="bi bi-box-arrow-left"></i> Logout</a>
-        </div>
     </aside>
 
     <!-- Main Content -->

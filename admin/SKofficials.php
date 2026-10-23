@@ -418,10 +418,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             <li><a href="#"><i class="bi bi-telephone-fill"></i> Contact</a></li>
             <li><a href="feedback_chat.php"><i class="bi bi-chat-dots-fill"></i> Feedback chat</a></li>
             <li><a href="settings.php"><i class="bi bi-gear-fill"></i> Settings</a></li>
+            <li><a href="login.php" class="logout-link"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
         </ul>
-        <div class="sidebar-footer">
-            <a href="login.php"><i class="bi bi-box-arrow-left"></i> Logout</a>
-        </div>
     </aside>
 
     <!-- Main Content -->

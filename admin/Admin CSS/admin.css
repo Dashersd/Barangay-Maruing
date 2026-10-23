@@ -115,6 +115,18 @@
             margin-right: 10px;
         }
 
+        .sidebar-menu a.logout-link {
+            color: #ff6b6b;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 5px;
+        }
+
+        .sidebar-menu a.logout-link:hover {
+            color: #ffffff;
+            background-color: rgba(239, 68, 68, 0.2);
+            border-left: 4px solid #ef4444;
+        }
+
         .main-content {
             flex: 1;
             min-width: 0;
