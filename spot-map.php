@@ -82,27 +82,82 @@
                     <h3 style="font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: 1.5rem; color: #093d25; display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;">
                         <i class="bi bi-map" style="color: #ffc107; font-size: 1.6rem;"></i> Map Legend
                     </h3>
+                    <?php
+                    $map_legends = [];
+                    // 1. Fetch from Database
+                    if (file_exists('admin/db_connect.php')) {
+                        require_once 'admin/db_connect.php';
+                        if (isset($conn) && !$conn->connect_error) {
+                            $leg_res = $conn->query("SELECT * FROM sm_legends WHERE is_active = 1 ORDER BY display_order ASC, id ASC");
+                            if ($leg_res && $leg_res->num_rows > 0) {
+                                while ($l_row = $leg_res->fetch_assoc()) {
+                                    $map_legends[] = $l_row;
+                                }
+                            }
+                        }
+                    }
+                    // 2. Fallback to JSON
+                    if (empty($map_legends) && file_exists('admin/data/legend.json')) {
+                        $json_str = file_get_contents('admin/data/legend.json');
+                        $json_arr = json_decode($json_str, true);
+                        if (is_array($json_arr)) {
+                            foreach ($json_arr as $item) {
+                                if (!isset($item['is_active']) || $item['is_active'] == 1) {
+                                    $map_legends[] = $item;
+                                }
+                            }
+                        }
+                    }
+                    // 3. Fallback to defaults if still empty
+                    if (empty($map_legends)) {
+                        $map_legends = [
+                            ['name' => 'Barangay Hall', 'icon_path' => 'bi-building-fill', 'color_hex' => '#6366f1'],
+                            ['name' => 'School', 'icon_path' => 'bi-book-half', 'color_hex' => '#10b981'],
+                            ['name' => 'Court', 'icon_path' => 'bi-dribbble', 'color_hex' => '#f59e0b'],
+                            ['name' => 'Health Center', 'icon_path' => 'bi-heart-pulse-fill', 'color_hex' => '#e11d48'],
+                            ['name' => 'Other Landmarks', 'icon_path' => 'bi-geo-fill', 'color_hex' => '#94a3b8']
+                        ];
+                    }
+                    ?>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 1rem;">
-                        <div style="display: flex; align-items: flex-start; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem;">
-                            <i class="bi bi-building-fill" style="color: #6366f1; font-size: 1.25rem;"></i>
-                            <span style="line-height: 1.2;">Barangay<br>Hall</span>
+                        <?php 
+                        $total_items = count($map_legends);
+                        foreach ($map_legends as $idx => $leg_item): 
+                            $name = $leg_item['name'] ?? '';
+                            $icon = !empty($leg_item['icon_path']) ? trim($leg_item['icon_path']) : 'bi-geo-alt-fill';
+                            $color = !empty($leg_item['color_hex']) ? htmlspecialchars($leg_item['color_hex']) : '#093d25';
+                            $photo = !empty($leg_item['image_path']) ? $leg_item['image_path'] : '';
+                            if (!empty($photo) && strpos($photo, 'uploads/') === 0) {
+                                $photo_url = 'admin/' . $photo;
+                            } else {
+                                $photo_url = $photo;
+                            }
+                            $is_last_odd = ($total_items % 2 !== 0 && $idx === $total_items - 1);
+                            $col_span = $is_last_odd ? 'grid-column: span 2;' : '';
+
+                            $is_img = (preg_match('/\.(png|jpe?g|gif|svg|webp)$/i', $icon) || strpos($icon, '/') !== false);
+                            if ($is_img && strpos($icon, 'admin/') !== 0 && strpos($icon, 'public/') !== 0) {
+                                $img_src = 'admin/' . $icon;
+                            } else {
+                                $img_src = $icon;
+                            }
+                        ?>
+                        <div class="spot-map-legend-item-clickable" 
+                             role="button" 
+                             tabindex="0"
+                             onclick="openLandmarkModal('<?= htmlspecialchars(addslashes($name)) ?>', '<?= htmlspecialchars(addslashes($photo_url)) ?>', '<?= htmlspecialchars(addslashes($icon)) ?>', '<?= htmlspecialchars(addslashes($color)) ?>', '<?= htmlspecialchars(addslashes($leg_item['id'] ?? '')) ?>')"
+                             style="display: flex; align-items: flex-start; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem; cursor: pointer; transition: all 0.2s ease; border-radius: 8px; padding: 6px; <?= $col_span ?>" 
+                             title="Click to view photo & locate <?= htmlspecialchars($name) ?> on map">
+                            <?php if ($is_img): ?>
+                                <img src="<?= htmlspecialchars($img_src) ?>" alt="<?= htmlspecialchars($name) ?>" style="width: 22px; height: 22px; object-fit: contain; margin-top: 1px;">
+                            <?php else: 
+                                $bi_cls = strpos($icon, 'bi-') === 0 ? $icon : ('bi-' . ltrim($icon, 'bi '));
+                            ?>
+                                <i class="bi <?= htmlspecialchars($bi_cls) ?>" style="color: <?= $color ?>; font-size: 1.25rem; line-height: 1;"></i>
+                            <?php endif; ?>
+                            <span style="line-height: 1.2; word-break: break-word;"><?= htmlspecialchars($name) ?></span>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem;">
-                            <i class="bi bi-book-half" style="color: #10b981; font-size: 1.25rem;"></i>
-                            <span style="line-height: 1.2;">School</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem;">
-                            <i class="bi bi-dribbble" style="color: #f59e0b; font-size: 1.25rem;"></i>
-                            <span style="line-height: 1.2;">Court</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem;">
-                            <i class="bi bi-heart-pulse-fill" style="color: #e11d48; font-size: 1.25rem;"></i>
-                            <span style="line-height: 1.2;">Health Center</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 10px; font-weight: 500; color: #64748b; font-size: 0.95rem; grid-column: span 2;">
-                            <i class="bi bi-geo-fill" style="color: #94a3b8; font-size: 1.25rem;"></i>
-                            <span style="line-height: 1.2;">Other Landmarks</span>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
@@ -275,6 +330,58 @@
                         </div>
                     </div>
 
+                    <!-- Dynamic Landmark Pins Layer on Aerial View -->
+                    <div id="legend-pins-container" class="legend-pins-layer" style="display: none;">
+                        <?php 
+                        foreach ($map_legends as $leg_pin): 
+                            $l_id = $leg_pin['id'] ?? '';
+                            $l_name = $leg_pin['name'] ?? '';
+                            $l_icon = !empty($leg_pin['icon_path']) ? trim($leg_pin['icon_path']) : 'bi-geo-alt-fill';
+                            $l_color = !empty($leg_pin['color_hex']) ? htmlspecialchars($leg_pin['color_hex']) : '#6366f1';
+                            $l_photo = !empty($leg_pin['image_path']) ? $leg_pin['image_path'] : '';
+                            if (!empty($l_photo) && strpos($l_photo, 'uploads/') === 0) {
+                                $l_photo_url = 'admin/' . $l_photo;
+                            } else {
+                                $l_photo_url = $l_photo;
+                            }
+                            $l_top = !empty($leg_pin['top_position']) ? (float)$leg_pin['top_position'] : 50.00;
+                            $l_left = !empty($leg_pin['left_position']) ? (float)$leg_pin['left_position'] : 50.00;
+                            $l_w = !empty($leg_pin['marker_width']) ? (int)$leg_pin['marker_width'] : 40;
+                            $l_h = !empty($leg_pin['marker_height']) ? (int)$leg_pin['marker_height'] : 40;
+
+                            $l_is_img = (preg_match('/\.(png|jpe?g|gif|svg|webp)$/i', $l_icon) || strpos($l_icon, '/') !== false);
+                            if ($l_is_img && strpos($l_icon, 'admin/') !== 0 && strpos($l_icon, 'public/') !== 0) {
+                                $l_img_src = 'admin/' . $l_icon;
+                            } else {
+                                $l_img_src = $l_icon;
+                            }
+                        ?>
+                        <div class="legend-map-landmark-pin" 
+                             id="legend-pin-<?= htmlspecialchars($l_id) ?>"
+                             data-legend-id="<?= htmlspecialchars($l_id) ?>"
+                             style="position: absolute; top: <?= $l_top ?>%; left: <?= $l_left ?>%;" 
+                             title="Click to view photo: <?= htmlspecialchars($l_name) ?>"
+                             onclick="openLandmarkModal('<?= htmlspecialchars(addslashes($l_name)) ?>', '<?= htmlspecialchars(addslashes($l_photo_url)) ?>', '<?= htmlspecialchars(addslashes($l_icon)) ?>', '<?= htmlspecialchars(addslashes($l_color)) ?>', '<?= htmlspecialchars(addslashes($l_id)) ?>')">
+                            <div class="legend-pin-label">
+                                <span><?= htmlspecialchars($l_name) ?></span>
+                                <?php if (!empty($l_photo)): ?>
+                                    <i class="bi bi-camera-fill" style="color: #ffc107; font-size: 0.65rem;" title="Has photo"></i>
+                                <?php endif; ?>
+                            </div>
+                            <?php if ($l_is_img): ?>
+                                <img src="<?= htmlspecialchars($l_img_src) ?>" alt="<?= htmlspecialchars($l_name) ?>" style="width: <?= $l_w ?>px; height: <?= $l_h ?>px; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));">
+                            <?php else: 
+                                $l_bi_cls = strpos($l_icon, 'bi-') === 0 ? $l_icon : ('bi-' . ltrim($l_icon, 'bi '));
+                            ?>
+                                <div class="legend-pin-circle" style="background: <?= $l_color ?>; width: <?= max(34, min(48, $l_w)) ?>px; height: <?= max(34, min(48, $l_h)) ?>px;">
+                                    <i class="bi <?= htmlspecialchars($l_bi_cls) ?>"></i>
+                                </div>
+                                <div class="legend-pin-pointer" style="border-top-color: <?= $l_color ?>;"></div>
+                            <?php endif; ?>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+
                     <img id="spot-map-img" src="public/image/Maruing Map/Philippines.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 850px !important; max-height: none !important; object-fit: fill !important; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); cursor: default;">
                     
                     <!-- Dynamic Markers Container -->
@@ -317,10 +424,126 @@
                 </div>
             </div>
         </div>
+
+        <!-- Landmark Photo Modal (Viewed when legend or map icon is clicked) -->
+        <div id="landmark-photo-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.72); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(6px); padding: 20px;">
+            <div style="background: white; border-radius: 20px; width: 95%; max-width: 780px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); overflow: hidden; position: relative; animation: slideInUp 0.3s ease-out;">
+                <!-- Header -->
+                <div style="background: #093d25; color: white; padding: 20px 28px; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div id="landmark-modal-icon-badge" style="width: 44px; height: 44px; border-radius: 50%; background: #6366f1; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; color: #ffffff; border: 2.5px solid rgba(255,255,255,0.4); flex-shrink: 0; box-shadow: 0 3px 10px rgba(0,0,0,0.25);">
+                            <i class="bi bi-building-fill" id="landmark-modal-icon"></i>
+                        </div>
+                        <div>
+                            <h3 id="landmark-modal-title" style="margin: 0; font-size: 1.4rem; font-weight: 700; color: #ffffff; font-family: Georgia, serif; letter-spacing: 0.02em;">Barangay Hall</h3>
+                            <span style="font-size: 0.85rem; color: #ffc107; font-weight: 600; letter-spacing: 0.03em;">Barangay Maruing Landmark</span>
+                        </div>
+                    </div>
+                    <button type="button" id="close-landmark-modal-btn" onclick="closeLandmarkModal()" style="background: none; border: none; font-size: 2rem; color: rgba(255,255,255,0.85); cursor: pointer; line-height: 1; transition: color 0.2s ease;" title="Close Modal">&times;</button>
+                </div>
+
+                <!-- Photo Display Area -->
+                <div style="padding: 24px; background: #0f172a; text-align: center; position: relative;">
+                    <img id="landmark-modal-photo" src="" alt="Landmark Photo" style="width: 100%; max-height: 520px; object-fit: contain; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); display: none;">
+                    <div id="landmark-modal-empty" style="padding: 60px 20px; color: #94a3b8; display: none;">
+                        <i class="bi bi-camera-slash" style="font-size: 4rem; display: block; margin-bottom: 14px; color: #64748b;"></i>
+                        <p style="margin: 0; font-size: 1.1rem; font-weight: 600; color: #cbd5e1;">No photo has been uploaded for this landmark yet.</p>
+                        <small style="color: #94a3b8; font-size: 0.88rem; display: block; margin-top: 6px;">Admin can upload the actual building photo in the Admin Panel.</small>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div style="background: #f8fafc; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; flex-wrap: wrap; gap: 12px;">
+                    <span style="font-size: 0.9rem; color: #64748b; font-weight: 500;"><i class="bi bi-geo-alt-fill" style="color: #093d25;"></i> Barangay Maruing Spot Map</span>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" id="btn-modal-locate" onclick="locateAndHighlightCurrentLandmark()" style="background: linear-gradient(135deg, #093d25 0%, #155734 100%); color: #ffffff; border: 1px solid rgba(255, 193, 7, 0.45); padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 7px; box-shadow: 0 3px 10px rgba(9, 61, 37, 0.2); transition: all 0.2s ease;" title="View exact location on Aerial Map">
+                            <i class="bi bi-pin-map-fill" style="color: #ffc107;"></i> Show on Aerial Map
+                        </button>
+                        <button type="button" onclick="closeLandmarkModal()" style="background: #e2e8f0; color: #334155; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease;">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let currentLandmarkId = null;
+
+            function openLandmarkModal(name, photoUrl, iconClass, colorHex, legendId) {
+                currentLandmarkId = legendId || null;
+                const modal = document.getElementById('landmark-photo-modal');
+                const title = document.getElementById('landmark-modal-title');
+                const photo = document.getElementById('landmark-modal-photo');
+                const empty = document.getElementById('landmark-modal-empty');
+                const badge = document.getElementById('landmark-modal-icon-badge');
+                const icon = document.getElementById('landmark-modal-icon');
+
+                if (!modal) return;
+
+                title.textContent = name;
+                if (badge) badge.style.background = colorHex || '#6366f1';
+
+                const isImg = (iconClass && (/\.(png|jpe?g|gif|svg|webp)$/i.test(iconClass) || iconClass.indexOf('/') !== -1));
+                if (badge) {
+                    if (isImg) {
+                        const imgSrc = (iconClass.indexOf('admin/') !== 0 && iconClass.indexOf('public/') !== 0) ? ('admin/' + iconClass) : iconClass;
+                        badge.innerHTML = '<img src="' + imgSrc + '" style="width: 22px; height: 22px; object-fit: contain;" alt="Icon">';
+                    } else {
+                        const biCls = (iconClass && (iconClass.startsWith('bi-') || iconClass.startsWith('bi '))) 
+                            ? (iconClass.startsWith('bi-') ? iconClass : 'bi-' + iconClass.replace('bi ', ''))
+                            : 'bi-geo-alt-fill';
+                        badge.innerHTML = '<i class="bi ' + biCls + '" id="landmark-modal-icon"></i>';
+                    }
+                }
+
+                if (photoUrl && photoUrl.trim() !== '') {
+                    photo.src = photoUrl;
+                    photo.style.display = 'block';
+                    empty.style.display = 'none';
+                } else {
+                    photo.style.display = 'none';
+                    empty.style.display = 'block';
+                }
+
+                modal.style.display = 'flex';
+            }
+
+            function closeLandmarkModal() {
+                const modal = document.getElementById('landmark-photo-modal');
+                if (modal) modal.style.display = 'none';
+            }
+
+            function locateAndHighlightCurrentLandmark() {
+                closeLandmarkModal();
+                if (currentLandmarkId && typeof window.locateLandmarkOnMap === 'function') {
+                    window.locateLandmarkOnMap(currentLandmarkId);
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const modal = document.getElementById('landmark-photo-modal');
+                if (modal) {
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === modal) closeLandmarkModal();
+                    });
+                }
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') closeLandmarkModal();
+                });
+            });
+        </script>
+
         <style>
             @keyframes slideInUp {
                 from { transform: translateY(30px); opacity: 0; }
                 to { transform: translateY(0); opacity: 1; }
+            }
+            .spot-map-legend-item-clickable:hover {
+                background: #f1f5f9;
+                transform: translateY(-2px);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            }
+            .legend-map-landmark-pin:hover {
+                transform: translate(-50%, -108%) scale(1.15) !important;
             }
         </style>
     </main>

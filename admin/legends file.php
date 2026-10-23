@@ -1,9 +1,22 @@
+<?php
+// admin/legends file.php - Legends Records File
+require_once 'db_connect.php';
+
+// Fetch all legends
+$legends = [];
+$res = $conn->query("SELECT * FROM sm_legends ORDER BY display_order ASC, id ASC");
+if ($res) {
+    while ($row = $res->fetch_assoc()) {
+        $legends[] = $row;
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Legends - legends file | Barangay Maruing</title>
+    <title>Legends Records | Barangay Maruing Admin</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../public/image/Maruing Logo 2.png">
     
@@ -17,9 +30,8 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/assets/css/style.css">
-    
     <link rel="stylesheet" href="Admin CSS/admin.css?v=2">
-    <link rel="stylesheet" href="Admin CSS/legends file.css">
+    <link rel="stylesheet" href="Admin CSS/legend.css?v=3">
 </head>
 <body>
 
@@ -60,7 +72,7 @@
                     <li><a href="purok 9.php">Purok 9</a></li>
                 </ul>
             </li>
-                        <li class="has-submenu open">
+            <li class="has-submenu open">
                 <a href="#" onclick="this.parentElement.classList.toggle('open'); return false;">
                     <i class="bi bi-house-door-fill"></i> Households
                     <i class="bi bi-chevron-down dropdown-icon"></i>
@@ -95,8 +107,8 @@
         <!-- Topbar -->
         <header class="topbar">
             <div class="topbar-title">
-            <h2>Households</h2>
-        </div>
+                <h2>Spot Map Legend Records</h2>
+            </div>
             <div class="topbar-user">
                 <div class="user-info">
                     <span class="user-name">System Admin</span>
@@ -109,88 +121,94 @@
         </header>
 
         <!-- Content Area -->
-                    <main class="dashboard-content">
-            <?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
-            <div style="background-color: #fee2e2; border-left: 4px solid #ef4444; color: #991b1b; padding: 15px 20px; margin-bottom: 20px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <div><i class="bi bi-trash-fill" style="margin-right: 8px;"></i> Record was successfully removed!</div>
-                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: #991b1b; cursor: pointer; font-size: 1.2rem; line-height: 1;">&times;</button>
+        <main class="dashboard-content" style="padding: 30px;">
+            <div class="legend-header">
+                <div class="legend-header-title">
+                    <h2>Map Legends File</h2>
+                    <p>Overview of all landmark icons and legend markers registered for the Spot Map</p>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <a href="legend.php" class="btn-submit-legend" style="width: auto; text-decoration: none; padding: 10px 18px; font-size: 0.9rem;">
+                        <i class="bi bi-plus-circle"></i> Add New Legend
+                    </a>
+                    <a href="../spot-map.php" target="_blank" class="btn-view-map">
+                        <i class="bi bi-map-fill"></i> View Public Map
+                    </a>
+                </div>
             </div>
-            <?php endif; ?>
-            <?php if (isset($_GET['edited']) && $_GET['edited'] == 1): ?>
-            <div style="background-color: #e0f2fe; border-left: 4px solid #0284c7; color: #0369a1; padding: 15px 20px; margin-bottom: 20px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <div><i class="bi bi-pencil-square" style="margin-right: 8px;"></i> Record was successfully updated!</div>
-                <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: #0369a1; cursor: pointer; font-size: 1.2rem; line-height: 1;">&times;</button>
-            </div>
-            <?php endif; ?>
-        <div class="purok-header">
-            <h2>Legends Records</h2>
-        </div>
-        
-        <div class="records-card" style="background: #ffffff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 20px;">
-            <div class="table-responsive" style="overflow-x: auto;">
-                <table class="records-table" style="width: 100%; border-collapse: collapse; min-width: 950px;">
-                    <thead>
-                        <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
-                            <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">House Image</th>
-                                <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">House Number</th>
-                            <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">Husband Name</th>
-                            <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">Spouse Name</th>
-                            <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">Date Added</th>
-                            <th style="padding: 15px 20px; text-align: center; font-weight: 600; color: #334155; font-size: 0.95rem; min-width: 180px; white-space: nowrap;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="records-tbody">
-                            <?php
-                            $json_file = 'data/legend.json';
-                            $records = [];
-                            if (file_exists($json_file)) {
-                                $json_data = file_get_contents($json_file);
-                                $decoded = json_decode($json_data, true);
-                                if (is_array($decoded)) {
-                                    $records = $decoded;
-                                }
-                            }
-                            
-                            if (empty($records)):
-                            ?>
+            
+            <div class="legend-card" style="margin-top: 20px;">
+                <div style="overflow-x: auto;">
+                    <table class="legends-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">Order</th>
+                                <th style="width: 60px;">Icon</th>
+                                <th>Legend Name</th>
+                                <th>Icon Class / Path</th>
+                                <th>Color</th>
+                                <th style="width: 100px;">Status</th>
+                                <th style="text-align: center; width: 150px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($legends)): ?>
                                 <tr>
-                                    <td colspan="6" style="padding: 30px; text-align: center; color: #64748b; font-style: italic;">No records found.</td>
+                                    <td colspan="7" style="padding: 40px; text-align: center; color: #64748b; font-style: italic;">
+                                        No legends recorded yet. <a href="legend.php" style="color: #093d25; font-weight: 600;">Click here to add one.</a>
+                                    </td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($records as $record): ?>
-                                    <tr style="border-bottom: 1px solid #f1f5f9;">
-                                        <td style="padding: 15px 20px; color: #475569;">
-                                            <?php if (!empty($record['house_image'])): ?>
-                                                <img src="<?php echo htmlspecialchars($record['house_image']); ?>" alt="House" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid #e2e8f0;">
-                                            <?php else: ?>
-                                                <span style="color: #94a3b8; font-size: 0.85rem; font-style: italic;">No image</span>
-                                            <?php endif; ?>
+                                <?php foreach ($legends as $leg): 
+                                    $icon = $leg['icon_path'] ?? 'bi-geo-alt-fill';
+                                    $color = $leg['color_hex'] ?? '#6366f1';
+                                    $is_img = (preg_match('/\.(png|jpe?g|gif|svg|webp)$/i', $icon) || strpos($icon, '/') !== false);
+                                ?>
+                                    <tr>
+                                        <td style="font-weight: 700; color: #94a3b8; font-size: 0.9rem;">
+                                            <?= (int)($leg['display_order'] ?? 0) ?>
                                         </td>
-                                        <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['house_number'] ?? ''); ?></td>
-                                        <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['husband_name'] ?? ''); ?></td>
-                                        <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['spouse_name'] ?? ''); ?></td>
-                                        <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['date_added'] ?? ''); ?></td>
-                                        <td style="padding: 15px 20px; text-align: center; white-space: nowrap;">
-                                            <div style="display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
-                                                <a href="edit_record.php?target_file=legend&id=<?php echo htmlspecialchars($record['id'] ?? ''); ?>" style="background: #0f766e; color: white; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"><i class="bi bi-pencil-square"></i> Edit</a>
-                                                <form action="delete_record.php" method="POST" style="margin: 0; display: inline-flex;" onsubmit="return confirm('Are you sure you want to completely remove this record?');">
-                                                    <input type="hidden" name="target_file" value="legend">
-                                                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($record['id'] ?? ''); ?>">
-                                                    <button type="submit" style="background: #ef4444; color: white; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"><i class="bi bi-trash"></i> Remove</button>
-                                                </form>
+                                        <td>
+                                            <div class="legend-badge-icon">
+                                                <?php if ($is_img): ?>
+                                                    <img src="<?= htmlspecialchars((strpos($icon, 'uploads/') === 0 ? '' : 'uploads/legends/') . basename($icon)) ?>" alt="Icon" style="width: 22px; height: 22px; object-fit: contain;">
+                                                <?php else: 
+                                                    $bi_class = strpos($icon, 'bi-') === 0 ? $icon : ('bi-' . ltrim($icon, 'bi '));
+                                                ?>
+                                                    <i class="bi <?= htmlspecialchars($bi_class) ?>" style="color: <?= htmlspecialchars($color) ?>;"></i>
+                                                <?php endif; ?>
                                             </div>
+                                        </td>
+                                        <td>
+                                            <strong style="color: #093d25; font-size: 0.95rem;"><?= htmlspecialchars($leg['name']) ?></strong>
+                                        </td>
+                                        <td style="color: #64748b; font-family: monospace; font-size: 0.85rem;">
+                                            <?= htmlspecialchars($icon) ?>
+                                        </td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 6px;">
+                                                <span style="display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: <?= htmlspecialchars($color) ?>; box-shadow: 0 1px 3px rgba(0,0,0,0.2);"></span>
+                                                <span style="font-size: 0.82rem; font-family: monospace; color: #475569;"><?= htmlspecialchars($color) ?></span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge-status <?= ($leg['is_active'] == 1) ? 'active' : 'inactive' ?>">
+                                                <?= ($leg['is_active'] == 1) ? 'Active' : 'Hidden' ?>
+                                            </span>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a href="legend.php" class="btn-action-sm btn-action-edit" title="Manage on Legend Page">
+                                                <i class="bi bi-pencil-square"></i> Manage
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
-        </div>
-    </main>
+        </main>
     </div>
 </body>
 </html>
-
-
-

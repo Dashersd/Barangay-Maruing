@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const btnViewFullImage = document.getElementById('btn-view-full-image');
     const markersContainer = document.getElementById('map-markers-container');
     const purokPinsContainer = document.getElementById('purok-pins-container');
+    const legendPinsContainer = document.getElementById('legend-pins-container');
     const purokMapPins = document.querySelectorAll('.purok-map-pin');
     const btnShowAerial = document.getElementById('btn-show-aerial');
 
@@ -185,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
             spotMapImg.style.opacity = '1';
             if (maruingPin) maruingPin.style.display = 'none';
             if (purokPinsContainer) purokPinsContainer.style.display = 'block';
+            if (legendPinsContainer) legendPinsContainer.style.display = 'block';
             if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
             if (btnBackOverview) {
                 btnBackOverview.innerHTML = '<i class="bi bi-arrow-left"></i> Regional Overview';
@@ -208,6 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
             spotMapImg.alt = step0.alt;
             spotMapImg.style.opacity = '1';
             if (purokPinsContainer) purokPinsContainer.style.display = 'none';
+            if (legendPinsContainer) legendPinsContainer.style.display = 'none';
             applyPinStep(0);
             if (backOverviewWrapper) backOverviewWrapper.style.display = 'none';
             if (btnViewFullImage) btnViewFullImage.href = step0.src;
@@ -227,6 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
             spotMapImg.style.opacity = '1';
             if (maruingPin) maruingPin.style.display = 'none';
             if (purokPinsContainer) purokPinsContainer.style.display = 'none';
+            if (legendPinsContainer) legendPinsContainer.style.display = 'none';
             if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
             if (btnBackOverview) {
                 btnBackOverview.innerHTML = '<i class="bi bi-arrow-left"></i> Back to Aerial Map (9 Puroks)';
@@ -300,6 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 spotMapImg.alt = nextStep.alt;
                 spotMapImg.style.opacity = '1';
                 if (purokPinsContainer) purokPinsContainer.style.display = 'none';
+                if (legendPinsContainer) legendPinsContainer.style.display = 'none';
                 applyPinStep(currentSequenceIndex);
                 if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
                 if (btnBackOverview) {
@@ -357,6 +362,35 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    window.locateLandmarkOnMap = function(legendId) {
+        if (!legendId) return;
+
+        // Ensure we are viewing the Aerial Map
+        if (!isAerialView) {
+            showDetailedMap();
+        }
+
+        // Wait brief delay for map to switch and render
+        setTimeout(function() {
+            const pin = document.getElementById('legend-pin-' + legendId);
+            if (pin) {
+                pin.classList.remove('pin-pulse-active');
+                void pin.offsetWidth; // Force CSS reflow to replay animation
+                pin.classList.add('pin-pulse-active');
+
+                // Smoothly scroll container into view if needed
+                const visual = document.querySelector('.spot-map-visual');
+                if (visual) {
+                    visual.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                setTimeout(function() {
+                    pin.classList.remove('pin-pulse-active');
+                }, 4000);
+            }
+        }, 260);
+    };
 
     function escapeHtml(str) {
         if (!str) return '';

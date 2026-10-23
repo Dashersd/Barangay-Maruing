@@ -1,1 +1,80 @@
-[]
+[
+    {
+        "id": "1",
+        "name": "Barangay Hall",
+        "icon_path": "bi-building-fill",
+        "color_hex": "#6366f1",
+        "is_active": "1",
+        "display_order": "1",
+        "top_position": "48.0000",
+        "left_position": "42.0000",
+        "marker_width": "40",
+        "marker_height": "40",
+        "image_path": "public\/image\/Hall.jpg"
+    },
+    {
+        "id": "2",
+        "name": "School",
+        "icon_path": "bi-book-half",
+        "color_hex": "#10b981",
+        "is_active": "1",
+        "display_order": "2",
+        "top_position": "38.0000",
+        "left_position": "45.0000",
+        "marker_width": "40",
+        "marker_height": "40",
+        "image_path": null
+    },
+    {
+        "id": "3",
+        "name": "Court",
+        "icon_path": "bi-dribbble",
+        "color_hex": "#f59e0b",
+        "is_active": "1",
+        "display_order": "3",
+        "top_position": "45.0000",
+        "left_position": "48.0000",
+        "marker_width": "40",
+        "marker_height": "40",
+        "image_path": null
+    },
+    {
+        "id": "4",
+        "name": "Health Center",
+        "icon_path": "bi-heart-pulse-fill",
+        "color_hex": "#e11d48",
+        "is_active": "1",
+        "display_order": "4",
+        "top_position": "52.0000",
+        "left_position": "40.0000",
+        "marker_width": "40",
+        "marker_height": "40",
+        "image_path": null
+    },
+    {
+        "id": "5",
+        "name": "Other Landmarks",
+        "icon_path": "bi-geo-fill",
+        "color_hex": "#94a3b8",
+        "is_active": "1",
+        "display_order": "5",
+        "top_position": "60.0000",
+        "left_position": "55.0000",
+        "marker_width": "40",
+        "marker_height": "40",
+        "image_path": null
+    },
+    {
+        "id": "7",
+        "name": "711",
+        "icon_path": "bi-shop",
+        "color_hex": "#6366f1",
+        "is_active": "1",
+        "display_order": "6",
+        "top_position": "30.3500",
+        "left_position": "33.0700",
+        "marker_width": "40",
+        "marker_height": "40",
+        "image_path": null
+    }
+]
