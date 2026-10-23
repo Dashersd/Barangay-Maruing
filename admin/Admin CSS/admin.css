@@ -115,16 +115,24 @@
             margin-right: 10px;
         }
 
-        .sidebar-menu a.logout-link {
-            color: #ff6b6b;
+        .sidebar-menu a.logout-link,
+        .sidebar-menu a.logout-link i,
+        .sidebar-menu a.logout-link span {
+            color: #ef4444 !important;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
             margin-top: 5px;
+            transition: all 0.2s ease;
         }
 
         .sidebar-menu a.logout-link:hover {
-            color: #ffffff;
-            background-color: rgba(239, 68, 68, 0.2);
-            border-left: 4px solid #ef4444;
+            color: #ffffff !important;
+            background-color: rgba(239, 68, 68, 0.25) !important;
+            border-left: 4px solid #ef4444 !important;
+        }
+
+        .sidebar-menu a.logout-link:hover i,
+        .sidebar-menu a.logout-link:hover span {
+            color: #ffffff !important;
         }
 
         .main-content {

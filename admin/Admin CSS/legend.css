@@ -218,7 +218,7 @@
     border: 1px solid #e2e8f0;
 }
 
-/* Two-column layout */
+/* Two-column layout (legacy fallback) */
 .legend-layout-grid {
     display: grid;
     grid-template-columns: 440px 1fr;
@@ -230,6 +230,52 @@
     .legend-layout-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Horizontal Form Layout */
+.legend-horizontal-form {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr 1fr;
+    gap: 26px;
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .legend-horizontal-form {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .legend-horizontal-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+.legend-form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.legend-form-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #093d25;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.legend-form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
 /* Form Card */

@@ -287,7 +287,7 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/assets/css/style.css">
     <link rel="stylesheet" href="Admin CSS/admin.css?v=2">
-    <link rel="stylesheet" href="Admin CSS/legend.css?v=6">
+    <link rel="stylesheet" href="Admin CSS/legend.css?v=8">
 </head>
 <body>
 
@@ -352,7 +352,7 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
             <li><a href="#"><i class="bi bi-telephone-fill"></i> Contact</a></li>
             <li><a href="feedback_chat.php"><i class="bi bi-chat-dots-fill"></i> Feedback chat</a></li>
             <li><a href="settings.php"><i class="bi bi-gear-fill"></i> Settings</a></li>
-            <li><a href="login.php" class="logout-link"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+            <li><a href="login.php" class="logout-link" style="color: #ef4444 !important;"><i class="bi bi-box-arrow-left" style="color: #ef4444 !important;"></i> Logout</a></li>
         </ul>
     </aside>
 
@@ -460,225 +460,232 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
                 </div>
             </div>
 
-            <!-- 2. Form & Table Section -->
-            <div class="legend-layout-grid">
-                
-                <!-- Left: Add Legend & Marker Form -->
-                <div class="legend-card">
-                    <div class="legend-card-header">
-                        <h3><i class="bi bi-plus-circle-fill" style="color: #ffc107;"></i> Add Legend & Map Pin</h3>
-                    </div>
-
-                    <form action="legend.php" method="POST" enctype="multipart/form-data" id="addLegendForm">
-                        <input type="hidden" name="action" value="create">
-                        <input type="hidden" name="icon_type" id="addIconType" value="preset">
-                        <input type="hidden" name="icon_preset" id="addIconPreset" value="bi-building-fill">
-
-                        <!-- Legend Name -->
-                        <div class="form-group">
-                            <label for="addLegendName">Legend / Landmark Name <span style="color: #ef4444;">*</span></label>
-                            <input type="text" id="addLegendName" name="name" class="form-control" placeholder="e.g., Barangay Hall, Evacuation Center, Daycare" required autocomplete="off">
-                            <small style="color: #64748b; font-size: 0.8rem; display: block; margin-top: 4px;">This title will be posted in the Spot Map Legend and marker tooltip.</small>
-                        </div>
-
-                        <!-- Landmark Photo (Viewed when icon is clicked) -->
-                        <div class="form-group" style="background: #f8fafc; border: 1.5px dashed #0284c7; padding: 14px; border-radius: 10px;">
-                            <label for="addLandmarkImage" style="color: #0369a1; font-weight: 700; display: flex; align-items: center; gap: 6px;">
-                                <i class="bi bi-camera-fill" style="font-size: 1.1rem;"></i> Landmark Photo (Shown when icon is clicked)
-                            </label>
-                            <input type="file" id="addLandmarkImage" name="landmark_image" class="form-control file-input" accept="image/*">
-                            <small style="color: #0369a1; font-size: 0.8rem; display: block; margin-top: 4px;">
-                                Upload the actual photo of this place (e.g., Barangay Hall building). When a user clicks this icon on the map or legend, this image will pop up!
-                            </small>
-                            <div id="addPhotoPreviewContainer" style="display: none; margin-top: 10px; align-items: center; gap: 10px;">
-                                <img id="addPhotoPreviewImg" src="" alt="Photo Preview" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 2px solid #0284c7;">
-                                <span style="font-size: 0.85rem; color: #0284c7; font-weight: 600;"><i class="bi bi-check2-circle"></i> Photo ready to attach!</span>
-                            </div>
-                        </div>
-
-                        <!-- Icon Color -->
-                        <div class="form-group">
-                            <label>Icon & Pin Color</label>
-                            <div class="color-picker-wrapper">
-                                <input type="color" id="addColorNative" name="color_hex" value="#6366f1" class="color-input-native" title="Choose custom color">
-                                <input type="text" id="addColorHexText" class="form-control" value="#6366f1" style="max-width: 120px; font-family: monospace; font-weight: 600;" placeholder="#6366f1">
-                            </div>
-                            <!-- Quick Palette Swatches -->
-                            <div class="color-preset-chips" id="addColorSwatches">
-                                <button type="button" class="color-swatch-btn active" data-color="#6366f1" style="background: #6366f1;" title="Indigo (Barangay Hall)"></button>
-                                <button type="button" class="color-swatch-btn" data-color="#10b981" style="background: #10b981;" title="Emerald (School)"></button>
-                                <button type="button" class="color-swatch-btn" data-color="#f59e0b" style="background: #f59e0b;" title="Amber (Court)"></button>
-                                <button type="button" class="color-swatch-btn" data-color="#e11d48" style="background: #e11d48;" title="Rose (Health Center)"></button>
-                                <button type="button" class="color-swatch-btn" data-color="#94a3b8" style="background: #94a3b8;" title="Slate (Other Landmarks)"></button>
-                                <button type="button" class="color-swatch-btn" data-color="#0284c7" style="background: #0284c7;" title="Sky Blue"></button>
-                                <button type="button" class="color-swatch-btn" data-color="#8b5cf6" style="background: #8b5cf6;" title="Purple"></button>
-                                <button type="button" class="color-swatch-btn" data-color="#093d25" style="background: #093d25;" title="Barangay Green"></button>
-                                <button type="button" class="color-swatch-btn" data-color="#ea580c" style="background: #ea580c;" title="Orange"></button>
-                                <button type="button" class="color-swatch-btn" data-color="#0d9488" style="background: #0d9488;" title="Teal"></button>
-                            </div>
-                        </div>
-
-                        <!-- Icon Selection Mode -->
-                        <div class="form-group">
-                            <label>Icon Selection</label>
-                            <div class="icon-type-tabs">
-                                <button type="button" class="icon-tab-btn active" data-type="preset"><i class="bi bi-grid-fill"></i> Presets</button>
-                                <button type="button" class="icon-tab-btn" data-type="bootstrap"><i class="bi bi-code-slash"></i> Custom BI Class</button>
-                                <button type="button" class="icon-tab-btn" data-type="upload"><i class="bi bi-cloud-arrow-up-fill"></i> Upload Image</button>
-                            </div>
-
-                            <!-- Panel 1: Presets -->
-                            <div id="panelPreset" class="icon-tab-panel">
-                                <div class="preset-icons-grid" id="addPresetGrid">
-                                    <div class="preset-icon-chip selected" data-icon="bi-building-fill" title="Barangay Hall / City Hall">
-                                        <i class="bi bi-building-fill"></i>
-                                        <span>Hall</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-book-half" title="School / Education">
-                                        <i class="bi bi-book-half"></i>
-                                        <span>School</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-dribbble" title="Basketball Court / Gym">
-                                        <i class="bi bi-dribbble"></i>
-                                        <span>Court</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-heart-pulse-fill" title="Health Center / Clinic">
-                                        <i class="bi bi-heart-pulse-fill"></i>
-                                        <span>Health</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-geo-fill" title="General Landmark / Pin">
-                                        <i class="bi bi-geo-fill"></i>
-                                        <span>Pin</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-house-heart-fill" title="Household / Residence">
-                                        <i class="bi bi-house-heart-fill"></i>
-                                        <span>House</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-hospital" title="Hospital / Medical">
-                                        <i class="bi bi-hospital"></i>
-                                        <span>Hospital</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-shop" title="Market / Sari-Sari Store">
-                                        <i class="bi bi-shop"></i>
-                                        <span>Store</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-bell-fill" title="Chapel / Church">
-                                        <i class="bi bi-bell-fill"></i>
-                                        <span>Chapel</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-shield-check" title="Barangay Tanod / Police Outpost">
-                                        <i class="bi bi-shield-check"></i>
-                                        <span>Security</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-water" title="Water Source / Spring">
-                                        <i class="bi bi-water"></i>
-                                        <span>Water</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-tree-fill" title="Park / Farm / Forest">
-                                        <i class="bi bi-tree-fill"></i>
-                                        <span>Park</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-mortarboard-fill" title="Daycare / College">
-                                        <i class="bi bi-mortarboard-fill"></i>
-                                        <span>Daycare</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-flag-fill" title="Plaza / Landmark">
-                                        <i class="bi bi-flag-fill"></i>
-                                        <span>Plaza</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-lightning-charge-fill" title="Power / Substation">
-                                        <i class="bi bi-lightning-charge-fill"></i>
-                                        <span>Power</span>
-                                    </div>
-                                    <div class="preset-icon-chip" data-icon="bi-pin-map-fill" title="Evacuation Center">
-                                        <i class="bi bi-pin-map-fill"></i>
-                                        <span>Evacuation</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Panel 2: Custom Bootstrap Icon -->
-                            <div id="panelBootstrap" class="icon-tab-panel" style="display: none;">
-                                <div style="display: flex; gap: 10px; align-items: center;">
-                                    <input type="text" id="addIconBootstrap" name="icon_bootstrap" class="form-control" placeholder="e.g., bi-hospital, bi-shop, bi-cross" value="bi-building-fill">
-                                    <div id="addBootstrapPreviewIcon" style="width: 42px; height: 42px; border-radius: 8px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #6366f1; flex-shrink: 0;">
-                                        <i class="bi bi-building-fill"></i>
-                                    </div>
-                                </div>
-                                <small style="color: #64748b; font-size: 0.8rem; display: block; margin-top: 4px;">Enter any Bootstrap Icons class (e.g. <code>bi-hospital</code>).</small>
-                            </div>
-
-                            <!-- Panel 3: Upload Image -->
-                            <div id="panelUpload" class="icon-tab-panel" style="display: none;">
-                                <input type="file" id="addIconImage" name="marker_image" class="form-control file-input" accept="image/png, image/jpeg, image/svg+xml, image/webp">
-                                <small style="color: #64748b; font-size: 0.8rem; display: block; margin-top: 4px;">Upload transparent PNG, SVG, or marker icon (approx. 40x40px recommended).</small>
-                            </div>
-                        </div>
-
-                        <!-- Map Coordinates (Auto-updated when dragging pin above) -->
-                        <div class="row">
-                            <div class="col form-group">
-                                <label for="topPositionInput"><i class="bi bi-arrows-vertical"></i> Top Position (%)</label>
-                                <input type="number" step="0.01" id="topPositionInput" name="top_position" value="50.00" class="form-control" style="font-weight: 600; color: #093d25;">
-                            </div>
-                            <div class="col form-group">
-                                <label for="leftPositionInput"><i class="bi bi-arrows-horizontal"></i> Left Position (%)</label>
-                                <input type="number" step="0.01" id="leftPositionInput" name="left_position" value="50.00" class="form-control" style="font-weight: 600; color: #093d25;">
-                            </div>
-                        </div>
-
-                        <!-- Marker Dimensions -->
-                        <div class="row">
-                            <div class="col form-group">
-                                <label for="markerWidthInput">Marker Width (px)</label>
-                                <input type="number" id="markerWidthInput" name="marker_width" value="40" class="form-control">
-                            </div>
-                            <div class="col form-group">
-                                <label for="markerHeightInput">Marker Height (px)</label>
-                                <input type="number" id="markerHeightInput" name="marker_height" value="40" class="form-control">
-                            </div>
-                        </div>
-
-                        <!-- 2-Col: Display Order & Status -->
-                        <div class="row">
-                            <div class="col form-group">
-                                <label for="addDisplayOrder">Display Order</label>
-                                <input type="number" id="addDisplayOrder" name="display_order" class="form-control" value="<?= $next_order ?>" min="1">
-                            </div>
-                            <div class="col form-group">
-                                <label for="addIsActive">Status</label>
-                                <select id="addIsActive" name="is_active" class="form-control">
-                                    <option value="1">Active (Shown on Map & Legend)</option>
-                                    <option value="0">Inactive (Hidden)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- LIVE PREVIEW BOX (Matching the Spot Map Card) -->
-                        <div class="live-preview-box">
-                            <div class="live-preview-box-title">
-                                <i class="bi bi-eye-fill" style="color: #093d25;"></i> Live Spot Map Legend Card Preview
-                            </div>
-                            <div class="preview-legend-card">
-                                <h4>
-                                    <i class="bi bi-map" style="color: #ffc107; font-size: 1.3rem;"></i> Map Legend
-                                </h4>
-                                <div class="preview-legend-item" id="previewLegendItem">
-                                    <i class="bi bi-building-fill" id="livePreviewIcon" style="color: #6366f1;"></i>
-                                    <img id="livePreviewImg" src="" style="display: none;" alt="Preview">
-                                    <span id="livePreviewName">Barangay Hall</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn-submit-legend">
-                            <i class="bi bi-save"></i> Save Legend & Pin to Map
-                        </button>
-                    </form>
+            <!-- 2. Add Legend & Marker Form (Horizontal Layout) -->
+            <div class="legend-card" style="margin-bottom: 25px;">
+                <div class="legend-card-header">
+                    <h3><i class="bi bi-plus-circle-fill" style="color: #ffc107;"></i> Add Legend & Map Pin</h3>
+                    <span style="font-size: 0.85rem; color: #64748b;"><i class="bi bi-cursor-fill" style="color: #093d25;"></i> Drag marker on map above or enter coordinates below</span>
                 </div>
 
-                <!-- Right: Existing Legends List -->
+                <form action="legend.php" method="POST" enctype="multipart/form-data" id="addLegendForm">
+                    <input type="hidden" name="action" value="create">
+                    <input type="hidden" name="icon_type" id="addIconType" value="preset">
+                    <input type="hidden" name="icon_preset" id="addIconPreset" value="bi-building-fill">
+
+                    <div class="legend-horizontal-form">
+                        <!-- Column 1: Identity, Photo & Color -->
+                        <div class="legend-form-col">
+                            <div class="legend-form-section-title">
+                                <i class="bi bi-tag-fill" style="color: #ffc107;"></i> 1. Landmark Details
+                            </div>
+
+                            <!-- Legend Name -->
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <label for="addLegendName">Legend / Landmark Name <span style="color: #ef4444;">*</span></label>
+                                <input type="text" id="addLegendName" name="name" class="form-control" placeholder="e.g., Barangay Hall, Evacuation Center" required autocomplete="off">
+                                <small style="color: #64748b; font-size: 0.78rem; display: block; margin-top: 3px;">Shown in Spot Map Legend and marker tooltip.</small>
+                            </div>
+
+                            <!-- Landmark Photo (Viewed when icon is clicked) -->
+                            <div class="form-group" style="background: #f8fafc; border: 1.5px dashed #0284c7; padding: 12px; border-radius: 10px; margin-bottom: 12px;">
+                                <label for="addLandmarkImage" style="color: #0369a1; font-weight: 700; display: flex; align-items: center; gap: 6px; font-size: 0.85rem;">
+                                    <i class="bi bi-camera-fill" style="font-size: 1rem;"></i> Landmark Photo (Shown on Click)
+                                </label>
+                                <input type="file" id="addLandmarkImage" name="landmark_image" class="form-control file-input" accept="image/*">
+                                <small style="color: #0369a1; font-size: 0.75rem; display: block; margin-top: 3px;">
+                                    Actual building photo. Pops up when user clicks icon on map or legend.
+                                </small>
+                                <div id="addPhotoPreviewContainer" style="display: none; margin-top: 8px; align-items: center; gap: 8px;">
+                                    <img id="addPhotoPreviewImg" src="" alt="Photo Preview" style="width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 2px solid #0284c7;">
+                                    <span style="font-size: 0.8rem; color: #0284c7; font-weight: 600;"><i class="bi bi-check2-circle"></i> Photo attached</span>
+                                </div>
+                            </div>
+
+                            <!-- Icon Color -->
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label>Icon & Pin Color</label>
+                                <div class="color-picker-wrapper" style="margin-bottom: 8px;">
+                                    <input type="color" id="addColorNative" name="color_hex" value="#6366f1" class="color-input-native" title="Choose custom color">
+                                    <input type="text" id="addColorHexText" class="form-control" value="#6366f1" style="max-width: 110px; font-family: monospace; font-weight: 600;" placeholder="#6366f1">
+                                </div>
+                                <!-- Quick Palette Swatches -->
+                                <div class="color-preset-chips" id="addColorSwatches">
+                                    <button type="button" class="color-swatch-btn active" data-color="#6366f1" style="background: #6366f1;" title="Indigo (Barangay Hall)"></button>
+                                    <button type="button" class="color-swatch-btn" data-color="#10b981" style="background: #10b981;" title="Emerald (School)"></button>
+                                    <button type="button" class="color-swatch-btn" data-color="#f59e0b" style="background: #f59e0b;" title="Amber (Court)"></button>
+                                    <button type="button" class="color-swatch-btn" data-color="#e11d48" style="background: #e11d48;" title="Rose (Health Center)"></button>
+                                    <button type="button" class="color-swatch-btn" data-color="#94a3b8" style="background: #94a3b8;" title="Slate (Other Landmarks)"></button>
+                                    <button type="button" class="color-swatch-btn" data-color="#0284c7" style="background: #0284c7;" title="Sky Blue"></button>
+                                    <button type="button" class="color-swatch-btn" data-color="#8b5cf6" style="background: #8b5cf6;" title="Purple"></button>
+                                    <button type="button" class="color-swatch-btn" data-color="#093d25" style="background: #093d25;" title="Barangay Green"></button>
+                                    <button type="button" class="color-swatch-btn" data-color="#ea580c" style="background: #ea580c;" title="Orange"></button>
+                                    <button type="button" class="color-swatch-btn" data-color="#0d9488" style="background: #0d9488;" title="Teal"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Column 2: Marker Icon Selection & Live Preview -->
+                        <div class="legend-form-col">
+                            <div class="legend-form-section-title">
+                                <i class="bi bi-palette-fill" style="color: #ffc107;"></i> 2. Icon Selection & Preview
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 12px;">
+                                <div class="icon-type-tabs">
+                                    <button type="button" class="icon-tab-btn active" data-type="preset"><i class="bi bi-grid-fill"></i> Presets</button>
+                                    <button type="button" class="icon-tab-btn" data-type="upload"><i class="bi bi-cloud-arrow-up-fill"></i> Upload Icon</button>
+                                </div>
+
+                                <!-- Panel 1: Presets -->
+                                <div id="panelPreset" class="icon-tab-panel">
+                                    <div class="preset-icons-grid" id="addPresetGrid" style="max-height: 190px;">
+                                        <div class="preset-icon-chip selected" data-icon="bi-building-fill" title="Barangay Hall / City Hall">
+                                            <i class="bi bi-building-fill"></i>
+                                            <span>Hall</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-book-half" title="School / Education">
+                                            <i class="bi bi-book-half"></i>
+                                            <span>School</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-dribbble" title="Basketball Court / Gym">
+                                            <i class="bi bi-dribbble"></i>
+                                            <span>Court</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-heart-pulse-fill" title="Health Center / Clinic">
+                                            <i class="bi bi-heart-pulse-fill"></i>
+                                            <span>Health</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-geo-fill" title="General Landmark / Pin">
+                                            <i class="bi bi-geo-fill"></i>
+                                            <span>Pin</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-house-heart-fill" title="Household / Residence">
+                                            <i class="bi bi-house-heart-fill"></i>
+                                            <span>House</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-hospital" title="Hospital / Medical">
+                                            <i class="bi bi-hospital"></i>
+                                            <span>Hospital</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-shop" title="Market / Store">
+                                            <i class="bi bi-shop"></i>
+                                            <span>Store</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-bell-fill" title="Chapel / Church">
+                                            <i class="bi bi-bell-fill"></i>
+                                            <span>Chapel</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-shield-check" title="Tanod / Outpost">
+                                            <i class="bi bi-shield-check"></i>
+                                            <span>Security</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-water" title="Water Source">
+                                            <i class="bi bi-water"></i>
+                                            <span>Water</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-tree-fill" title="Park / Forest">
+                                            <i class="bi bi-tree-fill"></i>
+                                            <span>Park</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-mortarboard-fill" title="Daycare / College">
+                                            <i class="bi bi-mortarboard-fill"></i>
+                                            <span>Daycare</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-flag-fill" title="Plaza">
+                                            <i class="bi bi-flag-fill"></i>
+                                            <span>Plaza</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-lightning-charge-fill" title="Power Station">
+                                            <i class="bi bi-lightning-charge-fill"></i>
+                                            <span>Power</span>
+                                        </div>
+                                        <div class="preset-icon-chip" data-icon="bi-pin-map-fill" title="Evacuation Center">
+                                            <i class="bi bi-pin-map-fill"></i>
+                                            <span>Evac</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Panel 2: Upload Image -->
+                                <div id="panelUpload" class="icon-tab-panel" style="display: none;">
+                                    <input type="file" id="addIconImage" name="marker_image" class="form-control file-input" accept="image/png, image/jpeg, image/svg+xml, image/webp">
+                                    <small style="color: #64748b; font-size: 0.75rem; display: block; margin-top: 4px;">Upload transparent PNG, SVG, or icon (approx. 40x40px).</small>
+                                </div>
+                            </div>
+
+                            <!-- LIVE PREVIEW BOX -->
+                            <div class="live-preview-box" style="margin-top: 0;">
+                                <div class="live-preview-box-title" style="font-size: 0.8rem;">
+                                    <i class="bi bi-eye-fill" style="color: #093d25;"></i> Spot Map Legend Preview
+                                </div>
+                                <div class="preview-legend-card" style="padding: 10px 14px;">
+                                    <div class="preview-legend-item" id="previewLegendItem">
+                                        <i class="bi bi-building-fill" id="livePreviewIcon" style="color: #6366f1; font-size: 1.25rem;"></i>
+                                        <img id="livePreviewImg" src="" style="display: none; width: 22px; height: 22px;" alt="Preview">
+                                        <span id="livePreviewName" style="font-weight: 600; font-size: 0.92rem;">Barangay Hall</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Column 3: Coordinates, Dimensions & Save -->
+                        <div class="legend-form-col">
+                            <div class="legend-form-section-title">
+                                <i class="bi bi-geo-alt-fill" style="color: #ffc107;"></i> 3. Placement & Save
+                            </div>
+
+                            <!-- Coordinates -->
+                            <div class="legend-form-grid-2">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label for="topPositionInput" style="font-size: 0.82rem;"><i class="bi bi-arrows-vertical"></i> Top (%)</label>
+                                    <input type="number" step="0.01" id="topPositionInput" name="top_position" value="50.00" class="form-control" style="font-weight: 700; color: #093d25;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label for="leftPositionInput" style="font-size: 0.82rem;"><i class="bi bi-arrows-horizontal"></i> Left (%)</label>
+                                    <input type="number" step="0.01" id="leftPositionInput" name="left_position" value="50.00" class="form-control" style="font-weight: 700; color: #093d25;">
+                                </div>
+                            </div>
+                            <small style="color: #64748b; font-size: 0.75rem; margin-top: -8px; display: block;">
+                                <i class="bi bi-magic"></i> Auto-updates when you drag marker on map.
+                            </small>
+
+                            <!-- Dimensions -->
+                            <div class="legend-form-grid-2">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label for="markerWidthInput" style="font-size: 0.82rem;">Width (px)</label>
+                                    <input type="number" id="markerWidthInput" name="marker_width" value="40" class="form-control">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label for="markerHeightInput" style="font-size: 0.82rem;">Height (px)</label>
+                                    <input type="number" id="markerHeightInput" name="marker_height" value="40" class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- Display Order & Status -->
+                            <div class="legend-form-grid-2">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label for="addDisplayOrder" style="font-size: 0.82rem;">Order</label>
+                                    <input type="number" id="addDisplayOrder" name="display_order" class="form-control" value="<?= $next_order ?>" min="1">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label for="addIsActive" style="font-size: 0.82rem;">Status</label>
+                                    <select id="addIsActive" name="is_active" class="form-control" style="padding: 10px 8px; font-size: 0.85rem;">
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn-submit-legend" style="margin-top: 8px; padding: 13px 20px; font-size: 0.95rem;">
+                                <i class="bi bi-save"></i> Save Legend & Pin to Map
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 3. Existing Legends List -->
                 <div class="legend-card">
                     <div class="legend-card-header">
                         <h3><i class="bi bi-layers-fill" style="color: #093d25;"></i> Active Map Legends & Pins (<?= count($legends) ?>)</h3>
@@ -796,8 +803,6 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
                         </div>
                     <?php endif; ?>
                 </div>
-
-            </div>
         </main>
     </div>
 
@@ -842,7 +847,6 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
                         <label>Icon Selection</label>
                         <div class="icon-type-tabs">
                             <button type="button" class="icon-tab-btn active" id="editTabPreset" onclick="setEditIconTab('preset')"><i class="bi bi-grid-fill"></i> Presets</button>
-                            <button type="button" class="icon-tab-btn" id="editTabBootstrap" onclick="setEditIconTab('bootstrap')"><i class="bi bi-code-slash"></i> BI Class</button>
                             <button type="button" class="icon-tab-btn" id="editTabUpload" onclick="setEditIconTab('upload')"><i class="bi bi-cloud-arrow-up-fill"></i> New File</button>
                         </div>
 
@@ -864,10 +868,6 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
                                 <div class="preset-icon-chip" data-icon="bi-flag-fill"><i class="bi bi-flag-fill"></i><span>Plaza</span></div>
                                 <div class="preset-icon-chip" data-icon="bi-pin-map-fill"><i class="bi bi-pin-map-fill"></i><span>Evacuation</span></div>
                             </div>
-                        </div>
-
-                        <div id="editPanelBootstrap" class="icon-tab-panel" style="display: none;">
-                            <input type="text" id="editIconBootstrap" name="icon_bootstrap" class="form-control" placeholder="e.g. bi-hospital">
                         </div>
 
                         <div id="editPanelUpload" class="icon-tab-panel" style="display: none;">
@@ -976,8 +976,6 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
         const livePreviewImg = document.getElementById('livePreviewImg');
         const addIconType = document.getElementById('addIconType');
         const addIconPreset = document.getElementById('addIconPreset');
-        const addIconBootstrap = document.getElementById('addIconBootstrap');
-        const addBootstrapPreviewIcon = document.getElementById('addBootstrapPreviewIcon');
         const addIconImage = document.getElementById('addIconImage');
         const addLandmarkImage = document.getElementById('addLandmarkImage');
         const addPhotoPreviewContainer = document.getElementById('addPhotoPreviewContainer');
@@ -1016,34 +1014,9 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
             livePreviewIcon.style.color = colorVal;
 
             // 3. Icons
-            const currentType = addIconType.value;
-            if (currentType === 'preset') {
-                markerIcon.style.display = 'inline-block';
-                markerImg.style.display = 'none';
-                livePreviewIcon.style.display = 'inline-block';
-                livePreviewImg.style.display = 'none';
-
-                const iconClass = addIconPreset.value || 'bi-building-fill';
-                markerIcon.className = 'bi ' + iconClass;
-                livePreviewIcon.className = 'bi ' + iconClass;
-            } else if (currentType === 'bootstrap') {
-                markerIcon.style.display = 'inline-block';
-                markerImg.style.display = 'none';
-                livePreviewIcon.style.display = 'inline-block';
-                livePreviewImg.style.display = 'none';
-
-                let bClass = addIconBootstrap.value.trim() || 'bi-geo-alt-fill';
-                if (!bClass.startsWith('bi-') && !bClass.startsWith('bi ')) {
-                    bClass = 'bi-' + bClass;
-                }
-                markerIcon.className = 'bi ' + bClass;
-                livePreviewIcon.className = 'bi ' + bClass;
-                if (addBootstrapPreviewIcon) {
-                    addBootstrapPreviewIcon.innerHTML = '<i class="bi ' + bClass + '"></i>';
-                    addBootstrapPreviewIcon.style.color = colorVal;
-                }
-            } else if (currentType === 'upload') {
-                if (addIconImage.files && addIconImage.files[0]) {
+            const currentType = addIconType ? addIconType.value : 'preset';
+            if (currentType === 'upload') {
+                if (addIconImage && addIconImage.files && addIconImage.files[0]) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         markerImg.src = e.target.result;
@@ -1056,6 +1029,15 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
                     };
                     reader.readAsDataURL(addIconImage.files[0]);
                 }
+            } else {
+                markerIcon.style.display = 'inline-block';
+                markerImg.style.display = 'none';
+                livePreviewIcon.style.display = 'inline-block';
+                livePreviewImg.style.display = 'none';
+
+                const iconClass = (addIconPreset && addIconPreset.value) ? addIconPreset.value : 'bi-building-fill';
+                markerIcon.className = 'bi ' + iconClass;
+                livePreviewIcon.className = 'bi ' + iconClass;
             }
 
             // 4. Dimensions
@@ -1193,9 +1175,10 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
                 this.classList.add('active');
                 addIconType.value = type;
 
-                document.getElementById('panelPreset').style.display = (type === 'preset') ? 'block' : 'none';
-                document.getElementById('panelBootstrap').style.display = (type === 'bootstrap') ? 'block' : 'none';
-                document.getElementById('panelUpload').style.display = (type === 'upload') ? 'block' : 'none';
+                const pPreset = document.getElementById('panelPreset');
+                const pUpload = document.getElementById('panelUpload');
+                if (pPreset) pPreset.style.display = (type === 'preset') ? 'block' : 'none';
+                if (pUpload) pUpload.style.display = (type === 'upload') ? 'block' : 'none';
 
                 updateLiveVisuals();
             });
@@ -1212,8 +1195,7 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
             });
         });
 
-        addIconBootstrap.addEventListener('input', updateLiveVisuals);
-        addIconImage.addEventListener('change', updateLiveVisuals);
+        if (addIconImage) addIconImage.addEventListener('change', updateLiveVisuals);
 
         // Highlight marker on map when Locate clicked
         function highlightMapPin(id, top, left) {
@@ -1318,13 +1300,14 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
                         c.classList.remove('selected');
                     }
                 });
-                if (matched) {
-                    setEditIconTab('preset');
-                    editIconPreset.value = icon;
+                if (!matched) {
+                    const firstChip = document.querySelector('#editPresetGrid .preset-icon-chip');
+                    if (firstChip) firstChip.classList.add('selected');
+                    editIconPreset.value = firstChip ? firstChip.getAttribute('data-icon') : 'bi-building-fill';
                 } else {
-                    setEditIconTab('bootstrap');
-                    editIconBootstrap.value = icon;
+                    editIconPreset.value = icon;
                 }
+                setEditIconTab('preset');
             }
 
             editModal.style.display = 'flex';
@@ -1336,13 +1319,15 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
 
         function setEditIconTab(type) {
             editIconType.value = type;
-            document.getElementById('editTabPreset').classList.toggle('active', type === 'preset');
-            document.getElementById('editTabBootstrap').classList.toggle('active', type === 'bootstrap');
-            document.getElementById('editTabUpload').classList.toggle('active', type === 'upload');
+            const tabPreset = document.getElementById('editTabPreset');
+            const tabUpload = document.getElementById('editTabUpload');
+            if (tabPreset) tabPreset.classList.toggle('active', type === 'preset');
+            if (tabUpload) tabUpload.classList.toggle('active', type === 'upload');
 
-            document.getElementById('editPanelPreset').style.display = (type === 'preset') ? 'block' : 'none';
-            document.getElementById('editPanelBootstrap').style.display = (type === 'bootstrap') ? 'block' : 'none';
-            document.getElementById('editPanelUpload').style.display = (type === 'upload') ? 'block' : 'none';
+            const panelPreset = document.getElementById('editPanelPreset');
+            const panelUpload = document.getElementById('editPanelUpload');
+            if (panelPreset) panelPreset.style.display = (type === 'preset') ? 'block' : 'none';
+            if (panelUpload) panelUpload.style.display = (type === 'upload') ? 'block' : 'none';
         }
 
         document.querySelectorAll('#editPresetGrid .preset-icon-chip').forEach(chip => {

@@ -88,7 +88,7 @@
                 </a>
             </li>
             <li><a href="settings.php"><i class="bi bi-gear-fill"></i> Settings</a></li>
-            <li><a href="login.php" class="logout-link"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+            <li><a href="login.php" class="logout-link" style="color: #ef4444 !important;"><i class="bi bi-box-arrow-left" style="color: #ef4444 !important;"></i> Logout</a></li>
         </ul>
     </aside>
 
