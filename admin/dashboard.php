@@ -107,7 +107,7 @@ if ($res_core) {
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/assets/css/style.css">
-    <link rel="stylesheet" href="Admin CSS/admin.css?v=3">
+    <link rel="stylesheet" href="Admin CSS/admin.css?v=4">
     <link rel="stylesheet" href="Admin CSS/dashboard.css?v=3">
 </head>
 <body>

@@ -17,8 +17,8 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/assets/css/style.css">
-    <link rel="stylesheet" href="Admin CSS/admin.css?v=3">
-    <link rel="stylesheet" href="Admin CSS/feedbackchat.css?v=1">
+    <link rel="stylesheet" href="Admin CSS/admin.css?v=4">
+    <link rel="stylesheet" href="Admin CSS/feedbackchat.css?v=2">
 </head>
 <body>
 

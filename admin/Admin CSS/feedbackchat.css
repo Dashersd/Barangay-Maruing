@@ -14,14 +14,16 @@
 
 /* Page Wrapper */
 .chat-page-wrapper {
-    padding: 1.25rem 1.75rem;
+    padding: 1rem 1.25rem;
     background-color: #f8fafc;
-    height: calc(100vh - 85px);
-    min-height: 580px;
+    height: calc(100vh - 82px);
+    min-height: 540px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    width: 100%;
+    max-width: 100%;
 }
 
 /* Chat Main Layout Container */
@@ -34,19 +36,25 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     min-height: 0;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* ==========================================================
    SIDEBAR (CONVERSATIONS LIST)
    ========================================================== */
 .chat-sidebar {
-    width: 360px;
-    min-width: 320px;
+    width: 310px;
+    min-width: 270px;
+    max-width: 330px;
     border-right: 1px solid #e2e8f0;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
     flex-shrink: 0;
+    box-sizing: border-box;
 }
 
 .chat-sidebar-header {
@@ -412,16 +420,20 @@
     flex-direction: column;
     background-color: #f8fafc;
     min-width: 0;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 /* Chat Main Header */
 .chat-main-header {
-    padding: 1rem 1.5rem;
+    padding: 0.85rem 1.25rem;
     border-bottom: 1px solid #e2e8f0;
     background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .chat-resident-profile {
@@ -515,12 +527,15 @@
 /* Messages Container */
 .chat-messages {
     flex: 1;
-    padding: 1.5rem;
+    padding: 1.25rem 1.75rem 1.25rem 1.25rem;
     overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     gap: 1.15rem;
     background-color: #f8fafc;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -553,6 +568,8 @@
     display: flex;
     gap: 0.6rem;
     align-items: flex-end;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .user-message {
@@ -561,6 +578,7 @@
 
 .admin-message {
     justify-content: flex-end;
+    padding-right: 6px;
 }
 
 .msg-sender-avatar {
@@ -581,6 +599,7 @@
 .admin-message .msg-sender-avatar {
     background: #093d25;
     color: #ffffff;
+    margin-right: 2px;
 }
 
 /* Message Bubbles */
@@ -591,6 +610,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     position: relative;
     word-break: break-word;
+    box-sizing: border-box;
 }
 
 .user-message .message-bubble {
@@ -657,6 +677,8 @@
     align-items: center;
     gap: 0.5rem;
     overflow-x: auto;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .quick-replies-bar::-webkit-scrollbar {
@@ -709,6 +731,8 @@
     display: flex;
     gap: 0.75rem;
     align-items: center;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .chat-input {
