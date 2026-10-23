@@ -140,9 +140,19 @@ document.addEventListener('DOMContentLoaded', function () {
                                         children = [];
                                     }
                                     if (Array.isArray(children) && children.length > 0) {
-                                        childrenContainer.innerHTML = children.map(c => 
-                                            `<span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 500; display: inline-block;">${c}</span>`
-                                        ).join('');
+                                        if (children.length > 1) {
+                                            childrenContainer.innerHTML = `
+                                                <ul style="margin: 0; padding-left: 18px; list-style-type: disc; width: 100%; display: flex; flex-direction: column; gap: 4px;">
+                                                    ${children.map(c => `
+                                                        <li style="color: #0284c7; padding-left: 2px;">
+                                                            <span style="color: #334155; font-size: 0.85rem; font-weight: 500;">${escapeHtml(c)}</span>
+                                                        </li>
+                                                    `).join('')}
+                                                </ul>
+                                            `;
+                                        } else {
+                                            childrenContainer.innerHTML = `<span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 500; display: inline-block; align-self: flex-start;">${escapeHtml(children[0])}</span>`;
+                                        }
                                     } else {
                                         childrenContainer.innerHTML = '<span style="color: #94a3b8; font-style: italic; font-size: 0.85rem;">None listed</span>';
                                     }
@@ -276,5 +286,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 householdModal.style.display = 'none';
             }
         });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
     }
 });

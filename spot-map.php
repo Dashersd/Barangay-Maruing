@@ -194,7 +194,7 @@
                     </div>
                     <div style="border-top: 1px dashed #e2e8f0; padding-top: 10px; margin-top: 10px;">
                         <span style="color: #64748b; font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 6px;">Children / Dependents</span>
-                        <div id="modal-children-list" style="display: flex; flex-wrap: wrap; gap: 4px; max-height: 120px; overflow-y: auto;">
+                        <div id="modal-children-list" style="display: flex; flex-direction: column; gap: 4px; max-height: 130px; overflow-y: auto;">
                             <!-- Populated dynamically -->
                         </div>
                     </div>

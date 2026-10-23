@@ -128,7 +128,7 @@
         
         <div class="records-card" style="background: #ffffff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 20px;">
             <div class="table-responsive" style="overflow-x: auto;">
-                <table class="records-table" style="width: 100%; border-collapse: collapse; min-width: 800px;">
+                <table class="records-table" style="width: 100%; border-collapse: collapse; min-width: 950px;">
                     <thead>
                         <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
                             <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">House Image</th>
@@ -136,7 +136,7 @@
                             <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">Husband Name</th>
                             <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">Spouse Name</th>
                             <th style="padding: 15px 20px; text-align: left; font-weight: 600; color: #334155; font-size: 0.95rem;">Date Added</th>
-                            <th style="padding: 15px 20px; text-align: center; font-weight: 600; color: #334155; font-size: 0.95rem;">Actions</th>
+                            <th style="padding: 15px 20px; text-align: center; font-weight: 600; color: #334155; font-size: 0.95rem; min-width: 180px; white-space: nowrap;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="records-tbody">
@@ -170,13 +170,15 @@
                                         <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['husband_name'] ?? ''); ?></td>
                                         <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['spouse_name'] ?? ''); ?></td>
                                         <td style="padding: 15px 20px; color: #475569;"><?php echo htmlspecialchars($record['date_added'] ?? ''); ?></td>
-                                        <td style="padding: 15px 20px; text-align: center;">
-                                            <a href="edit_record.php?target_file=legend&id=<?php echo htmlspecialchars($record['id'] ?? ''); ?>" style="background: #0f766e; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; margin-right: 5px; text-decoration: none; display: inline-block;"><i class="bi bi-pencil-square"></i> Edit</a>
-                                            <form action="delete_record.php" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to completely remove this record?');">
-                                                <input type="hidden" name="target_file" value="legend">
-                                                <input type="hidden" name="id" value="<?php echo htmlspecialchars($record['id'] ?? ''); ?>">
-                                                <button type="submit" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;"><i class="bi bi-trash"></i> Remove</button>
-                                            </form>
+                                        <td style="padding: 15px 20px; text-align: center; white-space: nowrap;">
+                                            <div style="display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                                                <a href="edit_record.php?target_file=legend&id=<?php echo htmlspecialchars($record['id'] ?? ''); ?>" style="background: #0f766e; color: white; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"><i class="bi bi-pencil-square"></i> Edit</a>
+                                                <form action="delete_record.php" method="POST" style="margin: 0; display: inline-flex;" onsubmit="return confirm('Are you sure you want to completely remove this record?');">
+                                                    <input type="hidden" name="target_file" value="legend">
+                                                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($record['id'] ?? ''); ?>">
+                                                    <button type="submit" style="background: #ef4444; color: white; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,0.05);"><i class="bi bi-trash"></i> Remove</button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
