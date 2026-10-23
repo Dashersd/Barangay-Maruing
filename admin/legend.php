@@ -122,7 +122,7 @@
             </div>
             
                         <div class="purok-map-container" style="position: relative;">
-                <img src="../public/image/Maruing Map/mao.jpg" alt="Spot Map" class="spot-map-img" style="width: 100%; display: block;">
+                <img src="../public/image/Maruing Map/Aerial View.png" alt="Spot Map" class="spot-map-img" style="width: 100%; display: block;">
                 <?php
                 $json_file = 'data/legend.json';
                 if (file_exists($json_file)) {

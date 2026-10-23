@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="public/assets/css/style.css?v=9">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=10">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
@@ -112,6 +112,11 @@
                         <i class="bi bi-geo-alt-fill" style="color: #f59e0b; font-size: 1.6rem;"></i> 9 Puroks of Maruing
                     </h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%;">
+                        <!-- View Aerial Spot Map Button -->
+                        <button type="button" id="btn-show-aerial" class="btn-aerial-view" style="grid-column: span 2; background: linear-gradient(135deg, #093d25 0%, #155734 100%); color: #ffffff; border: 1px solid rgba(255, 193, 7, 0.4); border-radius: 25px; padding: 0.7rem 1rem; font-weight: 700; font-size: 0.88rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(9, 61, 37, 0.18); transition: all 0.2s ease;" title="View Aerial Spot Map with all 9 Purok Pins">
+                            <i class="bi bi-pin-map-fill" style="color: #ffc107; font-size: 1.1rem;"></i> View Aerial Map (9 Puroks)
+                        </button>
+
                         <?php 
                         $purokImages = [
                             1 => 'public/image/Purok/Purok 1.jpg?v=2',
@@ -144,19 +149,130 @@
             <div class="spot-map-visual-wrapper" data-aos="fade-left" style="display: flex; flex-direction: column; width: 100%; margin-top: 3.5rem;">
                 <!-- Back to Overview Button (Positioned at the Top) -->
                 <div id="back-overview-wrapper" style="display: none; justify-content: flex-start; margin-bottom: 14px;">
-                    <button type="button" id="btn-back-overview" class="btn-back-overview" title="Back to Regional Overview Map">
+                    <button type="button" id="btn-back-overview" class="btn-back-overview" title="Back to Map Overview">
                         <i class="bi bi-arrow-left"></i> Overview Map
                     </button>
                 </div>
 
                 <div class="spot-map-visual">
-                    <!-- Interactive Red Pin on Map -->
+                    <!-- Interactive Regional Pin on Map -->
                     <div class="map-pin-wrapper" id="maruing-pin-btn" role="button" tabindex="0" title="Click to view Mindanao" style="display: flex; top: 77.5%; left: 61.5%;">
                         <div class="pin-pulse"></div>
                         <div class="pin-marker">
                             <i class="bi bi-geo-alt-fill"></i>
                         </div>
                         <div class="pin-tooltip" id="pin-tooltip-text">Click to View Mindanao</div>
+                    </div>
+
+                    <!-- 9 Purok Pins Layer on Aerial View -->
+                    <div id="purok-pins-container" class="purok-pins-layer" style="display: none;">
+                        <div class="purok-map-pin" data-purok="1" data-img="public/image/Purok/Purok 1.jpg?v=2" style="top: 15%; left: 36%;" role="button" tabindex="0">
+                            <div class="purok-pin-tooltip">Explore Purok 1 Map</div>
+                            <div class="purok-pin-badge">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Purok 1</span>
+                            </div>
+                            <div class="purok-pin-pointer"></div>
+                            <div class="purok-pin-dot">
+                                <div class="purok-pin-pulse"></div>
+                            </div>
+                        </div>
+
+                        <div class="purok-map-pin" data-purok="2" data-img="public/image/Purok/Purok 2.jpg?v=2" style="top: 14%; left: 22%;" role="button" tabindex="0">
+                            <div class="purok-pin-tooltip">Explore Purok 2 Map</div>
+                            <div class="purok-pin-badge">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Purok 2</span>
+                            </div>
+                            <div class="purok-pin-pointer"></div>
+                            <div class="purok-pin-dot">
+                                <div class="purok-pin-pulse"></div>
+                            </div>
+                        </div>
+
+                        <div class="purok-map-pin" data-purok="3" data-img="public/image/Purok/Purok 3.jpg?v=2" style="top: 35%; left: 30%;" role="button" tabindex="0">
+                            <div class="purok-pin-tooltip">Explore Purok 3 Map</div>
+                            <div class="purok-pin-badge">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Purok 3</span>
+                            </div>
+                            <div class="purok-pin-pointer"></div>
+                            <div class="purok-pin-dot">
+                                <div class="purok-pin-pulse"></div>
+                            </div>
+                        </div>
+
+                        <div class="purok-map-pin" data-purok="4" data-img="public/image/Purok/Purok 4.jpg?v=2" style="top: 50%; left: 38%;" role="button" tabindex="0">
+                            <div class="purok-pin-tooltip">Explore Purok 4 Map</div>
+                            <div class="purok-pin-badge">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Purok 4</span>
+                            </div>
+                            <div class="purok-pin-pointer"></div>
+                            <div class="purok-pin-dot">
+                                <div class="purok-pin-pulse"></div>
+                            </div>
+                        </div>
+
+                        <div class="purok-map-pin" data-purok="5" data-img="public/image/Purok/Purok 5.jpg?v=2" style="top: 65%; left: 32%;" role="button" tabindex="0">
+                            <div class="purok-pin-tooltip">Explore Purok 5 Map</div>
+                            <div class="purok-pin-badge">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Purok 5</span>
+                            </div>
+                            <div class="purok-pin-pointer"></div>
+                            <div class="purok-pin-dot">
+                                <div class="purok-pin-pulse"></div>
+                            </div>
+                        </div>
+
+                        <div class="purok-map-pin" data-purok="6" data-img="public/image/Purok/Purok 6.jpg?v=2" style="top: 86%; left: 42%;" role="button" tabindex="0">
+                            <div class="purok-pin-tooltip">Explore Purok 6 Map</div>
+                            <div class="purok-pin-badge">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Purok 6</span>
+                            </div>
+                            <div class="purok-pin-pointer"></div>
+                            <div class="purok-pin-dot">
+                                <div class="purok-pin-pulse"></div>
+                            </div>
+                        </div>
+
+                        <div class="purok-map-pin" data-purok="7" data-img="public/image/Purok/Purok 7.jpg?v=2" style="top: 61%; left: 63%;" role="button" tabindex="0">
+                            <div class="purok-pin-tooltip">Explore Purok 7 Map</div>
+                            <div class="purok-pin-badge">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Purok 7</span>
+                            </div>
+                            <div class="purok-pin-pointer"></div>
+                            <div class="purok-pin-dot">
+                                <div class="purok-pin-pulse"></div>
+                            </div>
+                        </div>
+
+                        <div class="purok-map-pin" data-purok="8" data-img="public/image/Purok/Purok 8.jpg?v=2" style="top: 48%; left: 77%;" role="button" tabindex="0">
+                            <div class="purok-pin-tooltip">Explore Purok 8 Map</div>
+                            <div class="purok-pin-badge">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Purok 8</span>
+                            </div>
+                            <div class="purok-pin-pointer"></div>
+                            <div class="purok-pin-dot">
+                                <div class="purok-pin-pulse"></div>
+                            </div>
+                        </div>
+
+                        <div class="purok-map-pin" data-purok="9" data-img="public/image/Purok/Purok 9.jpg?v=2" style="top: 76%; left: 61%;" role="button" tabindex="0">
+                            <div class="purok-pin-tooltip">Explore Purok 9 Map</div>
+                            <div class="purok-pin-badge">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Purok 9</span>
+                            </div>
+                            <div class="purok-pin-pointer"></div>
+                            <div class="purok-pin-dot">
+                                <div class="purok-pin-pulse"></div>
+                            </div>
+                        </div>
                     </div>
 
                     <img id="spot-map-img" src="public/image/Maruing Map/Philippines.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 850px !important; max-height: none !important; object-fit: fill !important; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); cursor: default;">
@@ -257,7 +373,7 @@
     <!-- Custom JavaScript -->
     <script src="public/assets/js/main.js"></script>
 
-    <script src="public/assets/js/spotmap.js?v=3"></script>
+    <script src="public/assets/js/spotmap.js?v=5"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {

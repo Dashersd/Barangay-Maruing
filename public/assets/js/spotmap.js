@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const backOverviewWrapper = document.getElementById('back-overview-wrapper');
     const btnViewFullImage = document.getElementById('btn-view-full-image');
     const markersContainer = document.getElementById('map-markers-container');
+    const purokPinsContainer = document.getElementById('purok-pins-container');
+    const purokMapPins = document.querySelectorAll('.purok-map-pin');
+    const btnShowAerial = document.getElementById('btn-show-aerial');
 
     const detailedImgSrc = 'public/image/Maruing Map/Aerial View.png';
     const purokButtons = document.querySelectorAll('.purok-chip-btn.has-image');
@@ -64,6 +67,8 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
 
     let currentSequenceIndex = 0;
+    let isPurokView = false;
+    let isAerialView = false;
 
     function applyPinStep(index) {
         if (!maruingPin) return;
@@ -171,13 +176,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showDetailedMap() {
         if (!spotMapImg) return;
+        isPurokView = false;
+        isAerialView = true;
         spotMapImg.style.opacity = '0.2';
         setTimeout(function () {
             spotMapImg.src = detailedImgSrc;
-            spotMapImg.alt = 'Detailed Street Map of Barangay Maruing';
+            spotMapImg.alt = 'Detailed Aerial Map of Barangay Maruing';
             spotMapImg.style.opacity = '1';
             if (maruingPin) maruingPin.style.display = 'none';
+            if (purokPinsContainer) purokPinsContainer.style.display = 'block';
             if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
+            if (btnBackOverview) {
+                btnBackOverview.innerHTML = '<i class="bi bi-arrow-left"></i> Regional Overview';
+                btnBackOverview.setAttribute('title', 'Return to Regional Sequence');
+            }
             if (btnViewFullImage) btnViewFullImage.href = detailedImgSrc;
             clearActivePurok();
             clearMarkers();
@@ -187,12 +199,15 @@ document.addEventListener('DOMContentLoaded', function () {
     function showOverviewMap() {
         if (!spotMapImg) return;
         currentSequenceIndex = 0;
+        isPurokView = false;
+        isAerialView = false;
         spotMapImg.style.opacity = '0.2';
         setTimeout(function () {
             const step0 = mapSequence[0];
             spotMapImg.src = step0.src;
             spotMapImg.alt = step0.alt;
             spotMapImg.style.opacity = '1';
+            if (purokPinsContainer) purokPinsContainer.style.display = 'none';
             applyPinStep(0);
             if (backOverviewWrapper) backOverviewWrapper.style.display = 'none';
             if (btnViewFullImage) btnViewFullImage.href = step0.src;
@@ -203,22 +218,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showPurokMap(imgSrc, purokNum, btnElement) {
         if (!spotMapImg || !imgSrc) return;
+        isPurokView = true;
+        isAerialView = false;
         spotMapImg.style.opacity = '0.2';
         setTimeout(function () {
             spotMapImg.src = imgSrc;
             spotMapImg.alt = 'Map of Purok ' + purokNum + ', Barangay Maruing';
             spotMapImg.style.opacity = '1';
             if (maruingPin) maruingPin.style.display = 'none';
+            if (purokPinsContainer) purokPinsContainer.style.display = 'none';
             if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
+            if (btnBackOverview) {
+                btnBackOverview.innerHTML = '<i class="bi bi-arrow-left"></i> Back to Aerial Map (9 Puroks)';
+                btnBackOverview.setAttribute('title', 'Return to Aerial Map with 9 Purok Pins');
+            }
             if (btnViewFullImage) btnViewFullImage.href = imgSrc;
             clearActivePurok();
             clearMarkers();
-            if (btnElement) btnElement.classList.add('active');
+
+            if (btnElement) {
+                btnElement.classList.add('active');
+            } else {
+                const targetBtn = document.querySelector('.purok-chip-btn[data-purok="' + purokNum + '"]');
+                if (targetBtn) targetBtn.classList.add('active');
+            }
 
             fetchAndPlotMarkers(purokNum);
         }, 180);
     }
 
+    // Sidebar Purok Buttons Click Event
     purokButtons.forEach(function (btn) {
         btn.addEventListener('click', function () {
             const imgSrc = this.getAttribute('data-img');
@@ -229,7 +258,35 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Advance sequence ONLY when Pin is clicked
+    // 9 Purok Map Pins Click Event on Aerial Map
+    purokMapPins.forEach(function (pin) {
+        function activatePin(e) {
+            if (e) e.stopPropagation();
+            const purokNum = pin.getAttribute('data-purok');
+            const imgSrc = pin.getAttribute('data-img');
+            const matchingBtn = document.querySelector('.purok-chip-btn[data-purok="' + purokNum + '"]');
+            if (imgSrc) {
+                showPurokMap(imgSrc, purokNum, matchingBtn);
+            }
+        }
+
+        pin.addEventListener('click', activatePin);
+        pin.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                activatePin(e);
+            }
+        });
+    });
+
+    // Sidebar View Aerial Map Button
+    if (btnShowAerial) {
+        btnShowAerial.addEventListener('click', function () {
+            showDetailedMap();
+        });
+    }
+
+    // Advance sequence ONLY when Regional Pin is clicked
     function onPinClicked(e) {
         if (e) e.stopPropagation();
 
@@ -242,8 +299,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 spotMapImg.src = nextStep.src;
                 spotMapImg.alt = nextStep.alt;
                 spotMapImg.style.opacity = '1';
+                if (purokPinsContainer) purokPinsContainer.style.display = 'none';
                 applyPinStep(currentSequenceIndex);
                 if (backOverviewWrapper) backOverviewWrapper.style.display = 'flex';
+                if (btnBackOverview) {
+                    btnBackOverview.innerHTML = '<i class="bi bi-arrow-left"></i> Regional Overview';
+                }
                 if (btnViewFullImage) btnViewFullImage.href = nextStep.src;
                 clearMarkers();
             }, 180);
@@ -266,11 +327,20 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize Pin on Step 0 (Philippines map)
     applyPinStep(0);
 
+    // Back to Overview Button
     if (btnBackOverview) {
-        btnBackOverview.addEventListener('click', showOverviewMap);
+        btnBackOverview.addEventListener('click', function () {
+            if (isPurokView) {
+                // Return back to Aerial Map with 9 pins
+                showDetailedMap();
+            } else {
+                // Return back to Philippines sequence map
+                showOverviewMap();
+            }
+        });
     }
 
-    // Modal Close Logic
+    // Household Modal Close Logic
     const householdModal = document.getElementById('household-modal');
     const closeModalBtn = document.getElementById('close-modal-btn');
 
