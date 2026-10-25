@@ -53,13 +53,14 @@ $total_media_count = count($media_items);
     <!-- Navigation Bar -->
     <nav class="navbar sticky-top">
         <div class="navbar-container">
-            <a class="navbar-brand" href="index.php">
-                <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" style="width: 50px; height: 50px; object-fit: contain; margin-right: 10px;">
+            <div class="navbar-brand">
+                <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" style="width: 50px; height: 50px; object-fit: contain; margin-right: 8px;">
+                <img src="public/image/Lapuyan Logo.png" alt="Municipality of Lapuyan Logo" style="width: 50px; height: 50px; object-fit: contain; margin-right: 12px;">
                 <div class="brand-text">
                     <span class="brand-title">Barangay Maruing</span>
                     <span class="brand-tagline">Serbisyong Tapat, Para sa Lahat</span>
                 </div>
-            </a>
+            </div>
             <div class="navbar-menu">
                 <ul class="navbar-nav nav-links">
                     <li class="nav-item">

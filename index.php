@@ -69,6 +69,35 @@ if (isset($conn) && !$conn->connect_error) {
     }
 }
 
+// Fetch About section details (history and image) synchronized with about.php
+$about_default_image = "public/image/Barangay Maruing Community Hall.png";
+$about_default_history = "Maruing once under the jurisdiction of Margosatubig, before it was declared as a Municipality in 1964 during the time of late Diosdado Macapagal and then reverted into Barangay in 1965. According to the Subanen leaders of Elders, the term Maruing came from two[2] Subanen words \"MARU\" which means bad odor and \"DUWING\" a Subanen word a term for gigantic wild boar having fangs that grew outrares from his mouth because of the incredible strength. According to the story, a Subanen hunter went to the forest looking for wild animals. Using his spear the hunter was able to hit a wild boar or the DUWING but unluckily failed to catch it. Thus, the hunter kept on looking the animal until found a very nice place where two rivers meet creating a big river before it proceeds to the sea. Because he did not find the wild boar but instead the beautiful place, he went home and reported to his co-villagers about a beautiful place where they could establish their community because of its strategic location and abundance of water.\n\nAfter few days, the hunter and his community decided to visit the said beautiful place and there they observed \"MARU\" or bad odor where they believed to be the \"DUWING\" that escaped from hunting. Since they do not know the name of the place, they conbined the two words of MARU and DUWING and they called the place Marwing. It was only changed to MARUING during the time of Barangay Captain Lorenzo Bugao.\n\nBarangay Maruing is the home of the Subanen, one of the 18 major tribes of the Lumad in Mindanao. The first Subanen families who inhabited the place were the families of Mangangot, Balabad, Bugao and Hupa and the first chinesse families were Pula, Wasing and Costan whom later killed by bandits. From the Muslim tribes, it was the families of Manopod who went and settle first in Maruing.\n\nBased on the record, of the Municipal Planning Development Office of Lapuyan, Zamboanga del Sur, Maruing was created into Barangay on January 17,1958 by Virtue of Republic Act 226 from from being a Sitio of once Barangay Lapuyan, which was under the Municipality of Margosatubig. Even before the formal creation of Barangay Maruing, the American Government had already appointed a Teniente del Barrio or Chief Executive aside from the traditional political set-up of Datu System, which is headed by Datu Sapalao. In fact, there were times that Datu Sapalao was also appointed as Teniente del Barrio, particularly Datu Sapalao Consing Bugao in 1930's and Datu Sapalao Mandag Humoa in 1940's.\n\nThe second Teniente del Barrio or Barrio at Large after Maruing was fully recognized as a Barangay was Tere Mangangot who served from 1958-1961. His councillors include Ajerol Arip, John Banagan, Tumandio Lesayao, Tumindeg Tahupis, and Tumanghis Antay. During his term, they constructed a bridged at the center of Barangay and they actively participated the clean and green Revolution Program of the National Government. In 1961, Timuay Tumindeg Tahupis, member of the Tribal Leaders of Maruing succeeded Tere Mangangot until 1964. He continued the projects of his predecessor and led in developing the sports activities and competitions with other municipalities.";
+
+$about_data = null;
+if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
+    $about_res = $conn->query("SELECT * FROM about_content WHERE id = 1 LIMIT 1");
+    if ($about_res && $row = $about_res->fetch_assoc()) {
+        $about_data = $row;
+    }
+}
+
+$about_history_text = !empty($about_data['history']) ? $about_data['history'] : $about_default_history;
+$about_paragraphs = preg_split('/(\r\n|\n|\r){2,}/', trim($about_history_text));
+$about_preview = !empty($about_paragraphs[0]) ? trim($about_paragraphs[0]) : $about_history_text;
+if (count($about_paragraphs) > 1 && mb_strlen($about_preview) < 250) {
+    $about_preview .= "\n\n" . trim($about_paragraphs[1]);
+}
+$about_image_src = $about_default_image;
+if (!empty($about_data['image_path'])) {
+    if (strpos($about_data['image_path'], 'uploads/about/') === 0) {
+        $about_image_src = 'admin/' . $about_data['image_path'];
+    } elseif (strpos($about_data['image_path'], 'public/') === 0) {
+        $about_image_src = $about_data['image_path'];
+    } else {
+        $about_image_src = $about_data['image_path'];
+    }
+}
+
 
 // Fetch Barangay Captain details for the Meet Our Leaders section
 $captain_name = 'Hon. Punong Barangay';
@@ -128,54 +157,6 @@ if (!$captain_found || empty($captain_photo)) {
     }
 }
 
-// Fetch SK Chairman details for the Meet Our Leaders section
-$sk_chair_name = 'Hon. Ryan M. Tubos';
-$sk_chair_role = 'Sangguniang Kabataan Chairman';
-$sk_chair_photo = 'public/image/SK Officials/Ryan M. Tubos.jpeg';
-$sk_chair_desc = 'Empowering the youth of Barangay Maruing through active participation in sports, education, and community development.';
-
-$sk_chair_found = false;
-if (isset($conn) && !$conn->connect_error) {
-    $sk_stmt = $conn->query("SELECT * FROM sk_officials WHERE official_key = 'chairperson' OR position LIKE '%Chairman%' OR position LIKE '%Chairperson%' LIMIT 1");
-    if ($sk_stmt && $sk_stmt->num_rows > 0) {
-        $sk_row = $sk_stmt->fetch_assoc();
-        if (!empty($sk_row['name']) && $sk_row['name'] !== 'Name') {
-            $sk_chair_name = $sk_row['name'];
-        }
-        if (!empty($sk_row['position'])) {
-            $sk_chair_role = $sk_row['position'];
-        }
-        if (!empty($sk_row['photo'])) {
-            $sk_chair_photo = resolve_leader_photo($sk_row['photo']);
-        }
-        if (!empty($sk_row['message'])) {
-            $sk_chair_desc = $sk_row['message'];
-        }
-        $sk_chair_found = true;
-    }
-}
-
-if (!$sk_chair_found || empty($sk_chair_photo)) {
-    $json_sk_file = __DIR__ . '/admin/data/sk_officials.json';
-    if (file_exists($json_sk_file)) {
-        $j_sk_data = json_decode(file_get_contents($json_sk_file), true);
-        $j_sk_chair = $j_sk_data['chairperson'] ?? [];
-        if (!$sk_chair_found) {
-            if (!empty($j_sk_chair['name']) && $j_sk_chair['name'] !== 'Name') {
-                $sk_chair_name = $j_sk_chair['name'];
-            }
-            if (!empty($j_sk_chair['role'])) {
-                $sk_chair_role = $j_sk_chair['role'];
-            }
-            if (!empty($j_sk_chair['message'])) {
-                $sk_chair_desc = $j_sk_chair['message'];
-            }
-        }
-        if (empty($sk_chair_photo) && !empty($j_sk_chair['photo'])) {
-            $sk_chair_photo = resolve_leader_photo($j_sk_chair['photo']);
-        }
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -201,7 +182,7 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom CSS (Pure CSS Responsive) -->
-    <link rel="stylesheet" href="public/assets/css/style.css?v=6">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=9">
     <link rel="stylesheet" href="public/assets/css/gallery.css?v=6">
     <link rel="stylesheet" href="public/assets/css/announcements.css?v=2">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -211,13 +192,14 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
     <!-- Navigation Bar -->
     <nav class="navbar sticky-top ">
         <div class="navbar-container">
-            <a class="navbar-brand" href="index.php">
-                <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" style="width: 50px; height: 50px; object-fit: contain; margin-right: 10px;">
+            <div class="navbar-brand">
+                <img src="public/image/Maruing Logo 2.png" alt="Barangay Maruing Logo" style="width: 50px; height: 50px; object-fit: contain; margin-right: 8px;">
+                <img src="public/image/Lapuyan Logo.png" alt="Municipality of Lapuyan Logo" style="width: 50px; height: 50px; object-fit: contain; margin-right: 12px;">
                 <div class="brand-text">
                     <span class="brand-title">Barangay Maruing</span>
                     <span class="brand-tagline">Serbisyong Tapat, Para sa Lahat</span>
                 </div>
-            </a>
+            </div>
             <div class="navbar-menu">
                 <ul class="navbar-nav nav-links">
                     <li class="nav-item">
@@ -287,46 +269,25 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
                     <p style="font-size: 1.1rem; color: var(--muted-text-color, #6b7280);">The dedicated officials working to serve the people of Barangay Maruing.</p>
                 </div>
                 
-                <div class="officials-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto;">
-                    
-                    <!-- Official Card 1 -->
-                    <div class="official-card" data-aos="fade-up" data-aos-delay="100" style="background: white; border-radius: 20px; padding: 3rem 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); text-align: center; transition: transform 0.3s ease;">
-                        <div style="position: relative; width: 140px; height: 140px; margin: 0 auto 2.5rem; background-color: var(--primary-light, #e8f5ee); border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 8px rgba(19, 117, 71, 0.05);">
+                <div class="officials-top-wrapper">
+                    <div class="captain-spotlight-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="captain-spotlight-img-col">
                             <?php if (!empty($captain_photo)): ?>
-                                <img src="<?= htmlspecialchars($captain_photo) ?>" alt="<?= htmlspecialchars($captain_name) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                <img src="<?= htmlspecialchars($captain_photo) ?>" alt="<?= htmlspecialchars($captain_name) ?>" onerror="this.src='https://ui-avatars.com/api/?name=<?= urlencode($captain_name) ?>&background=093d25&color=ffffff&size=350'">
                             <?php else: ?>
-                                <span style="font-size: 3.5rem; font-weight: 300; color: var(--primary-dark, #093d25); font-family: sans-serif;">PB</span>
+                                <div style="width: 100%; height: 320px; background: #e8f5ee; display: flex; align-items: center; justify-content: center; border-radius: 18px;">
+                                    <span style="font-size: 4.5rem; font-weight: 300; color: #093d25; font-family: sans-serif;">PB</span>
+                                </div>
                             <?php endif; ?>
-                            <div style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); background-color: var(--primary-color, #137547); color: white; padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                                Punong Barangay
+                        </div>
+                        <div class="captain-spotlight-info-col">
+                            <span class="captain-spotlight-eyebrow">BARANGAY CAPTAIN</span>
+                            <h3 class="captain-spotlight-title"><?= htmlspecialchars(!empty($captain_name) && $captain_name !== 'Name' ? $captain_name : 'Barangay Captain') ?></h3>
+                            <p class="captain-spotlight-quote">"<?= htmlspecialchars($captain_desc) ?>"</p>
+                            <div class="captain-spotlight-action">
+                                <a href="officials.php" class="btn btn-captain-action">View Barangay Officials &rarr;</a>
                             </div>
                         </div>
-                        <h4 style="color: var(--primary-dark, #093d25); margin-bottom: 0.5rem; font-weight: 800; font-size: 1.3rem;"><?= htmlspecialchars($captain_name) ?></h4>
-                        <p style="color: var(--primary-color, #137547); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;"><?= htmlspecialchars($captain_role) ?></p>
-                        <p style="color: var(--muted-text-color, #6b7280); font-size: 0.95rem; font-style: italic; line-height: 1.6;">"<?= htmlspecialchars($captain_desc) ?>"</p>
-                        <a href="officials.php" class="btn-officials-outline" style="display: inline-block; margin-top: 1.5rem; padding: 0.6rem 1.5rem; background-color: white; border: 2px solid var(--primary-color, #137547); color: var(--primary-color, #137547) !important; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;">
-                            View Barangay Officials <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-
-                    <!-- Official Card 2 -->
-                    <div class="official-card" data-aos="fade-up" data-aos-delay="200" style="background: white; border-radius: 20px; padding: 3rem 2rem; box-shadow: var(--card-shadow, 0 4px 6px -1px rgba(0,0,0,0.05)); border: 1px solid var(--border-color, #e5e7eb); text-align: center; transition: transform 0.3s ease;">
-                        <div style="position: relative; width: 140px; height: 140px; margin: 0 auto 2.5rem; background-color: rgba(255, 193, 7, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 8px rgba(255, 193, 7, 0.05);">
-                            <?php if (!empty($sk_chair_photo)): ?>
-                                <img src="<?= htmlspecialchars($sk_chair_photo) ?>" alt="<?= htmlspecialchars($sk_chair_name) ?>" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
-                            <?php else: ?>
-                                <span style="font-size: 3.5rem; font-weight: 300; color: var(--primary-dark, #093d25); font-family: sans-serif;">SK</span>
-                            <?php endif; ?>
-                            <div style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); background-color: var(--primary-color, #137547); color: white; padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                                SK Chairman
-                            </div>
-                        </div>
-                        <h4 style="color: var(--primary-dark, #093d25); margin-bottom: 0.5rem; font-weight: 800; font-size: 1.3rem;"><?= htmlspecialchars($sk_chair_name) ?></h4>
-                        <p style="color: var(--primary-color, #137547); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.5rem;"><?= htmlspecialchars($sk_chair_role) ?></p>
-                        <p style="color: var(--muted-text-color, #6b7280); font-size: 0.95rem; font-style: italic; line-height: 1.6;">"<?= htmlspecialchars($sk_chair_desc) ?>"</p>
-                        <a href="SKofficial.php" class="btn-officials-outline" style="display: inline-block; margin-top: 1.5rem; padding: 0.6rem 1.5rem; background-color: white; border: 2px solid var(--primary-color, #137547); color: var(--primary-color, #137547) !important; border-radius: 8px; font-weight: 700; text-decoration: none; transition: all 0.3s ease;">
-                            View SK Officials <i class="bi bi-arrow-right"></i>
-                        </a>
                     </div>
                 </div>
 
@@ -338,13 +299,23 @@ if (!$sk_chair_found || empty($sk_chair_photo)) {
         <section class="about-landing-section">
             <div class="container about-landing-container">
                 <div class="about-landing-image" data-aos="fade-right">
-                    <img src="public/image/Barangay Maruing Community Hall.png" alt="Barangay Maruing History">
+                    <img src="<?= htmlspecialchars($about_image_src) ?>" alt="Barangay Maruing History" onerror="this.src='public/image/Barangay Maruing Community Hall.png'">
                 </div>
                 <div class="about-landing-content" data-aos="fade-left">
                     <h2 class="about-landing-title">About Barangay Maruing</h2>
-                    <p class="about-landing-desc">
-                        Discover the rich history and vibrant community of Barangay Maruing. Our barangay is dedicated to providing honest and dedicated service to all its residents, fostering growth, unity, and a better quality of life for everyone. 
-                    </p>
+                    <div class="about-landing-text-scrollable">
+                        <?php 
+                        $paragraphs = preg_split('/(\r\n|\n|\r){2,}/', trim($about_history_text));
+                        foreach ($paragraphs as $para):
+                            $clean_para = trim($para);
+                            if (!empty($clean_para)):
+                        ?>
+                            <p class="about-landing-desc"><?= nl2br(htmlspecialchars($clean_para)) ?></p>
+                        <?php 
+                            endif;
+                        endforeach; 
+                        ?>
+                    </div>
                     <a href="about.php#about-us-section" class="btn-learn-more">
                         Learn more <i class="bi bi-arrow-right"></i>
                     </a>
