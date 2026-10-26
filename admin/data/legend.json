@@ -76,5 +76,18 @@
         "marker_width": "40",
         "marker_height": "40",
         "image_path": null
+    },
+    {
+        "id": "8",
+        "name": "Dale",
+        "icon_path": "bi-shop",
+        "color_hex": "#94a3b8",
+        "is_active": "1",
+        "display_order": "7",
+        "top_position": "38.5500",
+        "left_position": "64.0900",
+        "marker_width": "40",
+        "marker_height": "40",
+        "image_path": "uploads\/landmarks\/1792928711_landmark_LapuyanLogo.png"
     }
 ]
