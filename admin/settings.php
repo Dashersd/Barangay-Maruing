@@ -140,10 +140,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // 3. Update Admin Profile (Full Name & Email)
-    if ($action === 'update_admin_profile') {
+    // 3. Update Admin Profile & Security Credentials
+    if ($action === 'update_admin_security' || $action === 'update_admin_profile' || $action === 'change_password') {
         $full_name = trim($_POST['admin_name'] ?? '');
         $email = trim($_POST['admin_email'] ?? '');
+        $new_password = $_POST['new_password'] ?? '';
+        $confirm_password = $_POST['confirm_password'] ?? '';
 
         // Fetch current admin user
         $admin_id = $_SESSION['admin_id'] ?? null;
@@ -173,101 +175,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($check_res && $check_res->num_rows > 0) {
                 $error_msg = "This email address is already in use by another account.";
             } else {
-                $up_stmt = $conn->prepare("UPDATE users SET full_name = ?, email = ? WHERE id = ?");
-                $up_stmt->bind_param("ssi", $full_name, $email, $admin_user['id']);
-                if ($up_stmt->execute()) {
-                    logActivity($conn, 'Admin Profile Updated', "Admin details updated: $full_name ($email)");
+                $password_updated = false;
+                if (!empty($new_password) || !empty($confirm_password)) {
+                    if (empty($new_password) || empty($confirm_password)) {
+                        $error_msg = "Please enter and confirm your new password.";
+                    } elseif ($new_password !== $confirm_password) {
+                        $error_msg = "New password and confirmation do not match.";
+                    } elseif (strlen($new_password) < 6) {
+                        $error_msg = "New password must be at least 6 characters long.";
+                    } else {
+                        $new_hash = password_hash($new_password, PASSWORD_DEFAULT);
+                        $up_stmt = $conn->prepare("UPDATE users SET full_name = ?, email = ?, password = ? WHERE id = ?");
+                        $up_stmt->bind_param("sssi", $full_name, $email, $new_hash, $admin_user['id']);
+                        if ($up_stmt->execute()) {
+                            $password_updated = true;
+                        } else {
+                            $error_msg = "Failed to update account credentials: " . $conn->error;
+                        }
+                        $up_stmt->close();
+                    }
+                } else {
+                    $up_stmt = $conn->prepare("UPDATE users SET full_name = ?, email = ? WHERE id = ?");
+                    $up_stmt->bind_param("ssi", $full_name, $email, $admin_user['id']);
+                    if (!$up_stmt->execute()) {
+                        $error_msg = "Failed to update admin profile: " . $conn->error;
+                    }
+                    $up_stmt->close();
+                }
+
+                if (empty($error_msg)) {
+                    $log_detail = "Admin details updated: $full_name ($email)" . ($password_updated ? ' (password changed)' : '');
+                    logActivity($conn, 'Admin Profile Updated', $log_detail);
                     $_SESSION['admin_name'] = $full_name;
                     $_SESSION['admin_email'] = $email;
-                    header("Location: settings.php?msg=profile_updated&tab=security");
+                    $msg_key = $password_updated ? 'security_saved_with_password' : 'security_saved';
+                    header("Location: settings.php?msg={$msg_key}&tab=security");
                     exit;
-                } else {
-                    $error_msg = "Failed to update admin profile: " . $conn->error;
                 }
-                $up_stmt->close();
             }
             $check_stmt->close();
         }
     }
 
-    // 4. Change Admin Password
-    if ($action === 'change_password') {
-        $new_password = $_POST['new_password'] ?? '';
-        $confirm_password = $_POST['confirm_password'] ?? '';
-
-        // Fetch current admin user
-        $admin_id = $_SESSION['admin_id'] ?? null;
-        if ($admin_id) {
-            $u_stmt = $conn->prepare("SELECT * FROM users WHERE id = ? AND role = 'admin' LIMIT 1");
-            $u_stmt->bind_param("i", $admin_id);
-            $u_stmt->execute();
-            $admin_user = $u_stmt->get_result()->fetch_assoc();
-            $u_stmt->close();
-        } else {
-            $user_res = $conn->query("SELECT * FROM users WHERE role = 'admin' LIMIT 1");
-            $admin_user = $user_res ? $user_res->fetch_assoc() : null;
-        }
-
-        if (!$admin_user) {
-            $error_msg = "Admin account not found in database.";
-        } elseif (empty($new_password) || empty($confirm_password)) {
-            $error_msg = "Please enter and confirm your new password.";
-        } elseif ($new_password !== $confirm_password) {
-            $error_msg = "New password and confirmation do not match.";
-        } elseif (strlen($new_password) < 6) {
-            $error_msg = "New password must be at least 6 characters long.";
-        } else {
-            $new_hash = password_hash($new_password, PASSWORD_DEFAULT);
-            $up_stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
-            $up_stmt->bind_param("si", $new_hash, $admin_user['id']);
-            if ($up_stmt->execute()) {
-                logActivity($conn, 'Security Update', 'Admin account password was changed for: ' . $admin_user['email']);
-                header("Location: settings.php?msg=password_updated&tab=security");
-                exit;
-            } else {
-                $error_msg = "Failed to update password in database: " . $conn->error;
-            }
-            $up_stmt->close();
-        }
-    }
-
-    // 5. Create New Admin Account
-    if ($action === 'create_admin_account') {
-        $new_name = trim($_POST['new_admin_name'] ?? '');
-        $new_email = trim($_POST['new_admin_email'] ?? '');
-        $new_pass = $_POST['new_admin_password'] ?? '';
-
-        if (empty($new_name) || empty($new_email) || empty($new_pass)) {
-            $error_msg = "All fields are required to create a new administrator account.";
-        } elseif (!filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
-            $error_msg = "Please enter a valid email address.";
-        } elseif (strlen($new_pass) < 6) {
-            $error_msg = "Password must be at least 6 characters long.";
-        } else {
-            // Check if email already exists
-            $check_stmt = $conn->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
-            $check_stmt->bind_param("s", $new_email);
-            $check_stmt->execute();
-            if ($check_stmt->get_result()->num_rows > 0) {
-                $error_msg = "An account with this email address already exists.";
-            } else {
-                $hashed = password_hash($new_pass, PASSWORD_DEFAULT);
-                $ins_stmt = $conn->prepare("INSERT INTO users (full_name, email, password, role, status) VALUES (?, ?, ?, 'admin', 'active')");
-                $ins_stmt->bind_param("sss", $new_name, $new_email, $hashed);
-                if ($ins_stmt->execute()) {
-                    logActivity($conn, 'Account Created', "New Administrator account created: $new_name ($new_email)");
-                    header("Location: settings.php?msg=admin_created&tab=security");
-                    exit;
-                } else {
-                    $error_msg = "Failed to create administrator account: " . $conn->error;
-                }
-                $ins_stmt->close();
-            }
-            $check_stmt->close();
-        }
-    }
-
-    // 6. Clear Activity Logs
+    // 5. Clear Activity Logs
     if ($action === 'clear_logs') {
         $conn->query("TRUNCATE TABLE activity_logs");
         logActivity($conn, 'Logs Cleared', 'Admin reset the system activity logs');
@@ -280,9 +230,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $msg = $_GET['msg'] ?? '';
 if ($msg === 'general_saved') $success_msg = "Barangay profile and general configuration updated successfully!";
 if ($msg === 'contacts_saved') $success_msg = "Contact details and emergency hotlines updated successfully!";
+if ($msg === 'security_saved') $success_msg = "Administrator credentials updated successfully!";
+if ($msg === 'security_saved_with_password') $success_msg = "Administrator profile and password updated successfully! Please use your new password next time you log in.";
 if ($msg === 'profile_updated') $success_msg = "Admin profile details (name and email) updated successfully!";
 if ($msg === 'password_updated') $success_msg = "Admin password updated successfully! Please use your new password next time you log in.";
-if ($msg === 'admin_created') $success_msg = "New administrator account created successfully! It can now be used to log in.";
 if ($msg === 'logs_cleared') $success_msg = "System activity log history has been reset.";
 
 // Determine active tab
@@ -324,14 +275,6 @@ if ($logs_res) {
     }
 }
 
-// Fetch All Administrator Accounts
-$all_admins = [];
-$all_admins_res = $conn->query("SELECT id, full_name, email, role, status, created_at FROM users WHERE role = 'admin' ORDER BY id ASC");
-if ($all_admins_res) {
-    while ($arow = $all_admins_res->fetch_assoc()) {
-        $all_admins[] = $arow;
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -641,17 +584,18 @@ if ($all_admins_res) {
                         </span>
                     </div>
 
-                    <!-- Admin Profile & Email Form -->
-                    <div style="margin-bottom: 30px;">
-                        <h4 style="color: #0f172a; margin: 0 0 8px 0; font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
-                            <i class="bi bi-person-gear text-success"></i> Administrator Name & Login Email
-                        </h4>
-                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 18px;">
-                            Updating this email changes the administrator account login credentials for this system.
-                        </p>
+                    <!-- Unified Administrator Credentials & Security Form -->
+                    <form action="settings.php" method="POST">
+                        <input type="hidden" name="action" value="update_admin_security">
 
-                        <form action="settings.php" method="POST">
-                            <input type="hidden" name="action" value="update_admin_profile">
+                        <!-- Administrator Name & Login Email -->
+                        <div style="margin-bottom: 24px;">
+                            <h4 style="color: #0f172a; margin: 0 0 8px 0; font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
+                                <i class="bi bi-person-gear text-success"></i> Administrator Name & Login Email
+                            </h4>
+                            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 18px;">
+                                Updating this email changes the administrator account login credentials for this system.
+                            </p>
 
                             <div class="form-row">
                                 <div class="form-group">
@@ -663,129 +607,46 @@ if ($all_admins_res) {
                                     <input type="email" name="admin_email" class="form-control" value="<?= htmlspecialchars($admin['email']) ?>" required placeholder="admin@example.com">
                                 </div>
                             </div>
+                        </div>
 
-                            <button type="submit" class="btn-save-settings">
-                                <i class="bi bi-envelope-check-fill"></i> Save Profile & Email
-                            </button>
-                        </form>
-                    </div>
+                        <hr style="border: none; border-top: 1px dashed #cbd5e1; margin: 24px 0;">
 
-                    <hr style="border: none; border-top: 1px dashed #cbd5e1; margin: 28px 0;">
+                        <!-- Password Change Section (Optional) -->
+                        <div style="margin-bottom: 26px;">
+                            <h4 style="color: #0f172a; margin: 0 0 8px 0; font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
+                                <i class="bi bi-key-fill text-warning"></i> Set New Account Password <span style="font-size: 0.82rem; font-weight: normal; color: #64748b;">(Optional &mdash; leave blank to keep current)</span>
+                            </h4>
+                            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 18px;">
+                                Directly set a new login password for your administrator account (<strong style="color: #093d25;"><?= htmlspecialchars($admin['email']) ?></strong>). Minimum of 6 characters.
+                            </p>
 
-                    <!-- Password Change Form -->
-                    <h4 style="color: #0f172a; margin: 0 0 8px 0; font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
-                        <i class="bi bi-key-fill text-warning"></i> Set New Account Password
-                    </h4>
-                    <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 18px;">
-                        Directly set a new login password for your administrator account (<strong style="color: #093d25;"><?= htmlspecialchars($admin['email']) ?></strong>). Minimum of 6 characters.
-                    </p>
-                    <form action="settings.php" method="POST">
-                        <input type="hidden" name="action" value="change_password">
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>New Password <span class="required">*</span></label>
-                                <div class="password-input-group">
-                                    <input type="password" id="new_password" name="new_password" class="form-control" required minlength="6" placeholder="Enter new password">
-                                    <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('new_password', this)" aria-label="Toggle password visibility" title="Show/Hide Password">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>New Password</label>
+                                    <div class="password-input-group">
+                                        <input type="password" id="new_password" name="new_password" class="form-control" minlength="6" placeholder="Enter new password (optional)">
+                                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('new_password', this)" aria-label="Toggle password visibility" title="Show/Hide Password">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Confirm New Password <span class="required">*</span></label>
-                                <div class="password-input-group">
-                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" required minlength="6" placeholder="Re-type new password">
-                                    <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('confirm_password', this)" aria-label="Toggle password visibility" title="Show/Hide Password">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
+                                <div class="form-group">
+                                    <label>Confirm New Password</label>
+                                    <div class="password-input-group">
+                                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" minlength="6" placeholder="Re-type new password">
+                                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('confirm_password', this)" aria-label="Toggle password visibility" title="Show/Hide Password">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <button type="submit" class="btn-save-settings">
-                            <i class="bi bi-shield-lock-fill"></i> Save New Password
+                            <i class="bi bi-shield-check"></i> Save Account Settings
                         </button>
                     </form>
 
-                    <hr style="border: none; border-top: 1px dashed #cbd5e1; margin: 30px 0;">
-
-                    <!-- Create New Administrator Account Section -->
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin-bottom: 30px;">
-                        <h4 style="color: #0f172a; margin: 0 0 8px 0; font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
-                            <i class="bi bi-person-plus-fill text-success"></i> Create New Administrator Account
-                        </h4>
-                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 18px;">
-                            Add another authorized administrator account with its own login email and password to access the system.
-                        </p>
-
-                        <form action="settings.php" method="POST">
-                            <input type="hidden" name="action" value="create_admin_account">
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Administrator Full Name <span class="required">*</span></label>
-                                    <input type="text" name="new_admin_name" class="form-control" placeholder="e.g. Maria Santos" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Login Email Address <span class="required">*</span></label>
-                                    <input type="email" name="new_admin_email" class="form-control" placeholder="admin2@barangaymaruing.com" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Account Password <span class="required">*</span></label>
-                                <div class="password-input-group">
-                                    <input type="password" id="new_admin_password" name="new_admin_password" class="form-control" placeholder="At least 6 characters" minlength="6" required>
-                                    <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('new_admin_password', this)" aria-label="Toggle password visibility" title="Show/Hide Password">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn-save-settings" style="background-color: #093d25;">
-                                <i class="bi bi-person-check-fill"></i> Create Administrator Account
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Registered Administrator Accounts List -->
-                    <h4 style="color: #0f172a; margin: 0 0 14px 0; font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
-                        <i class="bi bi-people-fill text-primary"></i> Registered Administrator Accounts (<?= count($all_admins) ?>)
-                    </h4>
-                    <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 10px;">
-                        <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left;">
-                            <thead>
-                                <tr style="background: #f1f5f9; color: #475569; border-bottom: 1px solid #e2e8f0;">
-                                    <th style="padding: 10px 14px;">Full Name</th>
-                                    <th style="padding: 10px 14px;">Login Email</th>
-                                    <th style="padding: 10px 14px;">Role</th>
-                                    <th style="padding: 10px 14px;">Status</th>
-                                    <th style="padding: 10px 14px;">Date Created</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($all_admins as $adm): ?>
-                                    <tr style="border-bottom: 1px solid #f1f5f9;">
-                                        <td style="padding: 10px 14px; font-weight: 600; color: #0f172a;">
-                                            <?= htmlspecialchars($adm['full_name']) ?>
-                                            <?php if ($adm['id'] == ($admin['id'] ?? null)): ?>
-                                                <span class="badge" style="background: #dcfce7; color: #166534; font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; margin-left: 6px;">Active Account</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td style="padding: 10px 14px; color: #334155;"><?= htmlspecialchars($adm['email']) ?></td>
-                                        <td style="padding: 10px 14px;"><span class="badge" style="background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; text-transform: uppercase; font-weight: 700;"><?= htmlspecialchars($adm['role']) ?></span></td>
-                                        <td style="padding: 10px 14px;">
-                                            <span class="badge" style="background: <?= ($adm['status'] ?? 'active') === 'active' ? '#dcfce7' : '#fee2e2' ?>; color: <?= ($adm['status'] ?? 'active') === 'active' ? '#166534' : '#b91c1c' ?>; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">
-                                                <?= ucfirst(htmlspecialchars($adm['status'] ?? 'active')) ?>
-                                            </span>
-                                        </td>
-                                        <td style="padding: 10px 14px; color: #64748b;"><?= !empty($adm['created_at']) ? date('M d, Y', strtotime($adm['created_at'])) : 'N/A' ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
 
