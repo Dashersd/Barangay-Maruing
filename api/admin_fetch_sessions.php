@@ -36,11 +36,12 @@ if ($result && $result->num_rows > 0) {
     while ($tRow = $result->fetch_assoc()) {
         $tid = $tRow['thread_id'];
 
-        // Get resident's name and service from earliest user message
+        // Get resident's name, email, and service from earliest user message
         $user_name = 'Resident';
+        $user_email = '';
         $service_type = 'General Inquiry';
 
-        $uStmt = $conn->prepare("SELECT sender_name, message FROM feedback_chats WHERE thread_id = ? AND sender_type = 'user' ORDER BY id ASC LIMIT 1");
+        $uStmt = $conn->prepare("SELECT sender_name, email, message FROM feedback_chats WHERE thread_id = ? AND sender_type = 'user' ORDER BY id ASC LIMIT 1");
         if ($uStmt) {
             $uStmt->bind_param("s", $tid);
             $uStmt->execute();
@@ -49,12 +50,29 @@ if ($result && $result->num_rows > 0) {
                 if (!empty($uRow['sender_name'])) {
                     $user_name = $uRow['sender_name'];
                 }
+                if (!empty($uRow['email'])) {
+                    $user_email = $uRow['email'];
+                }
                 $parsed = parse_chat_message($uRow['message']);
                 if ($parsed['service_type'] !== 'General Inquiry') {
                     $service_type = $parsed['service_type'];
                 }
             }
             $uStmt->close();
+        }
+
+        // Also check if any message in thread has an email recorded
+        if (empty($user_email)) {
+            $eStmt = $conn->prepare("SELECT email FROM feedback_chats WHERE thread_id = ? AND email IS NOT NULL AND email != '' LIMIT 1");
+            if ($eStmt) {
+                $eStmt->bind_param("s", $tid);
+                $eStmt->execute();
+                $eRes = $eStmt->get_result();
+                if ($eRow = $eRes->fetch_assoc()) {
+                    $user_email = $eRow['email'];
+                }
+                $eStmt->close();
+            }
         }
 
         // Get last message in this thread
@@ -94,6 +112,7 @@ if ($result && $result->num_rows > 0) {
         $sessions[] = [
             'id' => $tid,
             'user_name' => htmlspecialchars($user_name),
+            'email' => htmlspecialchars($user_email),
             'service_type' => htmlspecialchars($service_type),
             'created_at' => $tRow['last_activity'],
             'last_msg' => htmlspecialchars($last_msg),

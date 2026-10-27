@@ -674,6 +674,10 @@ if (!$captain_found || empty($captain_photo)) {
                                 <input type="text" id="chat-name" class="form-control" placeholder="Enter your name" required>
                             </div>
                             <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" id="chat-email" class="form-control" placeholder="Enter your email (to receive requested documents)" required>
+                            </div>
+                            <div class="form-group">
                                 <label>Service Type</label>
                                 <select id="chat-service-type" class="form-control" required>
                                     <option value="" disabled selected>Select service</option>
@@ -742,22 +746,24 @@ if (!$captain_found || empty($captain_photo)) {
                     if (startForm) {
                         startForm.addEventListener('submit', function(e) {
                             e.preventDefault();
-                            const name = document.getElementById('chat-name').value;
+                            const name = document.getElementById('chat-name').value.trim();
+                            const emailInput = document.getElementById('chat-email');
+                            const email = emailInput ? emailInput.value.trim() : '';
                             const serviceTypeSelect = document.getElementById('chat-service-type');
                             const serviceType = serviceTypeSelect.options[serviceTypeSelect.selectedIndex].text;
-                            const rawMessage = document.getElementById('chat-initial-message').value;
+                            const rawMessage = document.getElementById('chat-initial-message').value.trim();
                             const message = `[Service: ${serviceType}]\n\n${rawMessage}`;
 
                             fetch('set_chat_session.php', {
                                 method: 'POST',
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                                body: 'name=' + encodeURIComponent(name)
+                                body: 'name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email)
                             }).then(() => {
                                 sendChatMessage(name, message, () => {
                                     document.getElementById('start-chat-container').style.display = 'none';
                                     document.getElementById('live-chat-container').style.display = 'block';
                                     bindChatEvents(name);
-                                });
+                                }, email);
                             });
                         });
                     }
@@ -767,10 +773,11 @@ if (!$captain_found || empty($captain_photo)) {
                     }
                 });
 
-                function sendChatMessage(senderName, message, callback) {
+                function sendChatMessage(senderName, message, callback, userEmail = '') {
                     const formData = new URLSearchParams();
                     formData.append('thread_id', threadId);
                     formData.append('sender_name', senderName);
+                    if (userEmail) formData.append('email', userEmail);
                     formData.append('sender_type', 'user');
                     formData.append('message', message);
 
@@ -809,7 +816,30 @@ if (!$captain_found || empty($captain_photo)) {
                                         msgDiv.style.borderBottomLeftRadius = '0';
                                     }
                                     
-                                    msgDiv.innerHTML = `<strong>${msg.sender_name}</strong><br>${msg.message}<div style="font-size:0.7rem; margin-top:5px; opacity:0.8; text-align:right;">${msg.created_at}</div>`;
+                                    let attachmentHtml = '';
+                                    if (msg.file_attachment) {
+                                        const ext = msg.file_name ? msg.file_name.split('.').pop().toLowerCase() : '';
+                                        let iconClass = 'bi-file-earmark-arrow-down-fill';
+                                        if (['jpg', 'jpeg', 'png'].includes(ext)) iconClass = 'bi-file-earmark-image-fill';
+                                        if (['pdf'].includes(ext)) iconClass = 'bi-file-earmark-pdf-fill';
+                                        if (['doc', 'docx'].includes(ext)) iconClass = 'bi-file-earmark-word-fill';
+
+                                        attachmentHtml = `
+                                            <div style="margin-top: 8px; padding: 8px 12px; background: ${isUser ? 'rgba(255,255,255,0.15)' : '#ffffff'}; border-radius: 8px; border: 1px solid ${isUser ? 'rgba(255,255,255,0.25)' : '#cbd5e1'}; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                                                <div style="display: flex; align-items: center; gap: 6px; overflow: hidden;">
+                                                    <i class="bi ${iconClass}" style="font-size: 1.25rem; color: ${isUser ? '#ffffff' : '#137547'}; flex-shrink: 0;"></i>
+                                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.82rem; font-weight: 600;">
+                                                        ${msg.file_name || 'Document File'}
+                                                    </div>
+                                                </div>
+                                                <a href="${msg.file_attachment}" download="${msg.file_name || 'document'}" style="background: ${isUser ? '#ffffff' : '#137547'}; color: ${isUser ? '#137547' : '#ffffff'}; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-decoration: none; flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px;">
+                                                    <i class="bi bi-download"></i> Save
+                                                </a>
+                                            </div>
+                                        `;
+                                    }
+                                    
+                                    msgDiv.innerHTML = `<strong>${msg.sender_name}</strong><br>${msg.message}${attachmentHtml}<div style="font-size:0.7rem; margin-top:5px; opacity:0.8; text-align:right;">${msg.created_at}</div>`;
                                     container.appendChild(msgDiv);
                                 });
                                 container.scrollTop = container.scrollHeight;

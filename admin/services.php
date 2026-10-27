@@ -9,6 +9,24 @@ $error_msg = '';
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $action = $_POST['action'] ?? '';
 
+    // Helper function for uploading documents
+    $handle_document_upload = function($file_input_name) {
+        if (isset($_FILES[$file_input_name]) && $_FILES[$file_input_name]['error'] === UPLOAD_ERR_OK) {
+            $upload_dir = 'uploads/documents/';
+            if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+            $ext = strtolower(pathinfo($_FILES[$file_input_name]['name'], PATHINFO_EXTENSION));
+            $allowed = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'];
+            if (in_array($ext, $allowed)) {
+                $clean_name = time() . '_' . uniqid() . '.' . $ext;
+                $target = $upload_dir . $clean_name;
+                if (move_uploaded_file($_FILES[$file_input_name]['tmp_name'], $target)) {
+                    return $target;
+                }
+            }
+        }
+        return null;
+    };
+
     // 1. CREATE SERVICE
     if ($action === 'create') {
         $name = trim($_POST['serviceName'] ?? '');
@@ -21,10 +39,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $button_text = trim($_POST['serviceButtonText'] ?? 'Request Document');
         $button_url = trim($_POST['serviceButtonUrl'] ?? 'contact.php');
         $display_order = (int)($_POST['serviceDisplayOrder'] ?? 0);
+        $document_file = $handle_document_upload('serviceDocument');
 
         if (!empty($name) && !empty($description)) {
-            $stmt = $conn->prepare("INSERT INTO services (name, icon, status, fee, processing_time, description, requirements, button_text, button_url, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssssssssi", $name, $icon, $status, $fee, $processing_time, $description, $requirements, $button_text, $button_url, $display_order);
+            $stmt = $conn->prepare("INSERT INTO services (name, icon, status, fee, processing_time, description, requirements, document_file, button_text, button_url, display_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssssssssi", $name, $icon, $status, $fee, $processing_time, $description, $requirements, $document_file, $button_text, $button_url, $display_order);
             if ($stmt->execute()) {
                 header("Location: services.php?msg=created");
                 exit();
@@ -50,10 +69,35 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $button_text = trim($_POST['serviceButtonText'] ?? 'Request Document');
         $button_url = trim($_POST['serviceButtonUrl'] ?? 'contact.php');
         $display_order = (int)($_POST['serviceDisplayOrder'] ?? 0);
+        $remove_document = isset($_POST['removeDocument']) && $_POST['removeDocument'] === '1';
+
+        // Check existing document
+        $existing_doc = null;
+        $chk = $conn->prepare("SELECT document_file FROM services WHERE id = ?");
+        $chk->bind_param("i", $id);
+        $chk->execute();
+        $chk->bind_result($existing_doc);
+        $chk->fetch();
+        $chk->close();
+
+        $document_file = $existing_doc;
+        $uploaded_file = $handle_document_upload('serviceDocument');
+        if ($uploaded_file !== null) {
+            // Delete old file if exists
+            if (!empty($existing_doc) && file_exists($existing_doc)) {
+                @unlink($existing_doc);
+            }
+            $document_file = $uploaded_file;
+        } elseif ($remove_document) {
+            if (!empty($existing_doc) && file_exists($existing_doc)) {
+                @unlink($existing_doc);
+            }
+            $document_file = null;
+        }
 
         if ($id > 0 && !empty($name) && !empty($description)) {
-            $stmt = $conn->prepare("UPDATE services SET name = ?, icon = ?, status = ?, fee = ?, processing_time = ?, description = ?, requirements = ?, button_text = ?, button_url = ?, display_order = ? WHERE id = ?");
-            $stmt->bind_param("sssssssssii", $name, $icon, $status, $fee, $processing_time, $description, $requirements, $button_text, $button_url, $display_order, $id);
+            $stmt = $conn->prepare("UPDATE services SET name = ?, icon = ?, status = ?, fee = ?, processing_time = ?, description = ?, requirements = ?, document_file = ?, button_text = ?, button_url = ?, display_order = ? WHERE id = ?");
+            $stmt->bind_param("ssssssssssii", $name, $icon, $status, $fee, $processing_time, $description, $requirements, $document_file, $button_text, $button_url, $display_order, $id);
             if ($stmt->execute()) {
                 header("Location: services.php?msg=updated");
                 exit();
@@ -70,6 +114,16 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     if ($action === 'delete') {
         $id = (int)($_POST['serviceId'] ?? 0);
         if ($id > 0) {
+            // Remove associated document file
+            $chk = $conn->prepare("SELECT document_file FROM services WHERE id = ?");
+            $chk->bind_param("i", $id);
+            $chk->execute();
+            $chk->bind_result($del_file);
+            if ($chk->fetch() && !empty($del_file) && file_exists($del_file)) {
+                @unlink($del_file);
+            }
+            $chk->close();
+
             $stmt = $conn->prepare("DELETE FROM services WHERE id = ?");
             $stmt->bind_param("i", $id);
             if ($stmt->execute()) {
@@ -254,6 +308,7 @@ $next_order = count($services) + 1;
                             <th>Service Name</th>
                             <th>Fee & Time</th>
                             <th>Description</th>
+                            <th style="width: 140px;">Document File</th>
                             <th style="width: 100px;">Status</th>
                             <th class="action-th">Actions</th>
                         </tr>
@@ -261,7 +316,7 @@ $next_order = count($services) + 1;
                     <tbody>
                         <?php if (empty($services)): ?>
                             <tr>
-                                <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
+                                <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
                                     <i class="bi bi-folder2-open" style="font-size: 2.5rem; display: block; margin-bottom: 10px; color: #94a3b8;"></i>
                                     No services found. Click <strong>"Add New Service"</strong> to create one.
                                 </td>
@@ -284,8 +339,17 @@ $next_order = count($services) + 1;
                                         <div><i class="bi bi-cash-stack" style="color: #137547;"></i> <?= !empty($service['fee']) ? htmlspecialchars($service['fee']) : 'Free' ?></div>
                                         <div><i class="bi bi-clock" style="color: #64748b;"></i> <?= !empty($service['processing_time']) ? htmlspecialchars($service['processing_time']) : 'Same Day' ?></div>
                                     </td>
-                                    <td style="max-width: 280px; color: #475569; font-size: 0.88rem; line-height: 1.4;">
-                                        <?= htmlspecialchars(mb_strimwidth($service['description'], 0, 100, '...')) ?>
+                                    <td style="max-width: 240px; color: #475569; font-size: 0.88rem; line-height: 1.4;">
+                                        <?= htmlspecialchars(mb_strimwidth($service['description'], 0, 90, '...')) ?>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($service['document_file']) && file_exists($service['document_file'])): ?>
+                                            <a href="<?= htmlspecialchars($service['document_file']) ?>" target="_blank" download class="badge-doc-file" title="Click to view/download file">
+                                                <i class="bi bi-file-earmark-arrow-down-fill"></i> Ready File
+                                            </a>
+                                        <?php else: ?>
+                                            <span style="color: #94a3b8; font-size: 0.82rem; font-style: italic;">No file</span>
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <span class="badge <?= $service['status'] === 'active' ? 'active' : 'inactive' ?>">
@@ -331,7 +395,7 @@ $next_order = count($services) + 1;
                 <button type="button" class="close-modal-btn" onclick="closeModal('addServiceModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="services.php" method="POST" id="addServiceForm">
+                <form action="services.php" method="POST" id="addServiceForm" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="create">
 
                     <!-- Service Name -->
@@ -396,6 +460,13 @@ $next_order = count($services) + 1;
                         <small class="form-hint">List the required documents or qualifications needed by the resident.</small>
                     </div>
 
+                    <!-- Ready-Made Document / Template Upload -->
+                    <div class="form-group">
+                        <label for="addServiceDocument"><i class="bi bi-file-earmark-arrow-up" style="color: #137547;"></i> Upload Ready-Made Document / Form Template (Optional)</label>
+                        <input type="file" id="addServiceDocument" name="serviceDocument" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <small class="form-hint">Upload a PDF, Word document, or image template for users to directly download and print.</small>
+                    </div>
+
                     <!-- 2-Column: Action Button Text & Button Destination URL -->
                     <div class="form-row">
                         <div class="form-group">
@@ -432,9 +503,10 @@ $next_order = count($services) + 1;
                 <button type="button" class="close-modal-btn" onclick="closeModal('editServiceModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="services.php" method="POST" id="editServiceForm">
+                <form action="services.php" method="POST" id="editServiceForm" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="serviceId" id="editServiceId">
+                    <input type="hidden" name="removeDocument" id="editRemoveDocument" value="0">
 
                     <!-- Service Name -->
                     <div class="form-group">
@@ -496,6 +568,23 @@ $next_order = count($services) + 1;
                         <label for="editServiceRequirements">Requirements (Optional)</label>
                         <textarea id="editServiceRequirements" name="serviceRequirements" class="form-control" rows="3" placeholder="e.g., Valid Government ID, Cedula, Purok Certification"></textarea>
                         <small class="form-hint">List the required documents or qualifications needed by the resident.</small>
+                    </div>
+
+                    <!-- Ready-Made Document / Template Upload -->
+                    <div class="form-group">
+                        <label for="editServiceDocument"><i class="bi bi-file-earmark-arrow-up" style="color: #137547;"></i> Ready-Made Document / Form Template</label>
+                        <div id="editCurrentDocumentContainer" style="display: none; margin-bottom: 10px; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                                <a id="editCurrentDocumentLink" href="#" target="_blank" download style="color: #137547; font-weight: 600; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;">
+                                    <i class="bi bi-file-earmark-check"></i> <span id="editCurrentDocumentName">Download current file</span>
+                                </a>
+                                <button type="button" onclick="removeCurrentDocument()" style="background: none; border: none; color: #ef4444; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+                                    <i class="bi bi-trash"></i> Remove File
+                                </button>
+                            </div>
+                        </div>
+                        <input type="file" id="editServiceDocument" name="serviceDocument" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <small class="form-hint">Upload a new PDF/DOCX to replace the existing ready-made document.</small>
                     </div>
 
                     <!-- 2-Column: Action Button Text & Button Destination URL -->
@@ -593,8 +682,34 @@ $next_order = count($services) + 1;
                 }
             }
 
+            // Document template display
+            const docContainer = document.getElementById('editCurrentDocumentContainer');
+            const docLink = document.getElementById('editCurrentDocumentLink');
+            const docName = document.getElementById('editCurrentDocumentName');
+            const removeDocInput = document.getElementById('editRemoveDocument');
+            const docFileInput = document.getElementById('editServiceDocument');
+            
+            if (removeDocInput) removeDocInput.value = '0';
+            if (docFileInput) docFileInput.value = '';
+            
+            if (service.document_file && service.document_file.trim() !== '') {
+                const fileNameOnly = service.document_file.split('/').pop();
+                docName.textContent = fileNameOnly;
+                docLink.href = service.document_file;
+                docContainer.style.display = 'block';
+            } else {
+                docContainer.style.display = 'none';
+            }
+
             document.getElementById('editServiceStatus').value = service.status || 'active';
             openModal('editServiceModal');
+        }
+
+        function removeCurrentDocument() {
+            if (confirm('Are you sure you want to remove the current document template?')) {
+                document.getElementById('editRemoveDocument').value = '1';
+                document.getElementById('editCurrentDocumentContainer').style.display = 'none';
+            }
         }
 
         function openDeleteModal(id, name) {

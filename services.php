@@ -254,6 +254,10 @@ if ($res) {
                         $fee = !empty($service['fee']) ? htmlspecialchars($service['fee']) : 'Free';
                         $procTime = !empty($service['processing_time']) ? htmlspecialchars($service['processing_time']) : 'Same Day';
                         
+                        $docFile = !empty($service['document_file']) && file_exists('admin/' . $service['document_file']) 
+                            ? ('admin/' . htmlspecialchars($service['document_file'])) 
+                            : (!empty($service['document_file']) && file_exists($service['document_file']) ? htmlspecialchars($service['document_file']) : '');
+                        
                         $serviceJson = htmlspecialchars(json_encode([
                             'name' => $service['name'],
                             'description' => $service['description'],
@@ -262,7 +266,8 @@ if ($res) {
                             'processing_time' => $procTime,
                             'button_text' => $btnText,
                             'button_url' => $btnUrl,
-                            'icon' => $iconClass
+                            'icon' => $iconClass,
+                            'document_file' => $docFile
                         ]), ENT_QUOTES, 'UTF-8');
                     ?>
                         <div id="service-<?= $service['id'] ?>" class="service-card" data-aos="fade-up" data-aos-delay="<?= $delay ?>" data-service='<?= $serviceJson ?>'>
@@ -291,7 +296,12 @@ if ($res) {
                                 <?php endif; ?>
                             </div>
                             
-                            <div class="service-card-action">
+                            <div class="service-card-action" style="display: flex; flex-direction: column; gap: 8px;">
+                                <?php if (!empty($docFile)): ?>
+                                    <a href="<?= $docFile ?>" download class="btn-service" style="background: #137547; color: #ffffff; text-decoration: none; justify-content: center;">
+                                        <i class="bi bi-file-earmark-arrow-down-fill"></i> Download Form
+                                    </a>
+                                <?php endif; ?>
                                 <button type="button" class="btn-service" style="cursor: pointer; background: transparent;" onclick='openServiceModal(<?= $serviceJson ?>)'>
                                     <?= $btnText ?> <i class="bi bi-arrow-right"></i>
                                 </button>
@@ -335,6 +345,26 @@ if ($res) {
                 <div id="modalRequirementsSection" style="margin-bottom: 1.2rem;">
                     <h5 style="color: #093d25; font-weight: 700; margin-bottom: 6px; font-size: 1rem;">Prerequisites & Requirements</h5>
                     <div id="modalServiceReqs" style="background: #f8fafc; border-left: 3px solid #137547; padding: 12px 14px; border-radius: 6px; font-size: 0.9rem;"></div>
+                </div>
+
+                <!-- Ready Document Section in Modal -->
+                <div id="modalDocumentSection" style="display: none; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px 18px; margin-bottom: 1.2rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <strong style="color: #166534; font-size: 0.95rem; display: block; margin-bottom: 2px;">
+                                <i class="bi bi-file-earmark-check-fill"></i> Ready-Made Document Available
+                            </strong>
+                            <span style="color: #475569; font-size: 0.85rem;">You can download this ready document or print it out directly.</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a id="modalDownloadDocBtn" href="#" download class="btn-modal-contact" style="background: #15803d; padding: 8px 14px; font-size: 0.85rem;">
+                                <i class="bi bi-download"></i> Download
+                            </a>
+                            <button id="modalPrintDocBtn" type="button" onclick="printServiceDocument()" class="btn-modal-contact" style="background: #0284c7; padding: 8px 14px; font-size: 0.85rem; border: none; cursor: pointer;">
+                                <i class="bi bi-printer"></i> Print
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div style="background: #e8f5ee; border-radius: 8px; padding: 12px 16px; display: flex; gap: 10px; align-items: flex-start;">
@@ -441,6 +471,17 @@ if ($res) {
                 reqSection.style.display = 'none';
             }
 
+            const docSection = document.getElementById('modalDocumentSection');
+            const downloadDocBtn = document.getElementById('modalDownloadDocBtn');
+            window.currentActiveDocUrl = data.document_file || '';
+
+            if (data.document_file && data.document_file.trim() !== '') {
+                downloadDocBtn.href = data.document_file;
+                docSection.style.display = 'block';
+            } else {
+                docSection.style.display = 'none';
+            }
+
             const contactBtn = document.getElementById('modalContactBtn');
             if (contactBtn) {
                 const targetUrl = data.button_url && data.button_url.trim() !== '' 
@@ -452,6 +493,22 @@ if ($res) {
 
             const modal = document.getElementById('serviceDetailModal');
             if (modal) modal.style.display = 'flex';
+        }
+
+        function printServiceDocument() {
+            if (!window.currentActiveDocUrl) {
+                alert('No document file is attached to this service.');
+                return;
+            }
+            const printWin = window.open(window.currentActiveDocUrl, '_blank');
+            if (printWin) {
+                printWin.focus();
+                printWin.onload = function() {
+                    try {
+                        printWin.print();
+                    } catch (e) {}
+                };
+            }
         }
 
         function closeServiceModal() {

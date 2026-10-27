@@ -227,10 +227,17 @@
                                         Citizen Inquirer
                                     </span>
                                     <span class="chat-header-service-badge" id="current-chat-service">General Inquiry</span>
+                                    <span id="current-chat-email-badge" style="display:none; align-items:center; gap:5px; font-size:0.82rem; background:#f0fdf4; color:#166534; padding:3px 10px; border-radius:12px; font-weight:600; border:1px solid #bbf7d0;">
+                                        <i class="bi bi-envelope-at-fill" style="color:#16a34a;"></i>
+                                        <span id="current-chat-email-text"></span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="chat-header-actions">
+                        <div class="chat-header-actions" style="display:flex; gap:10px; align-items:center;">
+                            <a href="#" id="btn-send-doc-email" class="btn-header-action" style="display:none; background:#0f766e; color:#ffffff; border-color:#0f766e; font-weight:600; text-decoration:none; padding:7px 14px; border-radius:6px; font-size:0.86rem;" title="Open email client to send document attachment to resident">
+                                <i class="bi bi-file-earmark-arrow-up-fill" style="margin-right: 6px; color:#fff;"></i> Send Document via Email
+                            </a>
                             <button type="button" class="btn-header-action" id="btn-refresh-chat" title="Refresh messages">
                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                                 Refresh
@@ -255,9 +262,20 @@
                         <button type="button" class="quick-reply-chip" data-text="Thank you for reaching out to Barangay Maruing. Have a great day!">Thank you for reaching out</button>
                     </div>
 
-                    <!-- Chat Input Bar -->
-                    <div class="chat-input-area">
-                        <input type="text" class="chat-input" id="admin-chat-input" placeholder="Type your reply to resident here... (Press Enter to send)">
+                    <!-- Chat Input Bar with File Attachment -->
+                    <div id="admin-file-preview-bar" style="display:none; padding:8px 16px; background:#f0fdf4; border-top:1px solid #bbf7d0; display:none; align-items:center; justify-content:space-between; font-size:0.85rem; color:#166534;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <i class="bi bi-paperclip" style="font-size:1.1rem; color:#16a34a;"></i>
+                            <span id="admin-selected-file-name" style="font-weight:600;">document.pdf</span>
+                        </div>
+                        <button type="button" id="admin-remove-file-btn" style="background:none; border:none; color:#ef4444; font-size:1rem; cursor:pointer;" title="Remove attachment">&times;</button>
+                    </div>
+                    <div class="chat-input-area" style="position:relative;">
+                        <input type="file" id="admin-file-input" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip,.xls,.xlsx">
+                        <button type="button" class="btn-attach" id="admin-attach-btn" title="Attach Document / Form" style="background:none; border:none; color:#64748b; font-size:1.25rem; padding:6px 12px; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:6px; transition:all 0.2s;">
+                            <i class="bi bi-paperclip"></i>
+                        </button>
+                        <input type="text" class="chat-input" id="admin-chat-input" placeholder="Type your reply to resident or attach document... (Press Enter to send)">
                         <button class="btn-send" id="admin-send-btn">
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                             Send Reply
@@ -482,7 +500,7 @@
         });
 
         // Open Conversation Helper
-        function openConversation(id, name, service) {
+        function openConversation(id, name, service, email) {
             activeSessionId = id;
             activeResidentName = name;
             activeServiceType = service;
@@ -501,6 +519,23 @@
             $('#current-chat-avatar').text(initial);
             $('#current-chat-name').text(name);
             $('#current-chat-service').text(service ? service : 'General Inquiry');
+
+            // Find email from parameter or cached sessions
+            const sess = cachedSessions.find(s => s.id == id);
+            const userEmail = email || (sess && sess.email ? sess.email : '');
+
+            if (userEmail) {
+                $('#current-chat-email-text').text(userEmail);
+                $('#current-chat-email-badge').css('display', 'inline-flex');
+
+                const subject = encodeURIComponent(`Barangay Maruing - Official ${service || 'Document'}`);
+                const body = encodeURIComponent(`Dear ${name},\n\nGood day!\n\nPlease find attached your requested official document (${service || 'Clearance / Certificate'}) from Barangay Maruing.\n\nShould you have any questions, feel free to reply to this email or message us via our online portal.\n\nBest regards,\nBarangay Maruing Administration`);
+                $('#btn-send-doc-email').attr('href', `mailto:${userEmail}?subject=${subject}&body=${body}`).show();
+            } else {
+                $('#current-chat-email-badge').hide();
+                $('#btn-send-doc-email').hide();
+            }
+
             $('#admin-chat-input').focus();
 
             fetchMessages(true);
@@ -515,9 +550,10 @@
                 if (currentSearchQuery) {
                     const q = currentSearchQuery.toLowerCase();
                     const nameMatch = (s.user_name || '').toLowerCase().includes(q);
+                    const emailMatch = (s.email || '').toLowerCase().includes(q);
                     const serviceMatch = (s.service_type || '').toLowerCase().includes(q);
                     const msgMatch = (s.last_msg || '').toLowerCase().includes(q);
-                    if (!nameMatch && !serviceMatch && !msgMatch) return false;
+                    if (!nameMatch && !emailMatch && !serviceMatch && !msgMatch) return false;
                 }
                 // Tab filter
                 if (currentFilter === 'unread') {
@@ -550,7 +586,7 @@
                 const initial = s.user_name ? s.user_name.charAt(0).toUpperCase() : 'U';
 
                 html += `
-                    <div class="conversation-item ${activeClass} ${hasUnreadClass}" data-id="${s.id}" data-name="${s.user_name}" data-service="${s.service_type}">
+                    <div class="conversation-item ${activeClass} ${hasUnreadClass}" data-id="${s.id}" data-name="${s.user_name}" data-service="${s.service_type}" data-email="${s.email || ''}">
                         <div class="conv-avatar">${initial}</div>
                         <div class="conv-body">
                             <div class="conv-header">
@@ -559,6 +595,7 @@
                             </div>
                             <div class="conv-meta">
                                 <span class="conv-service-tag">${s.service_type || 'General'}</span>
+                                ${s.email ? `<span style="font-size:0.75rem; color:#0f766e; display:inline-flex; align-items:center; gap:3px;"><i class="bi bi-envelope"></i> ${s.email}</span>` : ''}
                                 ${unreadBadge}
                             </div>
                             <div class="conv-preview">${safeLastMsg}</div>
@@ -719,6 +756,33 @@
                                 safeMsg = `<div style="display:inline-block; margin-bottom: 6px; padding: 2px 8px; border-radius: 4px; background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 700;">Service: ${sName}</div><br>${sBody}`;
                             }
 
+                            let attachmentHtml = '';
+                            if (msg.file_attachment) {
+                                const fileExt = msg.file_name ? msg.file_name.split('.').pop().toLowerCase() : '';
+                                let fileIcon = 'bi-file-earmark-arrow-down-fill';
+                                if (['jpg', 'jpeg', 'png'].includes(fileExt)) fileIcon = 'bi-file-earmark-image-fill';
+                                if (['pdf'].includes(fileExt)) fileIcon = 'bi-file-earmark-pdf-fill';
+                                if (['doc', 'docx'].includes(fileExt)) fileIcon = 'bi-file-earmark-word-fill';
+
+                                const downloadUrl = '../' + msg.file_attachment;
+                                const isImg = ['jpg', 'jpeg', 'png'].includes(fileExt);
+
+                                attachmentHtml = `
+                                    <div style="margin-top: 8px; padding: 10px 12px; background: rgba(0, 0, 0, 0.05); border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                                        <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+                                            <i class="bi ${fileIcon}" style="font-size: 1.4rem; color: ${isAdmin ? '#137547' : '#0284c7'}; flex-shrink: 0;"></i>
+                                            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                <div style="font-weight: 600; font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis;">${msg.file_name || 'Document'}</div>
+                                                <div style="font-size: 0.72rem; opacity: 0.75;">Click to download</div>
+                                            </div>
+                                        </div>
+                                        <a href="${downloadUrl}" download="${msg.file_name || 'document'}" style="background: ${isAdmin ? '#137547' : '#0284c7'}; color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; text-decoration: none; flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px;">
+                                            <i class="bi bi-download"></i> Save
+                                        </a>
+                                    </div>
+                                `;
+                            }
+
                             const avatarInitial = isAdmin ? 'A' : (activeResidentName ? activeResidentName.charAt(0).toUpperCase() : 'U');
 
                             html += `
@@ -726,6 +790,7 @@
                                     ${!isAdmin ? `<div class="msg-sender-avatar" title="${activeResidentName}">${avatarInitial}</div>` : ''}
                                     <div class="message-bubble">
                                         <p>${safeMsg}</p>
+                                        ${attachmentHtml}
                                         <div class="msg-footer">
                                             <span class="msg-time">${msg.time}</span>
                                             ${isAdmin ? `
@@ -759,7 +824,8 @@
             const sid = $(this).data('id');
             const name = $(this).data('name');
             const service = $(this).data('service');
-            openConversation(sid, name, service);
+            const email = $(this).data('email');
+            openConversation(sid, name, service, email);
         });
 
         // Click Notification Dropdown Item
@@ -767,8 +833,9 @@
             const sid = $(this).data('id');
             const name = $(this).data('name');
             const service = $(this).data('service');
+            const email = $(this).data('email');
             $('#notif-dropdown').fadeOut(150);
-            openConversation(sid, name, service);
+            openConversation(sid, name, service, email);
         });
 
         // Search conversations in real-time
@@ -812,26 +879,66 @@
             setTimeout(() => $btn.css('opacity', '1'), 400);
         });
 
+        // File Attachment handling
+        $('#admin-attach-btn').on('click', function() {
+            $('#admin-file-input').click();
+        });
+
+        $('#admin-file-input').on('change', function() {
+            const file = this.files[0];
+            if (file) {
+                $('#admin-selected-file-name').text(file.name);
+                $('#admin-file-preview-bar').css('display', 'flex');
+            } else {
+                $('#admin-file-preview-bar').hide();
+            }
+        });
+
+        $('#admin-remove-file-btn').on('click', function() {
+            $('#admin-file-input').val('');
+            $('#admin-file-preview-bar').hide();
+        });
+
         // Send Reply Message
         function sendReply() {
             const msg = $('#admin-chat-input').val();
-            if (!activeSessionId || msg.trim() === '') return;
+            const fileInput = document.getElementById('admin-file-input');
+            const hasFile = fileInput && fileInput.files && fileInput.files.length > 0;
+
+            if (!activeSessionId || (msg.trim() === '' && !hasFile)) return;
 
             const $btn = $('#admin-send-btn');
             $btn.prop('disabled', true).css('opacity', '0.7');
 
-            $.post('../api/admin_send_message.php', { session_id: activeSessionId, message: msg }, function(res) {
-                $btn.prop('disabled', false).css('opacity', '1');
-                if (res && res.status === 'success') {
-                    $('#admin-chat-input').val('');
-                    fetchMessages(true);
-                    fetchSessions();
-                } else {
-                    alert('Error sending message: ' + (res.message || 'Unknown error'));
+            const formData = new FormData();
+            formData.append('session_id', activeSessionId);
+            formData.append('message', msg);
+            if (hasFile) {
+                formData.append('attachment', fileInput.files[0]);
+            }
+
+            $.ajax({
+                url: '../api/admin_send_message.php',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    $btn.prop('disabled', false).css('opacity', '1');
+                    if (res && res.status === 'success') {
+                        $('#admin-chat-input').val('');
+                        $('#admin-file-input').val('');
+                        $('#admin-file-preview-bar').hide();
+                        fetchMessages(true);
+                        fetchSessions();
+                    } else {
+                        alert('Error sending message: ' + (res.message || 'Unknown error'));
+                    }
+                },
+                error: function() {
+                    $btn.prop('disabled', false).css('opacity', '1');
+                    alert('Connection error sending reply.');
                 }
-            }).fail(function() {
-                $btn.prop('disabled', false).css('opacity', '1');
-                alert('Connection error sending reply.');
             });
         }
 

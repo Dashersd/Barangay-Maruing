@@ -19,7 +19,7 @@ if ($upd) {
 
 // 2. Fetch all messages in this thread
 $stmt = $conn->prepare("
-    SELECT id, sender_name, sender_type, message, created_at 
+    SELECT id, sender_name, sender_type, message, file_attachment, file_name, created_at 
     FROM feedback_chats 
     WHERE thread_id = ? 
     ORDER BY created_at ASC, id ASC
@@ -39,6 +39,8 @@ if ($stmt) {
             'sender' => $sender,
             'sender_name' => htmlspecialchars($row['sender_name']),
             'message' => $row['message'],
+            'file_attachment' => $row['file_attachment'] ?? null,
+            'file_name' => htmlspecialchars($row['file_name'] ?? ''),
             'time' => date('h:i A', strtotime($row['created_at']))
         ];
     }

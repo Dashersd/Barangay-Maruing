@@ -121,8 +121,11 @@ CREATE TABLE `feedback_chats` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `thread_id` varchar(100) NOT NULL,
   `sender_name` varchar(255) NOT NULL,
+  `email` varchar(150) DEFAULT NULL,
   `sender_type` enum('user','admin') NOT NULL DEFAULT 'user',
   `message` text NOT NULL,
+  `file_attachment` varchar(255) DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
   `is_read` tinyint(1) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
@@ -135,7 +138,7 @@ CREATE TABLE `feedback_chats` (
 
 LOCK TABLES `feedback_chats` WRITE;
 /*!40000 ALTER TABLE `feedback_chats` DISABLE KEYS */;
-INSERT INTO `feedback_chats` VALUES (1,'thread_6ac8c44e03d10','Dash','user','sdfs',1,'2026-10-09 10:50:13'),(2,'thread_6ac8c6f8c038f','Daisy','user','[Service: Barangay Clearance]\n\nGsdds',1,'2026-10-09 10:51:12'),(3,'thread_6ac8c7e329720','sdas','user','[Service: Certificate of Indigency]\n\nfdfsd',1,'2026-10-09 11:10:29'),(4,'thread_6ac8c7e329720','Admin','admin','fasfas\\',0,'2026-10-09 11:40:43'),(5,'thread_6ac8d3674ea7e','Dale','user','[Service: Business Clearance]\n\nMamaligya ko ',1,'2026-10-09 11:50:00'),(6,'thread_6ac8d3674ea7e','Admin','admin','Ay pagbuot',1,'2026-10-09 11:50:49');
+INSERT INTO `feedback_chats` VALUES (1,'thread_6ac8c44e03d10','Dash',NULL,'user','sdfs',NULL,NULL,1,'2026-10-09 10:50:13'),(2,'thread_6ac8c6f8c038f','Daisy',NULL,'user','[Service: Barangay Clearance]\n\nGsdds',NULL,NULL,1,'2026-10-09 10:51:12'),(3,'thread_6ac8c7e329720','sdas',NULL,'user','[Service: Certificate of Indigency]\n\nfdfsd',NULL,NULL,1,'2026-10-09 11:10:29'),(4,'thread_6ac8c7e329720','Admin',NULL,'admin','fasfas\\',NULL,NULL,0,'2026-10-09 11:40:43'),(5,'thread_6ac8d3674ea7e','Dale',NULL,'user','[Service: Business Clearance]\n\nMamaligya ko ',NULL,NULL,1,'2026-10-09 11:50:00'),(6,'thread_6ac8d3674ea7e','Admin',NULL,'admin','Ay pagbuot',NULL,NULL,1,'2026-10-09 11:50:49');
 /*!40000 ALTER TABLE `feedback_chats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,6 +244,7 @@ CREATE TABLE `services` (
   `description` text DEFAULT NULL,
   `icon` varchar(100) DEFAULT 'bi-file-earmark-text',
   `requirements` text DEFAULT NULL,
+  `document_file` varchar(255) DEFAULT NULL,
   `fee` varchar(100) DEFAULT 'Free',
   `processing_time` varchar(100) DEFAULT '15-30 Minutes',
   `button_text` varchar(100) DEFAULT 'Request Document',
@@ -259,7 +263,7 @@ CREATE TABLE `services` (
 
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
-INSERT INTO `services` VALUES (1,'Barangay Clearance','Request a Barangay Clearance for employment, banking, or other legal purposes. Essential for verifying your residency and good standing.','bi-file-earmark-text','Valid Government ID, 2x2 Photo, Cedula / Community Tax Certificate','Free','15-30 Minutes','Request Document','contact.php',1,'active','2026-10-21 03:31:00','2026-10-21 03:40:06'),(2,'Certificate of Indigency','Obtain a Certificate of Indigency to avail of government assistance, scholarships, and medical support programs.','bi-house-heart','Valid Government ID, Proof of Low Income / Endorsement','Free','15-30 Minutes','Request Document','contact.php',2,'active','2026-10-21 03:31:00','2026-10-21 03:40:06'),(3,'Business Clearance','Required for all new and renewing businesses operating within the barangay jurisdiction prior to Mayor\'s permit application.','bi-briefcase','DTI / SEC Registration, Contract of Lease or Title, Previous Barangay Clearance (if renewal)','Free','15-30 Minutes','Request Document','contact.php',3,'active','2026-10-21 03:31:00','2026-10-21 03:40:06'),(4,'Certificate of Residency','Proof of your residency within the barangay. Often required for school enrollments, ID applications, and other local transactions.','bi-person-badge','Valid Government ID, Proof of Billing or Landlord Certification','Free','15-30 Minutes','Request Document','contact.php',4,'active','2026-10-21 03:31:00','2026-10-21 03:40:06'),(6,'bd','sgs','bi-cash-coin','sdgs','Free','1-2 Business day','Request Document','contact.php',5,'active','2026-10-21 03:52:05','2026-10-21 03:52:05');
+INSERT INTO `services` VALUES (1,'Barangay Clearance','Request a Barangay Clearance for employment, banking, or other legal purposes. Essential for verifying your residency and good standing.','bi-file-earmark-text','Valid Government ID, 2x2 Photo, Cedula / Community Tax Certificate',NULL,'Free','15-30 Minutes','Request Document','contact.php',1,'active','2026-10-21 03:31:00','2026-10-21 03:40:06'),(2,'Certificate of Indigency','Obtain a Certificate of Indigency to avail of government assistance, scholarships, and medical support programs.','bi-house-heart','Valid Government ID, Proof of Low Income / Endorsement',NULL,'Free','15-30 Minutes','Request Document','contact.php',2,'active','2026-10-21 03:31:00','2026-10-21 03:40:06'),(3,'Business Clearance','Required for all new and renewing businesses operating within the barangay jurisdiction prior to Mayor\'s permit application.','bi-briefcase','DTI / SEC Registration, Contract of Lease or Title, Previous Barangay Clearance (if renewal)',NULL,'Free','15-30 Minutes','Request Document','contact.php',3,'active','2026-10-21 03:31:00','2026-10-21 03:40:06'),(4,'Certificate of Residency','Proof of your residency within the barangay. Often required for school enrollments, ID applications, and other local transactions.','bi-person-badge','Valid Government ID, Proof of Billing or Landlord Certification',NULL,'Free','15-30 Minutes','Request Document','contact.php',4,'active','2026-10-21 03:31:00','2026-10-21 03:40:06'),(6,'bd','sgs','bi-cash-coin','sdgs',NULL,'Free','1-2 Business day','Request Document','contact.php',5,'active','2026-10-21 03:52:05','2026-10-21 03:52:05');
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 

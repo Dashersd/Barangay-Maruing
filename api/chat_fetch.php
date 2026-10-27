@@ -30,6 +30,8 @@ while ($row = $result->fetch_assoc()) {
         'sender_name' => htmlspecialchars($row['sender_name']),
         'sender_type' => $row['sender_type'],
         'message' => htmlspecialchars($row['message']),
+        'file_attachment' => $row['file_attachment'] ?? null,
+        'file_name' => htmlspecialchars($row['file_name'] ?? ''),
         'created_at' => date('h:i A', strtotime($row['created_at']))
     ];
 }

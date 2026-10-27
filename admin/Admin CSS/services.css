@@ -387,18 +387,26 @@ textarea.form-control {
     background-color: #093d25;
 }
 
-@media (max-width: 600px) {
-    .modal-content {
-        max-width: 100%;
-        margin: 10px;
-        border-radius: 14px;
-    }
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-    .modal-header, .modal-body, .modal-footer {
-        padding: 16px 20px;
-    }
+.badge-doc-file {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
 }
+
+.badge-doc-file:hover {
+    background-color: #10b981;
+    color: #ffffff;
+    border-color: #10b981;
+    transform: translateY(-1px);
+}
+
 
