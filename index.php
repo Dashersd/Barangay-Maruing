@@ -526,7 +526,7 @@ if (!$captain_found || empty($captain_photo)) {
                         loading="lazy" 
                         referrerpolicy="no-referrer-when-downgrade">
                     </iframe> -->
-                    <img src="public/image/Maruing Map/download.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <img src="public/image/Maruing Map/Aerial View.png" alt="Spot Map of Barangay Maruing" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                 </div>
             </div>
             </div>
