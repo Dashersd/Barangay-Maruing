@@ -17,7 +17,20 @@ if ($upd) {
     $upd->close();
 }
 
-// 2. Fetch all messages in this thread
+// 2. Check if this thread has expired (older than 1 day / 86400 seconds)
+$is_expired = false;
+$exp_stmt = $conn->prepare("SELECT (TIMESTAMPDIFF(SECOND, MIN(created_at), NOW()) > 86400) AS is_expired FROM feedback_chats WHERE thread_id = ?");
+if ($exp_stmt) {
+    $exp_stmt->bind_param("s", $thread_id);
+    $exp_stmt->execute();
+    $exp_res = $exp_stmt->get_result();
+    if ($exp_row = $exp_res->fetch_assoc()) {
+        $is_expired = !empty($exp_row['is_expired']);
+    }
+    $exp_stmt->close();
+}
+
+// 3. Fetch all messages in this thread
 $stmt = $conn->prepare("
     SELECT id, sender_name, sender_type, message, file_attachment, file_name, created_at 
     FROM feedback_chats 
@@ -47,5 +60,5 @@ if ($stmt) {
     $stmt->close();
 }
 
-echo json_encode(["status" => "success", "messages" => $messages]);
+echo json_encode(["status" => "success", "is_expired" => $is_expired, "messages" => $messages]);
 ?>

@@ -5,6 +5,30 @@ require_once __DIR__ . '/../admin/db_connect.php';
 $thread_id = $_POST['session_id'] ?? $_POST['thread_id'] ?? '';
 $message = isset($_POST['message']) ? trim($_POST['message']) : '';
 
+if (empty($thread_id)) {
+    echo json_encode(["status" => "error", "message" => "Invalid thread ID"]);
+    exit;
+}
+
+// Block replies if the chat thread is older than 1 day (86400 seconds)
+$exp_stmt = $conn->prepare("SELECT (TIMESTAMPDIFF(SECOND, MIN(created_at), NOW()) > 86400) AS is_expired FROM feedback_chats WHERE thread_id = ?");
+if ($exp_stmt) {
+    $exp_stmt->bind_param("s", $thread_id);
+    $exp_stmt->execute();
+    $exp_res = $exp_stmt->get_result();
+    if ($exp_row = $exp_res->fetch_assoc()) {
+        if (!empty($exp_row['is_expired'])) {
+            $exp_stmt->close();
+            echo json_encode([
+                "status" => "error",
+                "message" => "Cannot send reply: This chat session has expired after 1 day (24 hours)."
+            ]);
+            exit;
+        }
+    }
+    $exp_stmt->close();
+}
+
 $file_attachment = null;
 $file_name = null;
 

@@ -222,9 +222,9 @@
                             <div class="chat-header-info">
                                 <h3 id="current-chat-name">Resident Name</h3>
                                 <div class="chat-header-meta">
-                                    <span class="status-indicator">
-                                        <span class="status-dot"></span>
-                                        Citizen Inquirer
+                                    <span class="status-indicator" id="current-chat-status-indicator">
+                                        <span class="status-dot" id="current-chat-status-dot"></span>
+                                        <span id="current-chat-status-text">Citizen Inquirer</span>
                                     </span>
                                     <span class="chat-header-service-badge" id="current-chat-service">General Inquiry</span>
                                     <span id="current-chat-email-badge" style="display:none; align-items:center; gap:5px; font-size:0.82rem; background:#f0fdf4; color:#166534; padding:3px 10px; border-radius:12px; font-weight:600; border:1px solid #bbf7d0;">
@@ -270,7 +270,7 @@
                         </div>
                         <button type="button" id="admin-remove-file-btn" style="background:none; border:none; color:#ef4444; font-size:1rem; cursor:pointer;" title="Remove attachment">&times;</button>
                     </div>
-                    <div class="chat-input-area" style="position:relative;">
+                    <div class="chat-input-area" id="admin-chat-input-area" style="position:relative;">
                         <input type="file" id="admin-file-input" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip,.xls,.xlsx">
                         <button type="button" class="btn-attach" id="admin-attach-btn" title="Attach Document / Form" style="background:none; border:none; color:#64748b; font-size:1.25rem; padding:6px 12px; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:6px; transition:all 0.2s;">
                             <i class="bi bi-paperclip"></i>
@@ -280,6 +280,15 @@
                             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                             Send Reply
                         </button>
+                    </div>
+
+                    <!-- Expired Chat Session Notice (Shown after 1 day) -->
+                    <div id="admin-expired-chat-notice" style="display:none; padding: 14px 20px; background: #fffbeb; border-top: 1px solid #fde68a; color: #92400e; font-size: 0.86rem; align-items: center; gap: 12px;">
+                        <i class="bi bi-clock-history" style="font-size: 1.35rem; color: #d97706; flex-shrink: 0;"></i>
+                        <div style="line-height: 1.45;">
+                            <strong style="display: block; color: #78350f; font-size: 0.9rem;">Chat Session Expired (Over 1 Day Old)</strong>
+                            <span>You can no longer reply to this live chat because resident chat sessions automatically expire after 24 hours. If the resident provided an email address, you may still reach out using the <strong>Send Document via Email</strong> button above.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -499,6 +508,39 @@
             });
         });
 
+        // Toggle Chat Input vs Expired Notice UI
+        function updateChatExpirationUI(isExpired) {
+            if (isExpired) {
+                $('.quick-replies-bar').hide();
+                $('#admin-file-preview-bar').hide();
+                $('#admin-file-input').val('');
+                $('#admin-chat-input-area').hide();
+                $('#admin-chat-input').prop('disabled', true);
+                $('#admin-send-btn').prop('disabled', true);
+                $('#admin-expired-chat-notice').css('display', 'flex');
+
+                $('#current-chat-status-indicator').css('color', '#d97706');
+                $('#current-chat-status-dot').css({
+                    'background-color': '#d97706',
+                    'box-shadow': '0 0 0 2px rgba(217, 119, 6, 0.2)'
+                });
+                $('#current-chat-status-text').text('Session Expired (1 Day)');
+            } else {
+                $('#admin-expired-chat-notice').hide();
+                $('.quick-replies-bar').css('display', 'flex');
+                $('#admin-chat-input-area').css('display', 'flex');
+                $('#admin-chat-input').prop('disabled', false);
+                $('#admin-send-btn').prop('disabled', false);
+
+                $('#current-chat-status-indicator').css('color', '#16a34a');
+                $('#current-chat-status-dot').css({
+                    'background-color': '#16a34a',
+                    'box-shadow': '0 0 0 2px rgba(22, 163, 74, 0.2)'
+                });
+                $('#current-chat-status-text').text('Citizen Inquirer');
+            }
+        }
+
         // Open Conversation Helper
         function openConversation(id, name, service, email) {
             activeSessionId = id;
@@ -520,9 +562,12 @@
             $('#current-chat-name').text(name);
             $('#current-chat-service').text(service ? service : 'General Inquiry');
 
-            // Find email from parameter or cached sessions
+            // Find email and expiration state from parameter or cached sessions
             const sess = cachedSessions.find(s => s.id == id);
             const userEmail = email || (sess && sess.email ? sess.email : '');
+            const isExpired = sess ? Boolean(sess.is_expired) : false;
+
+            updateChatExpirationUI(isExpired);
 
             if (userEmail) {
                 $('#current-chat-email-text').text(userEmail);
@@ -536,7 +581,9 @@
                 $('#btn-send-doc-email').hide();
             }
 
-            $('#admin-chat-input').focus();
+            if (!isExpired) {
+                $('#admin-chat-input').focus();
+            }
 
             fetchMessages(true);
             fetchSessions();
@@ -582,6 +629,7 @@
                 const unreadCount = parseInt(s.unread_count) || 0;
                 const hasUnreadClass = (unreadCount > 0 && s.id != activeSessionId) ? 'has-unread' : '';
                 const unreadBadge = (unreadCount > 0 && s.id != activeSessionId) ? `<span class="conv-unread-pill">${unreadCount} new</span>` : '';
+                const expiredBadge = s.is_expired ? `<span style="font-size:0.65rem; font-weight:700; padding:1px 6px; border-radius:4px; background:#fef3c7; color:#b45309; border:1px solid #fde68a;">Expired</span>` : '';
                 const safeLastMsg = s.last_msg ? $('<div>').text((s.last_sender === 'admin' ? 'You: ' : '') + s.last_msg).html() : 'No messages yet';
                 const initial = s.user_name ? s.user_name.charAt(0).toUpperCase() : 'U';
 
@@ -595,6 +643,7 @@
                             </div>
                             <div class="conv-meta">
                                 <span class="conv-service-tag">${s.service_type || 'General'}</span>
+                                ${expiredBadge}
                                 ${s.email ? `<span style="font-size:0.75rem; color:#0f766e; display:inline-flex; align-items:center; gap:3px;"><i class="bi bi-envelope"></i> ${s.email}</span>` : ''}
                                 ${unreadBadge}
                             </div>
@@ -722,6 +771,8 @@
             if (!activeSessionId) return;
             $.get('../api/admin_fetch_messages.php', { session_id: activeSessionId }, function(res) {
                 if (res && res.status === 'success') {
+                    updateChatExpirationUI(Boolean(res.is_expired));
+
                     const currentMessagesJson = JSON.stringify(res.messages || []);
 
                     // IF MESSAGES HAVE NOT CHANGED AND NO FORCE SCROLL, DO NOT TOUCH DOM (PREVENTS GLITCHING)

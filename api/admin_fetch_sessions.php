@@ -22,8 +22,10 @@ function parse_chat_message($raw) {
 $threads_query = "
     SELECT 
         c.thread_id,
+        MIN(c.created_at) as thread_started_at,
         MAX(c.created_at) as last_activity,
-        MAX(c.id) as max_id
+        MAX(c.id) as max_id,
+        (TIMESTAMPDIFF(SECOND, MIN(c.created_at), NOW()) > 86400) as is_expired
     FROM feedback_chats c
     GROUP BY c.thread_id
     ORDER BY last_activity DESC
@@ -120,7 +122,8 @@ if ($result && $result->num_rows > 0) {
             'last_msg_id' => $last_msg_id,
             'last_sender' => $last_sender,
             'unread_count' => $unread_count,
-            'last_activity' => $tRow['last_activity']
+            'last_activity' => $tRow['last_activity'],
+            'is_expired' => !empty($tRow['is_expired'])
         ];
     }
 }
