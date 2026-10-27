@@ -74,16 +74,16 @@ if (!empty($about_data['image_path'])) {
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="spot-map.php">Spot Map</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="gallery.php">Gallery</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="services.php">Services</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="announcements.php">Announcements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="spot-map.php">Spot Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gallery.php">Gallery</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
@@ -180,11 +180,6 @@ if (!empty($about_data['image_path'])) {
             <hr class="footer-divider">
             
             <div class="footer-bottom">
-                <div class="footer-socials">
-                    <a href="#"><i class="bi bi-facebook"></i></a>
-                    <a href="#"><i class="bi bi-twitter"></i></a>
-                    <a href="#"><i class="bi bi-envelope-fill"></i></a>
-                </div>
                 <p class="footer-copy">&copy; Copyright. All rights reserved.</p>
             </div>
         </div>
