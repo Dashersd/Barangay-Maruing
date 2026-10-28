@@ -17,6 +17,37 @@ if (!isset($_SESSION['chat_user_name'])) {
 
 require_once 'admin/db_connect.php';
 
+// Fetch Hero Background Slides for homepage slideshow
+$hero_slides = [];
+$hero_speed = 5;
+if (isset($conn) && !$conn->connect_error) {
+    // Check speed setting
+    $speed_res = $conn->query("SELECT hero_slideshow_speed FROM barangay_information LIMIT 1");
+    if ($speed_res && $s_row = $speed_res->fetch_assoc()) {
+        if (!empty($s_row['hero_slideshow_speed'])) {
+            $hero_speed = intval($s_row['hero_slideshow_speed']);
+            if (!in_array($hero_speed, [3, 5])) $hero_speed = 5;
+        }
+    }
+
+    // Check custom uploaded hero backgrounds
+    $h_check = $conn->query("SHOW TABLES LIKE 'hero_backgrounds'");
+    if ($h_check && $h_check->num_rows > 0) {
+        $h_res = $conn->query("SELECT * FROM hero_backgrounds WHERE is_active = 1 ORDER BY sort_order ASC, id ASC");
+        if ($h_res) {
+            while ($h_row = $h_res->fetch_assoc()) {
+                if (file_exists($h_row['image_path'])) {
+                    $hero_slides[] = $h_row['image_path'];
+                }
+            }
+        }
+    }
+}
+// Default fallback if no custom slides uploaded
+if (empty($hero_slides)) {
+    $hero_slides[] = 'public/image/Maruing.png';
+}
+
 // Fetch latest gallery media items for the homepage showcase
 $home_gallery_items = [];
 $gallery_sql = "SELECT m.*, f.name as folder_name 
@@ -182,10 +213,69 @@ if (!$captain_found || empty($captain_photo)) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom CSS (Pure CSS Responsive) -->
-    <link rel="stylesheet" href="public/assets/css/style.css?v=9">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=<?= time() ?>">
     <link rel="stylesheet" href="public/assets/css/gallery.css?v=6">
     <link rel="stylesheet" href="public/assets/css/announcements.css?v=2">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Hero Background Slideshow Styles (Directly embedded to bypass browser CSS cache) -->
+    <style>
+    .hero-section {
+        position: relative !important;
+        overflow: hidden !important;
+        min-height: 480px !important;
+        display: flex !important;
+        align-items: center !important;
+        color: #ffffff !important;
+        padding: 110px 0 140px !important;
+        background: #093d25 !important; /* Clears old hardcoded Maruing.png image */
+    }
+
+    .hero-bg-container {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 0 !important;
+        overflow: hidden !important;
+        pointer-events: none !important;
+    }
+
+    .hero-bg-slide {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background-position: center right !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        opacity: 0;
+        transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        will-change: opacity !important;
+    }
+
+    .hero-bg-slide.active {
+        opacity: 1 !important;
+    }
+
+    .hero-overlay {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(19, 117, 71, 0.84) 42%, rgba(19, 117, 71, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%) !important;
+        z-index: 2 !important;
+        pointer-events: none !important;
+    }
+
+    .hero-container {
+        position: relative !important;
+        z-index: 3 !important;
+    }
+    </style>
 </head>
 
 <body>
@@ -242,7 +332,17 @@ if (!$captain_found || empty($captain_photo)) {
 
     <main>
         <!-- Hero Section -->
-        <section class="hero-section">
+        <section class="hero-section" id="hero-section" data-speed="<?= $hero_speed ?>">
+            <!-- Background Slideshow Container (Only the background image transitions) -->
+            <div class="hero-bg-container">
+                <?php foreach ($hero_slides as $i => $slide_path): ?>
+                    <div class="hero-bg-slide <?= $i === 0 ? 'active' : '' ?>" style="background-image: url('<?= htmlspecialchars($slide_path) ?>');"></div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Signature Green Gradient Overlay -->
+            <div class="hero-overlay"></div>
+
             <div class="container hero-container">
                 <div class="hero-content">
                     <h1 class="hero-title" data-aos="fade-up">
@@ -1043,6 +1143,52 @@ if (!$captain_found || empty($captain_photo)) {
               closeAnnouncementLightbox();
           }
       });
+      // Background Hero Slideshow (Only active when 2 or more background images are present)
+      function initHeroBackgroundSlideshow() {
+          const heroSection = document.getElementById('hero-section');
+          if (!heroSection) return;
+          const slides = Array.from(heroSection.querySelectorAll('.hero-bg-slide'));
+          if (!slides || slides.length <= 1) return; // 1 or 0 slides: static background, no slideshow needed
+
+          const speedSeconds = parseInt(heroSection.getAttribute('data-speed'), 10) || 5;
+          const intervalMs = Math.max(2, speedSeconds) * 1000;
+          let currentIdx = 0;
+
+          // Set initial stacking: first slide fully visible on top
+          slides.forEach(function(s, i) {
+              s.style.opacity = (i === 0) ? '1' : '0';
+              s.style.zIndex = (i === 0) ? '1' : '0';
+          });
+
+          setInterval(function() {
+              const prevIdx = currentIdx;
+              currentIdx = (currentIdx + 1) % slides.length;
+
+              const prevSlide = slides[prevIdx];
+              const nextSlide = slides[currentIdx];
+
+              // Place next slide on top (z-index 2) and fade it in
+              nextSlide.style.zIndex = '2';
+              nextSlide.style.opacity = '1';
+
+              // Previous slide remains solid at z-index 1 underneath while next slide fades in
+              prevSlide.style.zIndex = '1';
+
+              // After crossfade completes (1.3s), reset previous slide to transparent
+              setTimeout(function() {
+                  prevSlide.style.opacity = '0';
+                  prevSlide.style.zIndex = '0';
+                  nextSlide.style.zIndex = '1';
+              }, 1300);
+          }, intervalMs);
+      }
+
+      if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initHeroBackgroundSlideshow);
+      } else {
+          initHeroBackgroundSlideshow();
+      }
+
       document.addEventListener('DOMContentLoaded', function() {
         AOS.init({
           duration: 800, 

@@ -222,21 +222,21 @@
                             <div class="chat-header-info">
                                 <h3 id="current-chat-name">Resident Name</h3>
                                 <div class="chat-header-meta">
-                                    <span class="status-indicator" id="current-chat-status-indicator">
+                                    <span class="status-indicator status-active" id="current-chat-status-indicator">
                                         <span class="status-dot" id="current-chat-status-dot"></span>
                                         <span id="current-chat-status-text">Citizen Inquirer</span>
                                     </span>
                                     <span class="chat-header-service-badge" id="current-chat-service">General Inquiry</span>
-                                    <span id="current-chat-email-badge" style="display:none; align-items:center; gap:5px; font-size:0.82rem; background:#f0fdf4; color:#166534; padding:3px 10px; border-radius:12px; font-weight:600; border:1px solid #bbf7d0;">
+                                    <span class="chat-header-email-badge" id="current-chat-email-badge" style="display:none;">
                                         <i class="bi bi-envelope-at-fill" style="color:#16a34a;"></i>
                                         <span id="current-chat-email-text"></span>
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="chat-header-actions" style="display:flex; gap:10px; align-items:center;">
-                            <a href="#" id="btn-send-doc-email" class="btn-header-action" style="display:none; background:#0f766e; color:#ffffff; border-color:#0f766e; font-weight:600; text-decoration:none; padding:7px 14px; border-radius:6px; font-size:0.86rem;" title="Open email client to send document attachment to resident">
-                                <i class="bi bi-file-earmark-arrow-up-fill" style="margin-right: 6px; color:#fff;"></i> Send Document via Email
+                        <div class="chat-header-actions">
+                            <a href="#" id="btn-send-doc-email" class="btn-header-action btn-header-primary" style="display:none;" title="Open email client to send document attachment to resident">
+                                <i class="bi bi-file-earmark-arrow-up-fill"></i> Send Document via Email
                             </a>
                             <button type="button" class="btn-header-action" id="btn-refresh-chat" title="Refresh messages">
                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
@@ -519,11 +519,7 @@
                 $('#admin-send-btn').prop('disabled', true);
                 $('#admin-expired-chat-notice').css('display', 'flex');
 
-                $('#current-chat-status-indicator').css('color', '#d97706');
-                $('#current-chat-status-dot').css({
-                    'background-color': '#d97706',
-                    'box-shadow': '0 0 0 2px rgba(217, 119, 6, 0.2)'
-                });
+                $('#current-chat-status-indicator').removeClass('status-active').addClass('status-expired');
                 $('#current-chat-status-text').text('Session Expired (1 Day)');
             } else {
                 $('#admin-expired-chat-notice').hide();
@@ -532,11 +528,7 @@
                 $('#admin-chat-input').prop('disabled', false);
                 $('#admin-send-btn').prop('disabled', false);
 
-                $('#current-chat-status-indicator').css('color', '#16a34a');
-                $('#current-chat-status-dot').css({
-                    'background-color': '#16a34a',
-                    'box-shadow': '0 0 0 2px rgba(22, 163, 74, 0.2)'
-                });
+                $('#current-chat-status-indicator').removeClass('status-expired').addClass('status-active');
                 $('#current-chat-status-text').text('Citizen Inquirer');
             }
         }

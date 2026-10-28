@@ -38,6 +38,16 @@ ensureColumnExists($conn, 'barangay_information', 'fire_hotline', "VARCHAR(50) D
 ensureColumnExists($conn, 'barangay_information', 'health_hotline', "VARCHAR(50) DEFAULT '0920-987-6543'");
 ensureColumnExists($conn, 'barangay_information', 'tanod_hotline', "VARCHAR(50) DEFAULT '0931-234-5678'");
 ensureColumnExists($conn, 'barangay_information', 'logo_path', "VARCHAR(255) DEFAULT '../public/image/Maruing Logo 2.png'");
+ensureColumnExists($conn, 'barangay_information', 'hero_slideshow_speed', "INT DEFAULT 5");
+
+// Ensure hero_backgrounds table exists
+$conn->query("CREATE TABLE IF NOT EXISTS `hero_backgrounds` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `image_path` VARCHAR(255) NOT NULL,
+  `sort_order` INT DEFAULT 0,
+  `is_active` TINYINT(1) DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
 
 // Ensure at least 1 record exists in barangay_information
 $info_check = $conn->query("SELECT * FROM barangay_information LIMIT 1");
@@ -116,6 +126,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $error_msg = "Failed to update barangay information.";
         }
+    }
+
+    // 1.1 Save / Upload Hero Background Images & Slideshow Speed
+    if ($action === 'upload_hero_bg') {
+        $speed = isset($_POST['hero_slideshow_speed']) ? intval($_POST['hero_slideshow_speed']) : 5;
+        if (!in_array($speed, [3, 5])) $speed = 5;
+
+        $conn->query("UPDATE barangay_information SET hero_slideshow_speed = $speed WHERE id = 1");
+
+        $upload_dir = '../uploads/hero/';
+        if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+
+        $uploaded_count = 0;
+        if (isset($_FILES['hero_images']) && !empty($_FILES['hero_images']['name'][0])) {
+            $total_files = count($_FILES['hero_images']['name']);
+            for ($i = 0; $i < $total_files; $i++) {
+                if ($_FILES['hero_images']['error'][$i] === UPLOAD_ERR_OK) {
+                    $orig_name = $_FILES['hero_images']['name'][$i];
+                    $ext = strtolower(pathinfo($orig_name, PATHINFO_EXTENSION));
+                    if (in_array($ext, ['png', 'jpg', 'jpeg', 'webp'])) {
+                        $filename = 'hero_' . time() . '_' . uniqid() . '.' . $ext;
+                        $target = $upload_dir . $filename;
+                        if (move_uploaded_file($_FILES['hero_images']['tmp_name'][$i], $target)) {
+                            $db_path = 'uploads/hero/' . $filename;
+                            $stmt = $conn->prepare("INSERT INTO hero_backgrounds (image_path) VALUES (?)");
+                            $stmt->bind_param("s", $db_path);
+                            $stmt->execute();
+                            $stmt->close();
+                            $uploaded_count++;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($uploaded_count > 0) {
+            logActivity($conn, 'Hero Slides Uploaded', "$uploaded_count background image(s) uploaded for hero section ($speed-second interval).");
+            header("Location: settings.php?msg=hero_uploaded&count=$uploaded_count&tab=hero_bg");
+            exit;
+        } else {
+            logActivity($conn, 'Hero Slideshow Settings Updated', "Slideshow interval set to $speed seconds.");
+            header("Location: settings.php?msg=hero_speed_saved&tab=hero_bg");
+            exit;
+        }
+    }
+
+    // 1.2 Delete Hero Background Image
+    if ($action === 'delete_hero_bg') {
+        $hero_id = intval($_POST['hero_id'] ?? 0);
+        if ($hero_id > 0) {
+            $stmt = $conn->prepare("SELECT image_path FROM hero_backgrounds WHERE id = ?");
+            $stmt->bind_param("i", $hero_id);
+            $stmt->execute();
+            $res = $stmt->get_result();
+            if ($res && $row = $res->fetch_assoc()) {
+                $file = '../' . $row['image_path'];
+                if (file_exists($file)) {
+                    @unlink($file);
+                }
+                $del_stmt = $conn->prepare("DELETE FROM hero_backgrounds WHERE id = ?");
+                $del_stmt->bind_param("i", $hero_id);
+                $del_stmt->execute();
+                $del_stmt->close();
+                logActivity($conn, 'Hero Slide Deleted', "Deleted hero background ID $hero_id");
+            }
+            $stmt->close();
+        }
+        header("Location: settings.php?msg=hero_deleted&tab=hero_bg");
+        exit;
     }
 
     // 2. Save Contact Hotlines & Emergency Desk
@@ -229,6 +308,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Flash notification parsing
 $msg = $_GET['msg'] ?? '';
 if ($msg === 'general_saved') $success_msg = "Barangay profile and general configuration updated successfully!";
+if ($msg === 'hero_uploaded') $success_msg = (isset($_GET['count']) ? intval($_GET['count']) : '') . " Hero background image(s) uploaded successfully!";
+if ($msg === 'hero_speed_saved') $success_msg = "Hero slideshow settings updated successfully!";
+if ($msg === 'hero_deleted') $success_msg = "Hero background image removed successfully!";
 if ($msg === 'contacts_saved') $success_msg = "Contact details and emergency hotlines updated successfully!";
 if ($msg === 'security_saved') $success_msg = "Administrator credentials updated successfully!";
 if ($msg === 'security_saved_with_password') $success_msg = "Administrator profile and password updated successfully! Please use your new password next time you log in.";
@@ -238,7 +320,7 @@ if ($msg === 'logs_cleared') $success_msg = "System activity log history has bee
 
 // Determine active tab
 $active_tab = $_GET['tab'] ?? 'general';
-$allowed_tabs = ['general', 'contacts', 'security', 'backup', 'logs'];
+$allowed_tabs = ['general', 'hero_bg', 'contacts', 'security', 'backup', 'logs'];
 if (!in_array($active_tab, $allowed_tabs)) {
     $active_tab = 'general';
 }
@@ -246,6 +328,15 @@ if (!in_array($active_tab, $allowed_tabs)) {
 // Fetch Current Settings Record
 $info_res = $conn->query("SELECT * FROM barangay_information WHERE id = 1");
 $info = ($info_res && $info_res->num_rows > 0) ? $info_res->fetch_assoc() : [];
+
+// Fetch Hero Background Slides
+$hero_slides = [];
+$h_res = $conn->query("SELECT * FROM hero_backgrounds ORDER BY sort_order ASC, id ASC");
+if ($h_res) {
+    while ($h_row = $h_res->fetch_assoc()) {
+        $hero_slides[] = $h_row;
+    }
+}
 
 // Fetch Admin Profile
 $admin = null;
@@ -296,7 +387,7 @@ if ($logs_res) {
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/assets/css/style.css">
     <link rel="stylesheet" href="Admin CSS/admin.css?v=2">
-    <link rel="stylesheet" href="Admin CSS/settings.css?v=3">
+    <link rel="stylesheet" href="Admin CSS/settings.css?v=<?= time() ?>">
 </head>
 <body>
 
@@ -415,6 +506,9 @@ if ($logs_res) {
                 <button type="button" class="tab-btn <?= $active_tab === 'general' ? 'active' : '' ?>" onclick="switchTab('general', this)">
                     <i class="bi bi-building"></i> Barangay Profile
                 </button>
+                <button type="button" class="tab-btn <?= $active_tab === 'hero_bg' ? 'active' : '' ?>" onclick="switchTab('hero_bg', this)">
+                    <i class="bi bi-images"></i> Hero Background
+                </button>
                 <button type="button" class="tab-btn <?= $active_tab === 'contacts' ? 'active' : '' ?>" onclick="switchTab('contacts', this)">
                     <i class="bi bi-telephone-outbound"></i> Hotlines & Contacts
                 </button>
@@ -497,6 +591,106 @@ if ($logs_res) {
                             <i class="bi bi-check2-circle"></i> Save Profile Details
                         </button>
                     </form>
+                </div>
+            </div>
+
+            <!-- ======================================================== -->
+            <!-- TAB: HERO BACKGROUND & SLIDESHOW                         -->
+            <!-- ======================================================== -->
+            <div id="tab-hero_bg" class="tab-pane <?= $active_tab === 'hero_bg' ? 'active' : '' ?>">
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div>
+                            <h3 class="settings-card-title"><i class="bi bi-images text-success"></i> Hero Background & Slideshow</h3>
+                            <p class="settings-card-subtitle">Manage the homepage hero background photo. If multiple photos are uploaded, they will automatically smooth crossfade in the background behind the static text.</p>
+                        </div>
+                    </div>
+
+                    <!-- Status Notification Banner -->
+                    <?php 
+                    $slide_count = count($hero_slides);
+                    $current_speed = intval($info['hero_slideshow_speed'] ?? 5);
+                    if (!in_array($current_speed, [3, 5])) $current_speed = 5;
+                    ?>
+                    <div class="hero-status-pill <?= $slide_count > 1 ? 'status-multi' : ($slide_count === 1 ? 'status-single' : 'status-empty') ?>">
+                        <?php if ($slide_count > 1): ?>
+                            <i class="bi bi-play-circle-fill"></i> <strong>Smooth Slideshow Active:</strong> <?= $slide_count ?> background images rotating every <?= $current_speed ?> seconds. The hero text remains static and unchanged.
+                        <?php elseif ($slide_count === 1): ?>
+                            <i class="bi bi-image"></i> <strong>Single Static Background:</strong> 1 custom background photo is currently active on the homepage hero section.
+                        <?php else: ?>
+                            <i class="bi bi-info-circle-fill"></i> <strong>Default Background:</strong> No custom photos uploaded yet. The homepage is currently displaying the default photo (<code>public/image/Maruing.png</code>).
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- Upload Form -->
+                    <form action="settings.php" method="POST" enctype="multipart/form-data" class="hero-upload-form">
+                        <input type="hidden" name="action" value="upload_hero_bg">
+                        
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 2;">
+                                <label><i class="bi bi-cloud-arrow-up-fill"></i> Upload Background Photo(s)</label>
+                                <input type="file" name="hero_images[]" multiple accept="image/png, image/jpeg, image/jpg, image/webp" class="form-control" id="heroImagesInput" onchange="previewHeroUploads(this)">
+                                <span class="form-hint">You can select multiple photos at once. Supported formats: PNG, JPG, JPEG, WEBP. High-resolution landscape photos recommended.</span>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label><i class="bi bi-stopwatch"></i> Slideshow Speed</label>
+                                <select name="hero_slideshow_speed" class="form-control">
+                                    <option value="3" <?= $current_speed === 3 ? 'selected' : '' ?>>3 Seconds (Fast)</option>
+                                    <option value="5" <?= $current_speed === 5 ? 'selected' : '' ?>>5 Seconds (Recommended - Smooth)</option>
+                                </select>
+                                <span class="form-hint">Controls how long each background photo remains before smoothly crossfading to the next.</span>
+                            </div>
+                        </div>
+
+                        <!-- Client-side Selected Files Preview -->
+                        <div id="heroUploadPreview" class="hero-preview-row" style="display: none;"></div>
+
+                        <button type="submit" class="btn-save-settings">
+                            <i class="bi bi-upload"></i> Save & Upload Backgrounds
+                        </button>
+                    </form>
+
+                    <!-- Existing Background Images Gallery -->
+                    <div class="hero-gallery-section" style="margin-top: 30px; padding-top: 25px; border-top: 1px solid #e2e8f0;">
+                        <h4 class="hero-gallery-title" style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 18px; display: flex; align-items: center; gap: 8px;">
+                            <i class="bi bi-collection"></i> Active Background Images (<?= $slide_count ?>)
+                        </h4>
+                        
+                        <?php if ($slide_count === 0): ?>
+                            <div class="hero-empty-state" style="text-align: center; padding: 30px 20px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; color: #64748b; max-width: 100%; box-sizing: border-box;">
+                                <div class="hero-default-preview" style="width: 100%; max-width: 320px; height: 160px; margin: 0 auto 16px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #cbd5e1; background: #0f172a;">
+                                    <img src="../public/image/Maruing.png" alt="Default Hero Image" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                                </div>
+                                <p style="margin: 0; font-size: 0.95rem; color: #334155;">
+                                    <strong>Currently using the default Barangay Maruing background photo.</strong>
+                                </p>
+                                <p style="margin: 5px 0 0; font-size: 0.85rem; color: #64748b;">
+                                    Upload photos above to customize your homepage hero background or activate a smooth slideshow.
+                                </p>
+                            </div>
+                        <?php else: ?>
+                            <div class="hero-grid">
+                                <?php foreach ($hero_slides as $index => $slide): ?>
+                                    <div class="hero-card">
+                                        <div class="hero-card-img-wrap" style="position: relative; width: 100%; height: 160px; background: #0f172a; overflow: hidden;">
+                                            <img src="../<?= htmlspecialchars($slide['image_path']) ?>" alt="Hero Slide <?= $index + 1 ?>" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                                            <span class="hero-card-badge">Slide #<?= $index + 1 ?></span>
+                                        </div>
+                                        <div class="hero-card-footer">
+                                            <span class="hero-card-date"><i class="bi bi-calendar3"></i> <?= date('M d, Y', strtotime($slide['created_at'])) ?></span>
+                                            <form action="settings.php" method="POST" onsubmit="return confirm('Are you sure you want to remove this background image?');" style="margin: 0;">
+                                                <input type="hidden" name="action" value="delete_hero_bg">
+                                                <input type="hidden" name="hero_id" value="<?= $slide['id'] ?>">
+                                                <button type="submit" class="btn-delete-hero" title="Delete this image">
+                                                    <i class="bi bi-trash3-fill"></i> Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
 
@@ -807,6 +1001,29 @@ if ($logs_res) {
                     if (img) img.src = e.target.result;
                 };
                 reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Live Hero Uploads Multiple Preview
+        function previewHeroUploads(input) {
+            const previewContainer = document.getElementById('heroUploadPreview');
+            if (!previewContainer) return;
+            previewContainer.innerHTML = '';
+            if (input.files && input.files.length > 0) {
+                previewContainer.style.display = 'flex';
+                for (let i = 0; i < input.files.length; i++) {
+                    const file = input.files[i];
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const thumb = document.createElement('div');
+                        thumb.className = 'hero-thumb-preview';
+                        thumb.innerHTML = '<img src="' + e.target.result + '" alt="Selected"><span class="thumb-name">' + file.name + '</span>';
+                        previewContainer.appendChild(thumb);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            } else {
+                previewContainer.style.display = 'none';
             }
         }
 
