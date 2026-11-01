@@ -1,18 +1,9 @@
 <?php
 session_start();
-// Reset chat after 1 day (86400 seconds)
-if (isset($_SESSION['chat_start_time']) && (time() - $_SESSION['chat_start_time'] > 86400)) {
-    unset($_SESSION['chat_thread_id']);
-    unset($_SESSION['chat_user_name']);
-    unset($_SESSION['chat_start_time']);
-}
-
+date_default_timezone_set('Asia/Manila');
+unset($_SESSION['chat_user_name']);
 if (!isset($_SESSION['chat_thread_id'])) {
-    $_SESSION['chat_thread_id'] = uniqid('thread_');
-    $_SESSION['chat_start_time'] = time();
-}
-if (!isset($_SESSION['chat_user_name'])) {
-    $_SESSION['chat_user_name'] = '';
+    $_SESSION['chat_thread_id'] = uniqid('inquiry_');
 }
 
 require_once 'admin/db_connect.php';
@@ -202,11 +193,11 @@ if (!$captain_found || empty($captain_photo)) {
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="public/image/Maruing Logo 2.png">
     
-    <!-- Google Fonts: Montserrat & Dancing Script -->
+    <!-- Google Fonts: Montserrat, Dancing Script & Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@1,600;1,700;1,800&display=swap"
         rel="stylesheet">
 
     <!-- Bootstrap Icons -->
@@ -218,20 +209,22 @@ if (!$captain_found || empty($captain_photo)) {
     <link rel="stylesheet" href="public/assets/css/announcements.css?v=2">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- Hero Background Slideshow Styles (Directly embedded to bypass browser CSS cache) -->
+    <!-- Hero Background Video & Styles (Directly embedded to bypass browser CSS cache) -->
     <style>
     .hero-section {
         position: relative !important;
         overflow: hidden !important;
-        min-height: 480px !important;
+        min-height: 500px !important;
+        min-height: calc(100vh - 75px) !important; /* Fullscreen viewport height below navbar */
         display: flex !important;
         align-items: center !important;
         color: #ffffff !important;
         padding: 110px 0 140px !important;
-        background: #093d25 !important; /* Clears old hardcoded Maruing.png image */
+        padding: 80px 0 100px !important;
+        background: #020c06 !important;
     }
 
-    .hero-bg-container {
+    .hero-video-container {
         position: absolute !important;
         top: 0 !important;
         left: 0 !important;
@@ -240,33 +233,33 @@ if (!$captain_found || empty($captain_photo)) {
         z-index: 0 !important;
         overflow: hidden !important;
         pointer-events: none !important;
+        background-color: #020c06 !important;
     }
 
-    .hero-bg-slide {
+    .hero-bg-video {
         position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
+        top: 50% !important;
+        left: 50% !important;
         width: 100% !important;
         height: 100% !important;
-        background-position: center right !important;
-        background-size: cover !important;
-        background-repeat: no-repeat !important;
-        opacity: 0;
-        transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        will-change: opacity !important;
+        min-width: 100% !important;
+        min-height: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        transform: translate(-50%, -50%) !important;
+        object-fit: cover !important;
+        object-position: center center !important;
+        z-index: 0 !important;
     }
 
-    .hero-bg-slide.active {
-        opacity: 1 !important;
-    }
-
+    /* Dark High-Contrast Gradient Overlay for Crisp Text Visibility */
     .hero-overlay {
         position: absolute !important;
         top: 0 !important;
         left: 0 !important;
         width: 100% !important;
         height: 100% !important;
-        background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(19, 117, 71, 0.84) 42%, rgba(19, 117, 71, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%) !important;
+        background: linear-gradient(90deg, rgba(2, 14, 8, 0.94) 0%, rgba(9, 61, 37, 0.85) 45%, rgba(0, 0, 0, 0.65) 100%) !important;
         z-index: 2 !important;
         pointer-events: none !important;
     }
@@ -274,6 +267,95 @@ if (!$captain_found || empty($captain_photo)) {
     .hero-container {
         position: relative !important;
         z-index: 3 !important;
+    }
+
+    .hero-scroll-down {
+        position: absolute;
+        bottom: 22px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.35rem;
+        z-index: 4;
+        text-decoration: none;
+        animation: heroBounce 2s infinite;
+        transition: color 0.2s ease;
+    }
+    .hero-scroll-down:hover {
+        color: #ffffff;
+    }
+    @keyframes heroBounce {
+        0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+        40% { transform: translate(-50%, -8px); }
+        60% { transform: translate(-50%, -4px); }
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            min-height: calc(100vh - 65px) !important;
+            padding: 60px 0 80px !important;
+        }
+    }
+
+    /* Hero Live Timestamp Widget */
+    .hero-timestamp {
+        margin-bottom: 2rem;
+        max-width: 680px;
+    }
+
+    .hero-pst-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        background: rgba(9, 61, 37, 0.45);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 50px;
+        padding: 0.55rem 1.35rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .hero-pst-pill .pst-clock {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #ffffff;
+        letter-spacing: 0.3px;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-pst-pill .pst-date {
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+    .hero-pst-pill .pst-sep {
+        color: var(--accent-color, #fbbf24);
+        opacity: 0.85;
+        font-weight: 700;
+    }
+
+    .hero-pst-pill .pst-time {
+        color: #fef08a;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+    }
+
+    @media (max-width: 768px) {
+        .hero-pst-pill {
+            border-radius: 16px;
+            padding: 0.65rem 0.9rem;
+            gap: 0.5rem;
+        }
+        .hero-pst-pill .pst-clock {
+            font-size: 0.92rem;
+            flex-wrap: wrap;
+        }
     }
     </style>
 </head>
@@ -332,15 +414,16 @@ if (!$captain_found || empty($captain_photo)) {
 
     <main>
         <!-- Hero Section -->
-        <section class="hero-section" id="hero-section" data-speed="<?= $hero_speed ?>">
-            <!-- Background Slideshow Container (Only the background image transitions) -->
-            <div class="hero-bg-container">
-                <?php foreach ($hero_slides as $i => $slide_path): ?>
-                    <div class="hero-bg-slide <?= $i === 0 ? 'active' : '' ?>" style="background-image: url('<?= htmlspecialchars($slide_path) ?>');"></div>
-                <?php endforeach; ?>
+        <section class="hero-section" id="hero-section">
+            <!-- Background Video (Autoplay, Muted, Loop) -->
+            <div class="hero-video-container">
+                <video class="hero-bg-video" autoplay muted loop playsinline preload="auto" poster="public/image/Maruing.png">
+                    <source src="Video/Homepage.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
 
-            <!-- Signature Green Gradient Overlay -->
+            <!-- Dark High-Contrast Overlay for Text Visibility -->
             <div class="hero-overlay"></div>
 
             <div class="container hero-container">
@@ -349,15 +432,28 @@ if (!$captain_found || empty($captain_photo)) {
                         <span class="hero-script-lead">Welcome to</span>
                         <span class="hero-title-main">BARANGAY MARUING</span>
                     </h1>
-                    <p class="hero-lead" data-aos="fade-up" data-aos-delay="100">Your trusted source for barangay governance, community information, and public service.</p>
+                    <!-- Real-time Philippine Standard Time (PST) Timestamp -->
+                    <div class="hero-timestamp" data-aos="fade-up" data-aos-delay="100">
+                        <div class="hero-pst-pill">
+                            <i class="bi bi-clock-history" style="color: var(--accent-color, #fbbf24); font-size: 1.05rem;"></i>
+                            <span class="pst-clock" id="heroLiveTimestamp">
+                                <span class="pst-date"><?= date('l, F j, Y') ?></span>
+                                <span class="pst-sep">•</span>
+                                <span class="pst-time"><?= date('h:i:s A') ?></span>
+                            </span>
+                        </div>
+                    </div>
                     <div class="hero-buttons" data-aos="fade-up" data-aos-delay="200">
                         <a href="about.php" class="btn-hero-primary">Explore Information <i
-                                class="bi bi-arrow-right"></i></a>
-                        <a href="officials.php" class="btn-hero-outline">Meet Officials <i
                                 class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
+
+            <!-- Fullscreen Video Scroll Indicator -->
+            <a href="#officials-section" class="hero-scroll-down" title="Explore Content">
+                <i class="bi bi-chevron-double-down"></i>
+            </a>
         </section>
 
         <section class="landing-officials-section" id="officials-section" style="padding: 5rem 0; background-color: var(--background-color, #f8faf9);">
@@ -763,191 +859,68 @@ if (!$captain_found || empty($captain_photo)) {
     
                 </div>
     
-                <!-- Right Column: Chat Interface -->
-                <div class="contact-form-col" data-aos="fade-left" id="chat-widget-container">
-                    <?php $has_chat = !empty($_SESSION['chat_user_name']); ?>
-                    <div id="start-chat-container" style="<?php echo $has_chat ? 'display:none;' : ''; ?>">
-                        <h2>Start a Live Chat</h2>
-                        <form id="start-chat-form">
-                            <div class="form-group">
-                                <label>Your Name</label>
-                                <input type="text" id="chat-name" class="form-control" placeholder="Enter your name" required>
+                <!-- Right Column: Inquiry / Contact Form -->
+                <div class="contact-form-col" data-aos="fade-left" id="inquiry-widget-container">
+                    
+                    <!-- Inquiry Input Form -->
+                    <div id="inquiry-form-card" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:2rem; box-shadow:0 4px 15px rgba(0,0,0,0.03);">
+                        <h2 style="font-size:1.5rem; font-weight:700; color:#093d25; margin-bottom:0.4rem;">Send Us an Inquiry</h2>
+                        <p style="color:#64748b; font-size:0.88rem; line-height:1.5; margin-bottom:1.5rem;">
+                            Have concerns, questions, or document requests? Fill out the form below. The Barangay Administration will review your message and <strong>reply directly to your Gmail / email address</strong>.
+                        </p>
+
+                        <form id="resident-inquiry-form">
+                            <div class="form-group" style="margin-bottom:1.1rem;">
+                                <label style="display:block; font-weight:600; font-size:0.86rem; color:#1e293b; margin-bottom:0.35rem;">Your Name <span style="color:#ef4444;">*</span></label>
+                                <input type="text" id="inquiry-name" class="form-control" placeholder="Enter your full name" required style="width:100%; padding:0.75rem 1rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem;">
                             </div>
-                            <div class="form-group">
-                                <label>Email Address</label>
-                                <input type="email" id="chat-email" class="form-control" placeholder="Enter your email (to receive requested documents)" required>
+                            <div class="form-group" style="margin-bottom:1.1rem;">
+                                <label style="display:block; font-weight:600; font-size:0.86rem; color:#1e293b; margin-bottom:0.35rem;">Gmail / Email Address <span style="color:#ef4444;">*</span></label>
+                                <input type="email" id="inquiry-email" class="form-control" placeholder="e.g. yourname@gmail.com" required style="width:100%; padding:0.75rem 1rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem;">
+                                <small style="display:block; color:#059669; font-size:0.78rem; margin-top:0.3rem;"><i class="bi bi-info-circle-fill"></i> Admin will send their official reply to this Gmail address.</small>
                             </div>
-                            <div class="form-group">
-                                <label>Service Type</label>
-                                <select id="chat-service-type" class="form-control" required>
-                                    <option value="" disabled selected>Select service</option>
+                            <div class="form-group" style="margin-bottom:1.1rem;">
+                                <label style="display:block; font-weight:600; font-size:0.86rem; color:#1e293b; margin-bottom:0.35rem;">Service Type / Subject <span style="color:#ef4444;">*</span></label>
+                                <select id="inquiry-service-type" class="form-control" required style="width:100%; padding:0.75rem 1rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem;">
+                                    <option value="" disabled selected>Select service or category</option>
                                     <option value="Barangay Clearance">Barangay Clearance</option>
                                     <option value="Certificate of Indigency">Certificate of Indigency</option>
                                     <option value="Business Clearance">Business Clearance</option>
                                     <option value="Certificate of Residency">Certificate of Residency</option>
-                                    <option value="Other Inquiry">Other Inquiry</option>
+                                    <option value="General Inquiry / Feedback">General Inquiry / Feedback</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label>Initial Message</label>
-                                <textarea id="chat-initial-message" class="form-control" placeholder="How can we help you?" rows="4" required></textarea>
+                            <div class="form-group" style="margin-bottom:1.4rem;">
+                                <label style="display:block; font-weight:600; font-size:0.86rem; color:#1e293b; margin-bottom:0.35rem;">Your Message / Request Details <span style="color:#ef4444;">*</span></label>
+                                <textarea id="inquiry-message" class="form-control" placeholder="Write your questions, requirements, or concern details here..." rows="4" required style="width:100%; padding:0.75rem 1rem; border:1px solid #cbd5e1; border-radius:8px; font-size:0.9rem; resize:vertical;"></textarea>
                             </div>
-                            <button type="submit" class="btn-submit">Start Chat</button>
+                            <button type="submit" id="btn-submit-inquiry" class="btn-submit" style="width:100%; padding:0.85rem; border-radius:8px; font-weight:700; font-size:0.95rem; display:flex; align-items:center; justify-content:center; gap:8px;">
+                                <i class="bi bi-send-fill" id="submit-icon"></i>
+                                <span id="submit-label">Send Inquiry</span>
+                            </button>
                         </form>
                     </div>
 
-                    <div id="live-chat-container" style="<?php echo $has_chat ? '' : 'display:none;'; ?>">
-                        <h2>Live Chat Support</h2>
-                        <div id="live-chat-box" style="border: 1px solid #e2e8f0; border-radius: 10px; height: 400px; display: flex; flex-direction: column; background: #fff;">
-                            <div id="chat-messages" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #f8faf9;">
-                                <!-- Messages will be loaded here via AJAX -->
-                            </div>
-                            <div style="padding: 15px; border-top: 1px solid #e2e8f0; display: flex; gap: 10px;">
-                                <input type="text" id="chat-reply-input" class="form-control" placeholder="Type a message..." style="margin-bottom:0;">
-                                <button id="chat-reply-btn" class="btn-submit" style="width: auto; padding: 0.8rem 1.5rem; margin-top:0;">Send</button>
-                            </div>
+                    <!-- Clean Confirmation State (After Sending) -->
+                    <div id="inquiry-success-card" style="display:none; text-align:center; padding:2.5rem 1.75rem; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.04);">
+                        <div style="width:68px; height:68px; border-radius:50%; background:#dcfce7; color:#16a34a; font-size:2.2rem; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem auto;">
+                            <i class="bi bi-check-circle-fill"></i>
                         </div>
+                        <h3 style="font-size:1.35rem; color:#093d25; font-weight:700; margin-bottom:0.5rem;">Inquiry Sent Successfully!</h3>
+                        <p style="color:#475569; font-size:0.92rem; line-height:1.6; max-width:440px; margin:0 auto 1.25rem auto;">
+                            Thank you, <strong id="success-user-name">Resident</strong>! Your inquiry has been verified and received by Barangay Maruing. Our officers will review your message and reply directly to your Gmail address at:
+                            <br><span style="display:inline-block; margin-top:8px; background:#eff6ff; color:#1d4ed8; font-weight:700; padding:4px 14px; border-radius:20px; border:1px solid #bfdbfe;" id="success-user-email">email@gmail.com</span>
+                        </p>
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px 16px; margin-bottom:1.5rem; font-size:0.84rem; color:#64748b; line-height:1.45;">
+                            <i class="bi bi-envelope-check-fill" style="color:#ea4335; margin-right:5px;"></i>
+                            Please check your Gmail inbox and Spam/Junk folder for our official response.
+                        </div>
+                        <button type="button" id="btn-send-another" class="btn-submit" style="width:auto; padding:0.75rem 1.8rem; margin:0 auto; display:inline-flex; align-items:center; gap:8px;">
+                            <i class="bi bi-pencil-square"></i> Send Another Inquiry
+                        </button>
                     </div>
+
                 </div>
-
-                <script>
-                const threadId = "<?php echo $_SESSION['chat_thread_id']; ?>";
-                let currentUserName = "<?php echo $_SESSION['chat_user_name'] ?? ''; ?>";
-
-                document.addEventListener('DOMContentLoaded', () => {
-                    const startForm = document.getElementById('start-chat-form');
-                    
-                    function bindChatEvents(name) {
-                        currentUserName = name;
-                        fetchMessages();
-                        setInterval(fetchMessages, 3000);
-
-                        const replyBtn = document.getElementById('chat-reply-btn');
-                        const replyInput = document.getElementById('chat-reply-input');
-                        if (replyBtn && replyInput) {
-                            replyBtn.addEventListener('click', () => {
-                                if (replyInput.value.trim() !== '') {
-                                    sendChatMessage(currentUserName, replyInput.value.trim(), () => {
-                                        replyInput.value = '';
-                                        fetchMessages();
-                                    });
-                                }
-                            });
-                            
-                            replyInput.addEventListener('keypress', function(e) {
-                                if (e.key === 'Enter') {
-                                    e.preventDefault();
-                                    replyBtn.click();
-                                }
-                            });
-                        }
-                    }
-
-                    if (startForm) {
-                        startForm.addEventListener('submit', function(e) {
-                            e.preventDefault();
-                            const name = document.getElementById('chat-name').value.trim();
-                            const emailInput = document.getElementById('chat-email');
-                            const email = emailInput ? emailInput.value.trim() : '';
-                            const serviceTypeSelect = document.getElementById('chat-service-type');
-                            const serviceType = serviceTypeSelect.options[serviceTypeSelect.selectedIndex].text;
-                            const rawMessage = document.getElementById('chat-initial-message').value.trim();
-                            const message = `[Service: ${serviceType}]\n\n${rawMessage}`;
-
-                            fetch('set_chat_session.php', {
-                                method: 'POST',
-                                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                                body: 'name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email)
-                            }).then(() => {
-                                sendChatMessage(name, message, () => {
-                                    document.getElementById('start-chat-container').style.display = 'none';
-                                    document.getElementById('live-chat-container').style.display = 'block';
-                                    bindChatEvents(name);
-                                }, email);
-                            });
-                        });
-                    }
-
-                    if (currentUserName && document.getElementById('live-chat-container').style.display !== 'none') {
-                        bindChatEvents(currentUserName);
-                    }
-                });
-
-                function sendChatMessage(senderName, message, callback, userEmail = '') {
-                    const formData = new URLSearchParams();
-                    formData.append('thread_id', threadId);
-                    formData.append('sender_name', senderName);
-                    if (userEmail) formData.append('email', userEmail);
-                    formData.append('sender_type', 'user');
-                    formData.append('message', message);
-
-                    fetch('api/chat_send.php', {
-                        method: 'POST',
-                        body: formData
-                    }).then(r => r.json()).then(res => {
-                        if (res.status === 'success' && callback) callback();
-                    });
-                }
-
-                function fetchMessages() {
-                    fetch(`api/chat_fetch.php?thread_id=${threadId}&reader_type=user`)
-                        .then(r => r.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                const container = document.getElementById('chat-messages');
-                                container.innerHTML = '';
-                                data.messages.forEach(msg => {
-                                    const isUser = msg.sender_type === 'user';
-                                    const msgDiv = document.createElement('div');
-                                    msgDiv.style.maxWidth = '75%';
-                                    msgDiv.style.padding = '10px 15px';
-                                    msgDiv.style.borderRadius = '10px';
-                                    msgDiv.style.fontSize = '0.9rem';
-                                    
-                                    if (isUser) {
-                                        msgDiv.style.alignSelf = 'flex-end';
-                                        msgDiv.style.backgroundColor = '#137547';
-                                        msgDiv.style.color = '#fff';
-                                        msgDiv.style.borderBottomRightRadius = '0';
-                                    } else {
-                                        msgDiv.style.alignSelf = 'flex-start';
-                                        msgDiv.style.backgroundColor = '#e2e8f0';
-                                        msgDiv.style.color = '#1e293b';
-                                        msgDiv.style.borderBottomLeftRadius = '0';
-                                    }
-                                    
-                                    let attachmentHtml = '';
-                                    if (msg.file_attachment) {
-                                        const ext = msg.file_name ? msg.file_name.split('.').pop().toLowerCase() : '';
-                                        let iconClass = 'bi-file-earmark-arrow-down-fill';
-                                        if (['jpg', 'jpeg', 'png'].includes(ext)) iconClass = 'bi-file-earmark-image-fill';
-                                        if (['pdf'].includes(ext)) iconClass = 'bi-file-earmark-pdf-fill';
-                                        if (['doc', 'docx'].includes(ext)) iconClass = 'bi-file-earmark-word-fill';
-
-                                        attachmentHtml = `
-                                            <div style="margin-top: 8px; padding: 8px 12px; background: ${isUser ? 'rgba(255,255,255,0.15)' : '#ffffff'}; border-radius: 8px; border: 1px solid ${isUser ? 'rgba(255,255,255,0.25)' : '#cbd5e1'}; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-                                                <div style="display: flex; align-items: center; gap: 6px; overflow: hidden;">
-                                                    <i class="bi ${iconClass}" style="font-size: 1.25rem; color: ${isUser ? '#ffffff' : '#137547'}; flex-shrink: 0;"></i>
-                                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.82rem; font-weight: 600;">
-                                                        ${msg.file_name || 'Document File'}
-                                                    </div>
-                                                </div>
-                                                <a href="${msg.file_attachment}" download="${msg.file_name || 'document'}" style="background: ${isUser ? '#ffffff' : '#137547'}; color: ${isUser ? '#137547' : '#ffffff'}; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-decoration: none; flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px;">
-                                                    <i class="bi bi-download"></i> Save
-                                                </a>
-                                            </div>
-                                        `;
-                                    }
-                                    
-                                    msgDiv.innerHTML = `<strong>${msg.sender_name}</strong><br>${msg.message}${attachmentHtml}<div style="font-size:0.7rem; margin-top:5px; opacity:0.8; text-align:right;">${msg.created_at}</div>`;
-                                    container.appendChild(msgDiv);
-                                });
-                                container.scrollTop = container.scrollHeight;
-                            }
-                        });
-                }
-                </script>
-                
             </div>
         </div>
     </section>
@@ -1183,10 +1156,46 @@ if (!$captain_found || empty($captain_photo)) {
           }, intervalMs);
       }
 
+      // Real-time Philippine Standard Time (PST) Live Clock
+      function initHeroLiveTimestamp() {
+          const clockEl = document.getElementById('heroLiveTimestamp');
+          if (!clockEl) return;
+
+          function updateClock() {
+              const now = new Date();
+              const dateOptions = {
+                  timeZone: 'Asia/Manila',
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+              };
+              const timeOptions = {
+                  timeZone: 'Asia/Manila',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  hour12: true
+              };
+
+              const dateStr = new Intl.DateTimeFormat('en-US', dateOptions).format(now);
+              const timeStr = new Intl.DateTimeFormat('en-US', timeOptions).format(now);
+
+              clockEl.innerHTML = '<span class="pst-date">' + dateStr + '</span> <span class="pst-sep">•</span> <span class="pst-time">' + timeStr + '</span>';
+          }
+
+          updateClock();
+          setInterval(updateClock, 1000);
+      }
+
       if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initHeroBackgroundSlideshow);
+          document.addEventListener('DOMContentLoaded', function() {
+              initHeroBackgroundSlideshow();
+              initHeroLiveTimestamp();
+          });
       } else {
           initHeroBackgroundSlideshow();
+          initHeroLiveTimestamp();
       }
 
       document.addEventListener('DOMContentLoaded', function() {
@@ -1197,6 +1206,571 @@ if (!$captain_found || empty($captain_photo)) {
         });
         initHomeGalleryItems();
       });
+    </script>
+    <!-- Exact Pop-Up OTP Modal (Barangay Maruing Color Scheme) -->
+    <div class="gmail-otp-modal-backdrop" id="gmail-otp-modal-backdrop" style="display:none !important;">
+        <div class="gmail-otp-modal-box">
+            <!-- Close 'X' Button -->
+            <button type="button" class="gmail-otp-close-btn" id="btn-modal-otp-close" aria-label="Close">&times;</button>
+
+            <!-- Shield Icon in Circle (Civic Emerald Mint) -->
+            <div class="gmail-otp-shield-icon-circle">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="#137547">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                </svg>
+            </div>
+
+            <!-- Italic Serif Title in Brand Deep Green -->
+            <h2 class="gmail-otp-title">Gmail OTP Verification</h2>
+
+            <!-- Subtitle Description -->
+            <p class="gmail-otp-desc">
+                We sent a 6-digit verification OTP to <strong id="modal-otp-target-email">user@gmail.com</strong>.
+                Please check your Inbox or Spam folder, then enter the OTP below to confirm your request:
+            </p>
+
+            <!-- 6 Individual Input Boxes -->
+            <div class="gmail-otp-boxes-group" id="gmail-otp-boxes-group">
+                <input type="text" class="gmail-otp-digit-box" maxlength="1" data-index="0" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+                <input type="text" class="gmail-otp-digit-box" maxlength="1" data-index="1" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" class="gmail-otp-digit-box" maxlength="1" data-index="2" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" class="gmail-otp-digit-box" maxlength="1" data-index="3" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" class="gmail-otp-digit-box" maxlength="1" data-index="4" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" class="gmail-otp-digit-box" maxlength="1" data-index="5" inputmode="numeric" pattern="[0-9]*">
+            </div>
+
+            <!-- Expiration & Resend Pill Bar -->
+            <div class="gmail-otp-pill-bar">
+                <span class="gmail-otp-pill-timer">
+                    <i class="bi bi-clock-history"></i> Expires in: <strong id="modal-otp-timer-text">03:00</strong>
+                </span>
+                <button type="button" class="gmail-otp-pill-resend-btn" id="btn-modal-resend-otp" disabled>
+                    <i class="bi bi-arrow-clockwise"></i> Resend (<span id="modal-resend-sec-text">30s</span>)
+                </button>
+            </div>
+
+            <!-- Full-Width Brand Emerald Verification Button -->
+            <button type="button" class="gmail-otp-submit-btn" id="btn-modal-submit-verify">
+                <i class="bi bi-patch-check-fill" id="modal-submit-verify-icon"></i>
+                <span id="modal-submit-verify-label">Verify &amp; Submit Request</span>
+            </button>
+
+            <!-- Error Message Alert -->
+            <div id="modal-otp-error-alert" class="gmail-otp-error-alert" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- Pop-Up Modal Styling (Barangay Maruing Color Palette) -->
+    <style>
+        .gmail-otp-modal-backdrop {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: rgba(9, 61, 37, 0.72) !important; /* Brand dark forest overlay */
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            z-index: 9999999 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: otpBackdropFadeIn 0.2s ease-out;
+        }
+
+        @keyframes otpBackdropFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .gmail-otp-modal-box {
+            position: relative !important;
+            background: #ffffff !important;
+            border-radius: 28px !important;
+            padding: 38px 32px 34px 32px !important;
+            max-width: 440px !important;
+            width: 100% !important;
+            box-shadow: 0 25px 50px -12px rgba(9, 61, 37, 0.35), 0 0 0 1px rgba(19, 117, 71, 0.12) !important;
+            text-align: center !important;
+            animation: otpModalScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10000000 !important;
+        }
+
+        @keyframes otpModalScaleIn {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .gmail-otp-close-btn {
+            position: absolute !important;
+            top: 20px !important;
+            right: 20px !important;
+            width: 34px !important;
+            height: 34px !important;
+            border-radius: 50% !important;
+            background: #f1f5f9 !important;
+            color: #64748b !important;
+            border: 1px solid #e2e8f0 !important;
+            cursor: pointer !important;
+            font-size: 17px !important;
+            line-height: 1 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .gmail-otp-close-btn:hover {
+            background: #e8f5ee !important;
+            color: #093d25 !important;
+            border-color: #a7f3d0 !important;
+        }
+
+        .gmail-otp-shield-icon-circle {
+            width: 72px !important;
+            height: 72px !important;
+            border-radius: 50% !important;
+            background: linear-gradient(135deg, #e8f5ee 0%, #d1fae5 100%) !important;
+            border: 1.5px solid #a7f3d0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 auto 16px auto !important;
+            box-shadow: 0 6px 14px rgba(19, 117, 71, 0.15) !important;
+        }
+
+        .gmail-otp-title {
+            font-family: 'Playfair Display', Georgia, serif !important;
+            font-style: italic !important;
+            font-weight: 700 !important;
+            font-size: 29px !important;
+            color: #093d25 !important; /* Brand dark green */
+            margin: 0 0 10px 0 !important;
+            letter-spacing: -0.3px !important;
+        }
+
+        .gmail-otp-desc {
+            font-size: 13.5px !important;
+            line-height: 1.55 !important;
+            color: #475569 !important;
+            margin: 0 0 24px 0 !important;
+        }
+
+        .gmail-otp-desc strong {
+            color: #093d25 !important;
+            font-weight: 700 !important;
+            background: #e8f5ee !important;
+            padding: 2px 8px !important;
+            border-radius: 6px !important;
+            border: 1px solid #d1fae5 !important;
+            word-break: break-all !important;
+            display: inline-block !important;
+        }
+
+        .gmail-otp-boxes-group {
+            display: flex !important;
+            justify-content: center !important;
+            gap: 10px !important;
+            margin-bottom: 22px !important;
+        }
+
+        .gmail-otp-digit-box {
+            width: 48px !important;
+            height: 56px !important;
+            border: 1.5px solid #cbd5e1 !important;
+            border-radius: 12px !important;
+            text-align: center !important;
+            font-size: 24px !important;
+            font-weight: 800 !important;
+            color: #093d25 !important; /* Emerald digit */
+            background: #ffffff !important;
+            outline: none !important;
+            transition: all 0.15s ease !important;
+            -webkit-appearance: none !important;
+            margin: 0 !important;
+            font-family: 'Courier New', monospace !important;
+        }
+
+        .gmail-otp-digit-box:focus {
+            border-color: #137547 !important;
+            box-shadow: 0 0 0 3px rgba(19, 117, 71, 0.22) !important;
+            background: #f0fdf4 !important;
+        }
+
+        .gmail-otp-pill-bar {
+            background: #f7faf8 !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 12px !important;
+            padding: 10px 16px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-bottom: 22px !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+        }
+
+        .gmail-otp-pill-timer {
+            color: #093d25 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .gmail-otp-pill-timer i {
+            color: #137547 !important;
+            font-size: 1rem !important;
+        }
+
+        .gmail-otp-pill-resend-btn {
+            background: none !important;
+            border: none !important;
+            color: #94a3b8 !important;
+            font-weight: 600 !important;
+            font-size: 13.5px !important;
+            cursor: not-allowed !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            transition: all 0.2s ease !important;
+            padding: 0 !important;
+        }
+
+        .gmail-otp-pill-resend-btn.active {
+            color: #137547 !important;
+            font-weight: 700 !important;
+            cursor: pointer !important;
+            text-decoration: underline !important;
+        }
+
+        .gmail-otp-pill-resend-btn.active:hover {
+            color: #093d25 !important;
+        }
+
+        .gmail-otp-submit-btn {
+            width: 100% !important;
+            padding: 14px 22px !important;
+            border-radius: 30px !important;
+            background: linear-gradient(135deg, #137547 0%, #093d25 100%) !important; /* Brand Emerald Gradient */
+            color: #ffffff !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.3px !important;
+            border: none !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            box-shadow: 0 6px 18px rgba(19, 117, 71, 0.32) !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .gmail-otp-submit-btn #modal-submit-verify-icon {
+            color: #ffc107 !important; /* Gold badge check */
+            font-size: 1.15rem !important;
+        }
+
+        .gmail-otp-submit-btn:hover {
+            background: linear-gradient(135deg, #0e5936 0%, #062b1a 100%) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 24px rgba(9, 61, 37, 0.45) !important;
+        }
+
+        .gmail-otp-submit-btn:disabled {
+            opacity: 0.65 !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+        }
+
+        .gmail-otp-error-alert {
+            color: #dc2626 !important;
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            border-radius: 8px !important;
+            padding: 8px 12px !important;
+            font-size: 12.5px !important;
+            font-weight: 600 !important;
+            margin-top: 14px !important;
+        }
+    </style>
+
+        .gmail-otp-error-alert {
+            color: #dc2626 !important;
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            border-radius: 8px !important;
+            padding: 8px 12px !important;
+            font-size: 12.5px !important;
+            font-weight: 600 !important;
+            margin-top: 14px !important;
+        }
+    </style>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inquiryForm = document.getElementById('resident-inquiry-form');
+        const formCard = document.getElementById('inquiry-form-card');
+        const successCard = document.getElementById('inquiry-success-card');
+        const submitBtn = document.getElementById('btn-submit-inquiry');
+        const submitIcon = document.getElementById('submit-icon');
+        const submitLabel = document.getElementById('submit-label');
+        const btnSendAnother = document.getElementById('btn-send-another');
+
+        // Modal Elements
+        const modalBackdrop = document.getElementById('gmail-otp-modal-backdrop');
+        const modalCloseBtn = document.getElementById('btn-modal-otp-close');
+        const modalEmailDisplay = document.getElementById('modal-otp-target-email');
+        const otpBoxes = document.querySelectorAll('.gmail-otp-digit-box');
+        const modalTimerText = document.getElementById('modal-otp-timer-text');
+        const modalResendBtn = document.getElementById('btn-modal-resend-otp');
+        const modalVerifyBtn = document.getElementById('btn-modal-submit-verify');
+        const modalVerifyIcon = document.getElementById('modal-submit-verify-icon');
+        const modalVerifyLabel = document.getElementById('modal-submit-verify-label');
+        const modalErrorAlert = document.getElementById('modal-otp-error-alert');
+
+        let pendingInquiryData = null;
+        let expiryTimerInterval = null;
+        let resendTimerInterval = null;
+        let expirySecondsLeft = 180;
+        let resendSecondsLeft = 30;
+
+        // Open Pop-Up Modal
+        function openOtpModal(email) {
+            modalEmailDisplay.textContent = email;
+            modalErrorAlert.style.display = 'none';
+            otpBoxes.forEach(box => box.value = '');
+            modalBackdrop.style.setProperty('display', 'flex', 'important');
+            setTimeout(() => {
+                if (otpBoxes[0]) otpBoxes[0].focus();
+            }, 100);
+
+            startExpiryCountdown(180);
+            startResendCountdown(30);
+        }
+
+        // Close Pop-Up Modal
+        function closeOtpModal() {
+            modalBackdrop.style.setProperty('display', 'none', 'important');
+            clearInterval(expiryTimerInterval);
+            clearInterval(resendTimerInterval);
+        }
+
+        modalCloseBtn.addEventListener('click', closeOtpModal);
+        modalBackdrop.addEventListener('click', (e) => {
+            if (e.target === modalBackdrop) closeOtpModal();
+        });
+
+        // 180-second Expiration Countdown
+        function startExpiryCountdown(sec) {
+            clearInterval(expiryTimerInterval);
+            expirySecondsLeft = sec;
+            function updateExpiry() {
+                const m = String(Math.floor(expirySecondsLeft / 60)).padStart(2, '0');
+                const s = String(expirySecondsLeft % 60).padStart(2, '0');
+                modalTimerText.textContent = `${m}:${s}`;
+                if (expirySecondsLeft <= 0) {
+                    clearInterval(expiryTimerInterval);
+                    modalTimerText.textContent = 'Expired';
+                    showOtpError('Your OTP code has expired. Please click "Resend" to get a new code.');
+                } else {
+                    expirySecondsLeft--;
+                }
+            }
+            updateExpiry();
+            expiryTimerInterval = setInterval(updateExpiry, 1000);
+        }
+
+        // 30-second Resend Timer
+        function startResendCountdown(sec) {
+            clearInterval(resendTimerInterval);
+            resendSecondsLeft = sec;
+            modalResendBtn.disabled = true;
+            modalResendBtn.classList.remove('active');
+            modalResendBtn.innerHTML = `<i class="bi bi-arrow-clockwise"></i> Resend (<span id="modal-resend-sec-text">${resendSecondsLeft}s</span>)`;
+
+            resendTimerInterval = setInterval(() => {
+                resendSecondsLeft--;
+                const span = document.getElementById('modal-resend-sec-text');
+                if (span) span.textContent = `${resendSecondsLeft}s`;
+
+                if (resendSecondsLeft <= 0) {
+                    clearInterval(resendTimerInterval);
+                    modalResendBtn.disabled = false;
+                    modalResendBtn.classList.add('active');
+                    modalResendBtn.innerHTML = `<i class="bi bi-arrow-clockwise"></i> Resend Code`;
+                }
+            }, 1000);
+        }
+
+        function showOtpError(msg) {
+            modalErrorAlert.textContent = msg;
+            modalErrorAlert.style.display = 'block';
+        }
+
+        // 6-Digit Box Navigation (Auto-advance & Backspace)
+        otpBoxes.forEach((box, index) => {
+            box.addEventListener('input', (e) => {
+                const val = box.value.replace(/[^0-9]/g, '');
+                box.value = val ? val.charAt(0) : '';
+
+                if (box.value && index < otpBoxes.length - 1) {
+                    otpBoxes[index + 1].focus();
+                }
+            });
+
+            box.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !box.value && index > 0) {
+                    otpBoxes[index - 1].focus();
+                }
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    modalVerifyBtn.click();
+                }
+            });
+
+            box.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim();
+                const digits = pasteData.replace(/[^0-9]/g, '').slice(0, 6);
+                if (digits.length > 0) {
+                    digits.split('').forEach((d, i) => {
+                        if (otpBoxes[i]) otpBoxes[i].value = d;
+                    });
+                    const focusIdx = Math.min(digits.length, otpBoxes.length - 1);
+                    otpBoxes[focusIdx].focus();
+                }
+            });
+        });
+
+        // Send OTP Request to API
+        function dispatchOtp() {
+            if (!pendingInquiryData) return;
+
+            submitBtn.disabled = true;
+            submitIcon.className = 'bi bi-arrow-repeat';
+            submitIcon.style.animation = 'spin 1s linear infinite';
+            submitLabel.textContent = 'Sending OTP to Gmail...';
+            modalErrorAlert.style.display = 'none';
+
+            const formData = new URLSearchParams();
+            formData.append('fullName', pendingInquiryData.name);
+            formData.append('email', pendingInquiryData.email);
+            formData.append('service_type', pendingInquiryData.serviceType);
+            formData.append('message', pendingInquiryData.message);
+
+            fetch('api/send_otp.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res && res.status === 'success') {
+                    openOtpModal(pendingInquiryData.email);
+                    if (res.dev_otp) {
+                        console.log('DEV OTP Fallback:', res.dev_otp);
+                    }
+                } else {
+                    alert(res.message || 'Could not send verification code to your Gmail.');
+                }
+            })
+            .catch(() => {
+                alert('Network connection error. Please try again.');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitIcon.className = 'bi bi-send-fill';
+                submitIcon.style.animation = 'none';
+                submitLabel.textContent = 'Send Inquiry';
+            });
+        }
+
+        // 1. Submit Inquiry Form -> Triggers Pop-Up OTP
+        if (inquiryForm) {
+            inquiryForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('inquiry-name').value.trim();
+                const email = document.getElementById('inquiry-email').value.trim();
+                const serviceSelect = document.getElementById('inquiry-service-type');
+                const serviceType = serviceSelect.options[serviceSelect.selectedIndex].text;
+                const message = document.getElementById('inquiry-message').value.trim();
+
+                if (!name || !email || !message) return;
+
+                pendingInquiryData = { name, email, serviceType, message };
+                dispatchOtp();
+            });
+        }
+
+        // 2. Resend Code
+        modalResendBtn.addEventListener('click', () => {
+            if (modalResendBtn.disabled) return;
+            dispatchOtp();
+        });
+
+        // 3. Verify OTP & Submit Request
+        modalVerifyBtn.addEventListener('click', () => {
+            let enteredCode = '';
+            otpBoxes.forEach(box => enteredCode += box.value.trim());
+
+            if (enteredCode.length !== 6) {
+                showOtpError('Please enter all 6 digits of your OTP code.');
+                return;
+            }
+
+            modalVerifyBtn.disabled = true;
+            modalVerifyIcon.className = 'bi bi-arrow-repeat';
+            modalVerifyIcon.style.animation = 'spin 1s linear infinite';
+            modalVerifyLabel.textContent = 'Verifying...';
+            modalErrorAlert.style.display = 'none';
+
+            const formData = new URLSearchParams();
+            formData.append('email', pendingInquiryData.email);
+            formData.append('otp_code', enteredCode);
+
+            fetch('api/verify_otp.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res && res.status === 'success') {
+                    closeOtpModal();
+                    document.getElementById('success-user-name').textContent = pendingInquiryData.name;
+                    document.getElementById('success-user-email').textContent = pendingInquiryData.email;
+                    formCard.style.display = 'none';
+                    successCard.style.display = 'block';
+                    inquiryForm.reset();
+                    pendingInquiryData = null;
+                } else {
+                    showOtpError(res.message || 'Invalid verification code. Please check your Gmail.');
+                    otpBoxes.forEach(b => b.value = '');
+                    otpBoxes[0].focus();
+                }
+            })
+            .catch(() => {
+                showOtpError('Verification request failed. Please check your internet connection.');
+            })
+            .finally(() => {
+                modalVerifyBtn.disabled = false;
+                modalVerifyIcon.className = 'bi bi-check-circle-fill';
+                modalVerifyIcon.style.animation = 'none';
+                modalVerifyLabel.textContent = 'Verify & Submit Request';
+            });
+        });
+
+        // Send Another Inquiry Button
+        if (btnSendAnother) {
+            btnSendAnother.addEventListener('click', function() {
+                inquiryForm.reset();
+                successCard.style.display = 'none';
+                formCard.style.display = 'block';
+                document.getElementById('inquiry-name').focus();
+            });
+        }
+    });
     </script>
 </body>
 

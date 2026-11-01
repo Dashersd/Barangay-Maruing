@@ -308,17 +308,19 @@ a {
 /* 3. Hero Section Component (Fixed Desktop)                                         */
 /* -------------------------------------------------------------------------- */
 .hero-section {
-    background-color: #093d25;
+    background-color: #020c06;
     color: #ffffff;
     padding: 110px 0 140px;
+    padding: 80px 0 100px;
     position: relative;
     overflow: hidden;
-    min-height: 480px;
+    min-height: 500px;
+    min-height: calc(100vh - 75px);
     display: flex;
     align-items: center;
 }
 
-.hero-bg-container {
+.hero-video-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -327,26 +329,23 @@ a {
     z-index: 0;
     overflow: hidden;
     pointer-events: none;
+    background-color: #020c06;
 }
 
-.hero-bg-slide {
+.hero-bg-video {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
     width: 100%;
     height: 100%;
-    background-position: center right;
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 0;
-    transform: scale(1.03);
-    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 5s ease-out;
-    will-change: opacity, transform;
-}
-
-.hero-bg-slide.active {
-    opacity: 1;
-    transform: scale(1);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    object-position: center center;
+    z-index: 0;
 }
 
 .hero-overlay {
@@ -355,14 +354,44 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, rgba(9, 61, 37, 0.95) 0%, rgba(19, 117, 71, 0.84) 42%, rgba(19, 117, 71, 0.28) 75%, rgba(0, 0, 0, 0.08) 100%);
-    z-index: 1;
+    background: linear-gradient(90deg, rgba(2, 14, 8, 0.94) 0%, rgba(9, 61, 37, 0.85) 45%, rgba(0, 0, 0, 0.65) 100%);
+    z-index: 2;
     pointer-events: none;
+}
+
+.hero-scroll-down {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.35rem;
+    z-index: 4;
+    text-decoration: none;
+    animation: heroBounce 2s infinite;
+    transition: color 0.2s ease;
+}
+
+.hero-scroll-down:hover {
+    color: #ffffff;
+}
+
+@keyframes heroBounce {
+    0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+    40% { transform: translate(-50%, -8px); }
+    60% { transform: translate(-50%, -4px); }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: calc(100vh - 65px);
+        padding: 60px 0 80px;
+    }
 }
 
 .hero-container {
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
 .hero-content {
@@ -406,6 +435,67 @@ a {
     max-width: 620px;
     line-height: 1.6;
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Hero Live Timestamp Widget */
+.hero-timestamp {
+    margin-bottom: 2rem;
+    max-width: 680px;
+}
+
+.hero-pst-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: rgba(9, 61, 37, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 50px;
+    padding: 0.55rem 1.35rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+
+.hero-pst-pill .pst-clock {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.hero-pst-pill .pst-date {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.hero-pst-pill .pst-sep {
+    color: var(--accent-color, #fbbf24);
+    opacity: 0.85;
+    font-weight: 700;
+}
+
+.hero-pst-pill .pst-time {
+    color: #fef08a;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 768px) {
+    .hero-pst-pill {
+        border-radius: 16px;
+        padding: 0.65rem 0.9rem;
+        gap: 0.5rem;
+    }
+    .hero-pst-pill .pst-clock {
+        font-size: 0.92rem;
+        flex-wrap: wrap;
+    }
 }
 
 .hero-buttons {
