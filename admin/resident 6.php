@@ -18,7 +18,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/assets/css/style.css">
     
-    <link rel="stylesheet" href="Admin CSS/admin.css?v=2">
+    <link rel="stylesheet" href="Admin CSS/admin.css?v=12">
     <link rel="stylesheet" href="Admin CSS/resident 6.css">
 </head>
 <body>
@@ -212,7 +212,7 @@
             </div>
         </main>
     </div>
-    <script src="Admin JS/admin.js"></script>
+    <script src="Admin JS/admin.js?v=12"></script>
 </body>
 </html>
 

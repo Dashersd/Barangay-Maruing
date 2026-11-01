@@ -94,10 +94,11 @@ if ($target_file === 'legend') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Record</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #f8fafc; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        body { background: #f8fafc; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px 14px; box-sizing: border-box; } @media (max-width: 576px) { .edit-card { padding: 24px 18px !important; } h2 { font-size: 1.25rem !important; } }
         .edit-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 100%; max-width: 500px; }
         h2 { margin-top: 0; color: #1e293b; margin-bottom: 25px; }
         .form-group { margin-bottom: 20px; }

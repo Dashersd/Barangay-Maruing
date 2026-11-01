@@ -245,30 +245,57 @@
         }
 
         /* -------------------------------------------------------------------------- */
-        /* Admin Mobile Responsive Overrides                                          */
+        /* Admin Mobile Responsive Overrides (Complete UX/UI System)                  */
         /* -------------------------------------------------------------------------- */
 
         /* Admin Mobile Sidebar Toggle Button */
         .admin-mobile-toggle-btn {
             display: none;
-            background: transparent;
+            background: #f8fafc;
             border: 1px solid #cbd5e1;
             color: #093d25;
-            font-size: 1.4rem;
-            padding: 4px 10px;
-            border-radius: 8px;
+            font-size: 1.35rem;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 10px;
             cursor: pointer;
             line-height: 1;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
             margin-right: 12px;
+            flex-shrink: 0;
         }
 
-        .admin-mobile-toggle-btn:hover {
+        .admin-mobile-toggle-btn:hover,
+        .admin-mobile-toggle-btn:active {
             background: #e8f5ee;
             color: #137547;
             border-color: #a7f3d0;
+        }
+
+        /* Close Button Inside Mobile Sidebar Header */
+        .sidebar-mobile-close-btn {
+            display: none;
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            font-size: 1rem;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+
+        .sidebar-mobile-close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .sidebar-overlay-backdrop {
@@ -278,8 +305,9 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(9, 61, 37, 0.45);
+            background: rgba(9, 61, 37, 0.5);
             backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
             z-index: 99990;
             transition: opacity 0.25s ease;
         }
@@ -288,7 +316,17 @@
             display: block;
         }
 
+        /* ==========================================================================
+           Tablet & Mobile Drawer Breakpoint (<= 991px)
+           ========================================================================== */
         @media (max-width: 991px) {
+            html, body {
+                min-width: 0 !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+            }
+
             body {
                 position: relative;
                 flex-direction: column;
@@ -298,18 +336,23 @@
                 display: inline-flex !important;
             }
 
+            .sidebar-mobile-close-btn {
+                display: inline-flex !important;
+            }
+
             .sidebar {
                 position: fixed !important;
                 top: 0 !important;
                 left: 0 !important;
                 bottom: 0 !important;
                 height: 100vh !important;
-                width: 270px !important;
-                max-width: 82vw !important;
+                height: 100dvh !important;
+                width: 275px !important;
+                max-width: 84vw !important;
                 z-index: 99999 !important;
                 transform: translateX(-100%) !important;
-                transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-                box-shadow: 0 0 30px rgba(0, 0, 0, 0.4) !important;
+                transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+                box-shadow: 0 0 35px rgba(0, 0, 0, 0.45) !important;
                 overflow-y: auto !important;
                 -webkit-overflow-scrolling: touch;
             }
@@ -318,42 +361,471 @@
                 transform: translateX(0) !important;
             }
 
+            .sidebar-header {
+                position: relative !important;
+                padding: 16px 20px !important;
+            }
+
+            .sidebar-header img {
+                width: 58px !important;
+                height: 58px !important;
+                margin-bottom: 6px !important;
+            }
+
+            .sidebar-header h3 {
+                font-size: 1rem !important;
+            }
+
+            .sidebar-menu a {
+                padding: 13px 18px !important;
+                font-size: 0.92rem !important;
+            }
+
             .main-content {
                 width: 100% !important;
                 max-width: 100vw !important;
                 margin-left: 0 !important;
             }
 
+            /* Sticky App-Like Topbar on Mobile */
             .topbar {
-                padding: 12px 16px !important;
+                position: sticky !important;
+                top: 0 !important;
+                z-index: 1010 !important;
+                padding: 10px 16px !important;
+                background: rgba(255, 255, 255, 0.96) !important;
+                backdrop-filter: blur(8px) !important;
+                -webkit-backdrop-filter: blur(8px) !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+            }
+
+            .topbar-title {
+                display: flex !important;
+                align-items: center !important;
+                min-width: 0 !important;
+                flex: 1 !important;
             }
 
             .topbar-title h2 {
-                font-size: 1.15rem !important;
+                font-size: 1.1rem !important;
+                font-weight: 700 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
             }
 
             .topbar-user .user-info {
                 display: none !important;
             }
 
+            .topbar-user .user-avatar {
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 1rem !important;
+                flex-shrink: 0 !important;
+            }
+
             .dashboard-content {
                 padding: 16px !important;
             }
 
-            /* Stat Cards Grid Responsive */
-            .dashboard-grid,
+            /* Dashboard Two-Column Main Grid -> Stack */
+            .dashboard-grid {
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+            }
+
+            /* KPI Stats Grid: 2x2 on Tablet/Large Phone */
             .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 12px !important;
+                margin-bottom: 18px !important;
+            }
+
+            /* About Us Two-Column Grid -> Stack */
+            .about-grid {
+                grid-template-columns: 1fr !important;
+                gap: 18px !important;
+            }
+
+            /* Table Wrapping & Momentum Touch Scroll */
+            .table-responsive,
+            .admin-table-container,
+            .table-wrapper,
+            .admin-container {
+                width: 100% !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+        }
+
+        /* ==========================================================================
+           Phone Breakpoint (<= 768px) — Ergonomic Touch Targets & Card Reflow
+           ========================================================================== */
+        @media (max-width: 768px) {
+            /* Prevent iOS Safari auto-zoom when tapping inputs */
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            input[type="number"],
+            input[type="tel"],
+            input[type="url"],
+            input[type="search"],
+            input[type="date"],
+            select,
+            textarea,
+            .form-control {
+                font-size: 16px !important;
+            }
+
+            /* 1. Page Headers & Action Toolbars: Stack Title + Full-Width CTA */
+            .admin-header-row,
+            .category-header-card,
+            .settings-header-banner,
+            .gallery-nav-bar,
+            .legend-card-header {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 12px !important;
+                padding: 16px !important;
+            }
+
+            .admin-header-row {
+                padding: 0 !important;
+                margin-bottom: 16px !important;
+            }
+
+            .admin-header-row h2,
+            .category-main-title,
+            .settings-header-banner h2,
+            .page-header h3,
+            .purok-header h2 {
+                font-size: 1.35rem !important;
+                line-height: 1.25 !important;
+            }
+
+            .page-header {
+                margin-bottom: 20px !important;
+            }
+
+            .category-header-info {
+                min-width: 0 !important;
+                width: 100% !important;
+            }
+
+            .admin-header-row .btn-action,
+            .category-header-card > .btn-create-folder,
+            .settings-header-banner .btn-backup-download,
+            .gallery-nav-bar .btn-back-folders {
+                width: 100% !important;
+                justify-content: center !important;
+                min-height: 44px !important;
+                padding: 11px 16px !important;
+                font-size: 0.92rem !important;
+                text-align: center !important;
+            }
+
+            /* Media Gallery Folder Detail Action Bar (Rename / Delete / Upload) */
+            .folder-action-buttons {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 8px !important;
+                width: 100% !important;
+            }
+
+            .folder-action-buttons .btn-secondary-action,
+            .folder-action-buttons .btn-danger-action {
+                width: 100% !important;
+                justify-content: center !important;
+                padding: 10px 12px !important;
+                font-size: 0.85rem !important;
+            }
+
+            .folder-action-buttons .btn-create-folder {
+                grid-column: 1 / -1 !important;
+                width: 100% !important;
+                justify-content: center !important;
+                min-height: 44px !important;
+            }
+
+            /* Media Gallery Cards & Photo Grid */
+            .category-cards-grid {
                 grid-template-columns: 1fr !important;
                 gap: 14px !important;
             }
 
-            /* Table Wrapping */
-            .table-responsive,
-            .admin-table-container,
-            .table-wrapper {
+            .category-folder-card {
+                padding: 18px !important;
+            }
+
+            .media-container-white {
+                padding: 16px !important;
+                border-radius: 14px !important;
+            }
+
+            .media-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 12px !important;
+            }
+
+            /* 2. Dashboard KPI Cards & Analytics */
+            .stat-card {
+                padding: 14px !important;
+                border-radius: 12px !important;
+            }
+
+            .stat-card .stat-icon {
+                width: 42px !important;
+                height: 42px !important;
+                font-size: 1.25rem !important;
+                margin-right: 10px !important;
+                border-radius: 10px !important;
+            }
+
+            .stat-card .stat-info h4 {
+                font-size: 0.72rem !important;
+            }
+
+            .stat-card .stat-info h2 {
+                font-size: 1.45rem !important;
+            }
+
+            .stat-card .stat-info small {
+                font-size: 0.72rem !important;
+            }
+
+            .chart-container {
+                padding: 16px !important;
+                margin-bottom: 16px !important;
+                border-radius: 12px !important;
+            }
+
+            .purok-bar-header {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 6px !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                margin-bottom: 6px !important;
+            }
+
+            /* 3. Data Tables (Services, Announcements, Residents, Legends, Logs) */
+            .admin-container,
+            .records-card,
+            .legend-card,
+            .form-card,
+            .settings-card,
+            .purok-form-container {
+                padding: 16px !important;
+                border-radius: 12px !important;
+            }
+
+            .admin-table {
+                min-width: 680px !important;
+            }
+
+            .legends-table {
+                min-width: 600px !important;
+            }
+
+            .admin-table th,
+            .admin-table td,
+            .records-table th,
+            .records-table td,
+            .legends-table th,
+            .legends-table td,
+            .logs-table th,
+            .logs-table td {
+                padding: 10px 12px !important;
+                font-size: 0.85rem !important;
+            }
+
+            /* 4. Barangay & SK Officials Pyramid Org Chart -> Clean 2-Column Mobile Grid */
+            .org-chart-pyramid {
+                gap: 18px !important;
+                padding: 10px 0 !important;
                 width: 100% !important;
-                overflow-x: auto !important;
+            }
+
+            .org-row {
+                display: grid !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 12px !important;
+                width: 100% !important;
+                justify-items: center !important;
+            }
+
+            .org-row.row-1 {
+                grid-template-columns: 1fr !important;
+                max-width: 200px !important;
+                margin: 0 auto !important;
+            }
+
+            .org-card {
+                width: 100% !important;
+                max-width: 185px !important;
+                padding: 10px !important;
+            }
+
+            .org-photo-container {
+                width: 100% !important;
+                height: auto !important;
+                aspect-ratio: 1 / 1 !important;
+            }
+
+            .btn-edit-official {
+                min-height: 36px !important;
+                font-size: 0.8rem !important;
+            }
+
+            /* 5. Spot Map & Purok 1-9 Forms */
+            .purok-form-container .row {
+                flex-direction: column !important;
+                gap: 14px !important;
+                margin-bottom: 14px !important;
+            }
+
+            .purok-form-container .btn-save,
+            .form-actions .btn-primary {
+                width: 100% !important;
+                justify-content: center !important;
+                min-height: 46px !important;
+            }
+
+            .image-dropzone {
+                min-height: 180px !important;
+                padding: 20px !important;
+            }
+
+            /* 6. Map Legend Forms & Presets */
+            .legend-form-grid-2 {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            .preset-icons-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 8px !important;
+            }
+
+            /* 7. Settings Tabs & Control Center */
+            .settings-nav-tabs {
+                gap: 6px !important;
+                padding-bottom: 4px !important;
+                margin-bottom: 18px !important;
                 -webkit-overflow-scrolling: touch !important;
-                margin-bottom: 1rem !important;
+                scrollbar-width: none !important;
+            }
+
+            .settings-nav-tabs::-webkit-scrollbar {
+                display: none !important;
+            }
+
+            .settings-nav-tabs .tab-btn {
+                padding: 10px 14px !important;
+                font-size: 0.85rem !important;
+                border-radius: 8px 8px 0 0 !important;
+            }
+
+            .settings-card-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+                padding-bottom: 12px !important;
+                margin-bottom: 16px !important;
+            }
+
+            .hero-grid,
+            .system-info-grid {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            .btn-save-settings {
+                width: 100% !important;
+                justify-content: center !important;
+                min-height: 46px !important;
+            }
+
+            /* 8. Modals Across All Admin Pages */
+            .modal,
+            .modal-overlay {
+                padding: 12px !important;
+                align-items: flex-end !important;
+            }
+
+            .modal-content,
+            .modal-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                max-height: 90vh !important;
+                max-height: 90dvh !important;
+                border-radius: 18px 18px 14px 14px !important;
+                margin: 0 auto !important;
+            }
+
+            .modal-header {
+                padding: 16px 18px !important;
+            }
+
+            .modal-header h2,
+            .modal-header h3 {
+                font-size: 1.1rem !important;
+            }
+
+            .modal-body {
+                padding: 16px 18px !important;
+                max-height: calc(90dvh - 130px) !important;
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+
+            /* Stack inline 2-column grids inside modals (e.g., Announcements modal) */
+            .modal-body [style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            .modal-body .form-row {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            .modal-footer {
+                padding: 12px 18px !important;
+                display: flex !important;
+                flex-direction: column-reverse !important;
+                gap: 8px !important;
+            }
+
+            .modal-footer button,
+            .modal-footer .btn,
+            .modal-footer .btn-cancel,
+            .modal-footer .btn-save,
+            .modal-footer .btn-submit,
+            .modal-footer .btn-modal-cancel,
+            .modal-footer .btn-modal-submit {
+                width: 100% !important;
+                justify-content: center !important;
+                min-height: 44px !important;
+                margin: 0 !important;
+            }
+        }
+
+        /* ==========================================================================
+           Compact Phone Breakpoint (<= 420px)
+           ========================================================================== */
+        @media (max-width: 420px) {
+            .dashboard-content {
+                padding: 12px !important;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+            }
+
+            .media-grid {
+                grid-template-columns: 1fr !important;
             }
         }

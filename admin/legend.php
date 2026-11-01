@@ -286,7 +286,7 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/assets/css/style.css">
-    <link rel="stylesheet" href="Admin CSS/admin.css?v=2">
+    <link rel="stylesheet" href="Admin CSS/admin.css?v=12">
     <link rel="stylesheet" href="Admin CSS/legend.css?v=8">
 </head>
 <body>
@@ -952,7 +952,7 @@ if ($msg === 'status_updated') $success_msg = "Legend status updated successfull
     </div>
 
     <!-- Scripts -->
-    <script src="Admin JS/admin.js"></script>
+    <script src="Admin JS/admin.js?v=12"></script>
     <script>
         // DOM Elements
         const mapContainer = document.getElementById('aerialMapContainer');

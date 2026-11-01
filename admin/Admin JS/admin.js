@@ -23,12 +23,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         previewMarker.style.cursor = 'grab';
                         previewMarker.style.transform = 'translate(-50%, -100%)';
                         previewMarker.style.zIndex = '1000';
+                        previewMarker.style.touchAction = 'none';
                         mapContainer.appendChild(previewMarker);
                         
                         // Default position center
                         updatePreviewPosition(50, 50);
                         
-                        // Make it draggable
+                        // Make it draggable (mouse + touch)
                         makeDraggable(previewMarker);
                     }
                     previewMarker.src = event.target.result;
@@ -36,6 +37,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
                 reader.readAsDataURL(file);
             }
+        });
+
+        // Allow tapping directly on the map to move the preview marker (great for mobile)
+        mapContainer.addEventListener('click', function(e) {
+            if (!previewMarker || e.target === previewMarker) return;
+            const rect = mapContainer.getBoundingClientRect();
+            const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+            const y = Math.max(0, Math.min(e.clientY - rect.top, rect.height));
+            updatePreviewPosition((y / rect.height) * 100, (x / rect.width) * 100);
         });
 
         // Listen for width/height changes
@@ -65,6 +75,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function makeDraggable(element) {
         let isDragging = false;
+
+        function moveAt(clientX, clientY) {
+            const rect = mapContainer.getBoundingClientRect();
+            let x = clientX - rect.left;
+            let y = clientY - rect.top;
+
+            // Constrain to map bounds
+            x = Math.max(0, Math.min(x, rect.width));
+            y = Math.max(0, Math.min(y, rect.height));
+
+            // Convert to percentages
+            const leftPercent = (x / rect.width) * 100;
+            const topPercent = (y / rect.height) * 100;
+
+            updatePreviewPosition(topPercent, leftPercent);
+        }
         
         element.addEventListener('mousedown', function(e) {
             isDragging = true;
@@ -74,20 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.addEventListener('mousemove', function(e) {
             if (!isDragging) return;
-            
-            const rect = mapContainer.getBoundingClientRect();
-            let x = e.clientX - rect.left;
-            let y = e.clientY - rect.top;
-            
-            // Constrain to map bounds
-            x = Math.max(0, Math.min(x, rect.width));
-            y = Math.max(0, Math.min(y, rect.height));
-            
-            // Convert to percentages
-            const leftPercent = (x / rect.width) * 100;
-            const topPercent = (y / rect.height) * 100;
-            
-            updatePreviewPosition(topPercent, leftPercent);
+            moveAt(e.clientX, e.clientY);
         });
 
         document.addEventListener('mouseup', function() {
@@ -95,6 +108,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 isDragging = false;
                 element.style.cursor = 'grab';
             }
+        });
+
+        // Touch events for mobile & tablet pin dragging
+        element.addEventListener('touchstart', function(e) {
+            if (e.touches.length !== 1) return;
+            isDragging = true;
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchmove', function(e) {
+            if (!isDragging || e.touches.length !== 1) return;
+            e.preventDefault();
+            moveAt(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: false });
+
+        document.addEventListener('touchend', function() {
+            isDragging = false;
         });
     }
 
@@ -141,6 +171,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.querySelector('.sidebar');
         if (!sidebar) return;
 
+        // Auto-expand submenu if it contains an active link or matches current filename
+        const currentPage = decodeURIComponent(window.location.pathname.split('/').pop() || '');
+        sidebar.querySelectorAll('.has-submenu').forEach(sub => {
+            const links = sub.querySelectorAll('.submenu a');
+            links.forEach(a => {
+                const href = decodeURIComponent((a.getAttribute('href') || '').split('?')[0]);
+                if (a.classList.contains('active') || (currentPage && href === currentPage)) {
+                    a.classList.add('active');
+                    sub.classList.add('open');
+                }
+            });
+        });
+
         // 1. Ensure backdrop exists
         let backdrop = document.querySelector('.sidebar-overlay-backdrop');
         if (!backdrop) {
@@ -150,7 +193,19 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.appendChild(backdrop);
         }
 
-        // 2. Ensure mobile toggle button exists in topbar
+        // 2. Ensure close button inside sidebar header on mobile
+        const sidebarHeader = sidebar.querySelector('.sidebar-header');
+        let closeDrawerBtn = sidebar.querySelector('.sidebar-mobile-close-btn');
+        if (!closeDrawerBtn && sidebarHeader) {
+            closeDrawerBtn = document.createElement('button');
+            closeDrawerBtn.type = 'button';
+            closeDrawerBtn.className = 'sidebar-mobile-close-btn';
+            closeDrawerBtn.setAttribute('aria-label', 'Close Navigation Menu');
+            closeDrawerBtn.innerHTML = '<i class="bi bi-x-lg"></i>';
+            sidebarHeader.appendChild(closeDrawerBtn);
+        }
+
+        // 3. Ensure mobile toggle button exists in topbar
         const topbar = document.querySelector('.topbar');
         const topbarTitle = document.querySelector('.topbar-title');
         let toggleBtn = document.getElementById('btn-admin-mobile-sidebar-toggle');
@@ -193,6 +248,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     openSidebar();
                 }
             });
+        }
+
+        if (closeDrawerBtn) {
+            closeDrawerBtn.addEventListener('click', closeSidebar);
         }
 
         backdrop.addEventListener('click', closeSidebar);
