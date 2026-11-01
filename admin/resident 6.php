@@ -212,6 +212,7 @@
             </div>
         </main>
     </div>
+    <script src="Admin JS/admin.js"></script>
 </body>
 </html>
 

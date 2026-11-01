@@ -549,5 +549,6 @@ if ($result) {
             }
         };
     </script>
+    <script src="Admin JS/admin.js"></script>
 </body>
 </html>

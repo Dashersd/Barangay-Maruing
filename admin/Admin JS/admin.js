@@ -135,4 +135,82 @@ document.addEventListener('DOMContentLoaded', function() {
         const input = row.querySelector('input');
         if (input && !nameValue) input.focus();
     }
+
+    // Universal Mobile Sidebar & Navigation Handler for Admin Panel
+    function initAdminMobileSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        if (!sidebar) return;
+
+        // 1. Ensure backdrop exists
+        let backdrop = document.querySelector('.sidebar-overlay-backdrop');
+        if (!backdrop) {
+            backdrop = document.createElement('div');
+            backdrop.className = 'sidebar-overlay-backdrop';
+            backdrop.id = 'sidebar-overlay-backdrop';
+            document.body.appendChild(backdrop);
+        }
+
+        // 2. Ensure mobile toggle button exists in topbar
+        const topbar = document.querySelector('.topbar');
+        const topbarTitle = document.querySelector('.topbar-title');
+        let toggleBtn = document.getElementById('btn-admin-mobile-sidebar-toggle');
+
+        if (!toggleBtn && (topbarTitle || topbar)) {
+            toggleBtn = document.createElement('button');
+            toggleBtn.type = 'button';
+            toggleBtn.id = 'btn-admin-mobile-sidebar-toggle';
+            toggleBtn.className = 'admin-mobile-toggle-btn';
+            toggleBtn.setAttribute('aria-label', 'Toggle Navigation Menu');
+            toggleBtn.innerHTML = '<i class="bi bi-list"></i>';
+            
+            if (topbarTitle) {
+                topbarTitle.style.display = 'flex';
+                topbarTitle.style.alignItems = 'center';
+                topbarTitle.prepend(toggleBtn);
+            } else if (topbar) {
+                topbar.prepend(toggleBtn);
+            }
+        }
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            backdrop.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            backdrop.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (sidebar.classList.contains('open')) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
+            });
+        }
+
+        backdrop.addEventListener('click', closeSidebar);
+
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                closeSidebar();
+            }
+        });
+
+        // Auto close sidebar when window is resized to desktop (>991px)
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 991 && sidebar.classList.contains('open')) {
+                closeSidebar();
+            }
+        });
+    }
+
+    initAdminMobileSidebar();
 });

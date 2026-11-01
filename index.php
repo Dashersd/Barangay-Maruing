@@ -1494,17 +1494,56 @@ if (!$captain_found || empty($captain_photo)) {
             font-weight: 600 !important;
             margin-top: 14px !important;
         }
-    </style>
 
-        .gmail-otp-error-alert {
-            color: #dc2626 !important;
-            background: #fef2f2 !important;
-            border: 1px solid #fecaca !important;
-            border-radius: 8px !important;
-            padding: 8px 12px !important;
-            font-size: 12.5px !important;
-            font-weight: 600 !important;
-            margin-top: 14px !important;
+        /* Mobile Screen Adjustments for OTP Modal */
+        @media (max-width: 480px) {
+            .gmail-otp-modal-box {
+                padding: 28px 16px 24px 16px !important;
+                border-radius: 20px !important;
+                max-width: calc(100vw - 24px) !important;
+            }
+            .gmail-otp-boxes-group {
+                gap: 6px !important;
+                margin-bottom: 16px !important;
+            }
+            .gmail-otp-digit-box {
+                width: 40px !important;
+                height: 48px !important;
+                font-size: 20px !important;
+                border-radius: 8px !important;
+            }
+            .gmail-otp-title {
+                font-size: 22px !important;
+            }
+            .gmail-otp-desc {
+                font-size: 12.5px !important;
+                margin-bottom: 16px !important;
+            }
+            .gmail-otp-pill-bar {
+                font-size: 12px !important;
+                padding: 8px 12px !important;
+                margin-bottom: 16px !important;
+            }
+            .gmail-otp-submit-btn {
+                padding: 12px 16px !important;
+                font-size: 13.5px !important;
+            }
+        }
+        @media (max-width: 360px) {
+            .gmail-otp-modal-box {
+                padding: 22px 12px 20px 12px !important;
+            }
+            .gmail-otp-boxes-group {
+                gap: 4px !important;
+            }
+            .gmail-otp-digit-box {
+                width: 35px !important;
+                height: 44px !important;
+                font-size: 17px !important;
+            }
+            .gmail-otp-title {
+                font-size: 20px !important;
+            }
         }
     </style>
     

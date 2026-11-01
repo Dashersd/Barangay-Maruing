@@ -738,5 +738,6 @@ $error = $_GET['error'] ?? '';
             }
         });
     </script>
+    <script src="Admin JS/admin.js"></script>
 </body>
 </html>

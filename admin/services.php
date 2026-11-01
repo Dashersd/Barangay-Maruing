@@ -798,5 +798,6 @@ $next_order = count($services) + 1;
             }
         });
     </script>
+    <script src="Admin JS/admin.js"></script>
 </body>
 </html>

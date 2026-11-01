@@ -6,7 +6,46 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Highlight Active Nav Link based on Current Page
     highlightActiveNavLink();
+
+    // Mobile Navbar Hamburger Menu
+    initMobileNavbar();
 });
+
+/**
+ * Initialize responsive mobile hamburger menu across all public pages
+ */
+function initMobileNavbar() {
+    const navbarContainers = document.querySelectorAll('.navbar-container');
+    navbarContainers.forEach(container => {
+        const menu = container.querySelector('.navbar-menu');
+        if (!menu) return;
+
+        let toggleBtn = container.querySelector('.navbar-toggle-btn');
+        if (!toggleBtn) {
+            toggleBtn = document.createElement('button');
+            toggleBtn.className = 'navbar-toggle-btn';
+            toggleBtn.setAttribute('type', 'button');
+            toggleBtn.setAttribute('aria-label', 'Toggle navigation');
+            toggleBtn.innerHTML = '<i class="bi bi-list"></i>';
+            container.appendChild(toggleBtn);
+        }
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('open');
+            const isOpen = menu.classList.contains('open');
+            toggleBtn.innerHTML = isOpen ? '<i class="bi bi-x-lg"></i>' : '<i class="bi bi-list"></i>';
+        });
+
+        // Close on clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menu.contains(e.target) && !toggleBtn.contains(e.target) && menu.classList.contains('open')) {
+                menu.classList.remove('open');
+                toggleBtn.innerHTML = '<i class="bi bi-list"></i>';
+            }
+        });
+    });
+}
 
 /**
  * Detect current page and mark corresponding navigation link as active

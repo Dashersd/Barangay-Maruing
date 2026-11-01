@@ -1048,5 +1048,6 @@ if ($logs_res) {
             }
         }
     </script>
+    <script src="Admin JS/admin.js"></script>
 </body>
 </html>

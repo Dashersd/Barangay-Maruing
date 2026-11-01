@@ -322,5 +322,6 @@ if (!empty($about['image_path'])) {
             }
         }
     </script>
+    <script src="Admin JS/admin.js"></script>
 </body>
 </html>

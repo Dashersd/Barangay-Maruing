@@ -1168,23 +1168,197 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
             background: #f8fafc;
         }
 
+        /* Mobile Messenger View Switching */
+        .btn-mobile-back-threads {
+            display: none;
+            background: #e8f5ee;
+            border: 1px solid #d1fae5;
+            color: #093d25;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-right: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-mobile-back-threads:hover {
+            background: #137547;
+            color: #ffffff;
+        }
+
         /* Responsive Breakpoints */
         @media (max-width: 960px) {
             .messenger-layout {
-                flex-direction: column;
-                height: auto;
-                max-height: none;
+                position: relative;
+                height: calc(100vh - 120px) !important;
+                max-height: none !important;
+                overflow: hidden !important;
             }
+
             .threads-panel {
-                width: 100%;
-                max-width: 100%;
-                min-width: 100%;
-                height: 380px;
-                border-right: none;
-                border-bottom: 1px solid var(--border-color);
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+                height: 100% !important;
+                border-right: none !important;
+                display: flex !important;
             }
+
             .conversation-panel {
-                height: 550px;
+                width: 100% !important;
+                height: 100% !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                background: #ffffff !important;
+                display: none !important;
+                z-index: 20 !important;
+            }
+
+            /* When showing conversation on mobile */
+            .messenger-layout.show-conversation .threads-panel {
+                display: none !important;
+            }
+
+            .messenger-layout.show-conversation .conversation-panel {
+                display: flex !important;
+            }
+
+            .btn-mobile-back-threads {
+                display: inline-flex !important;
+            }
+
+            .conversation-header {
+                padding: 12px 14px !important;
+                gap: 8px !important;
+            }
+
+            .active-user-meta {
+                gap: 8px !important;
+                min-width: 0 !important;
+            }
+
+            .active-user-avatar {
+                width: 38px !important;
+                height: 38px !important;
+                font-size: 1rem !important;
+            }
+
+            .active-user-text h3 {
+                font-size: 0.95rem !important;
+            }
+
+            .active-badges-row-1 {
+                gap: 4px !important;
+            }
+
+            .badge-citizen-inquirer,
+            .badge-service-topic {
+                font-size: 0.68rem !important;
+                padding: 2px 6px !important;
+            }
+
+            .badge-verified-email {
+                font-size: 0.7rem !important;
+                padding: 2px 6px !important;
+                max-width: 100% !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+
+            .messages-scroll-area {
+                padding: 16px 12px !important;
+                gap: 16px !important;
+            }
+
+            .message-row {
+                max-width: 92% !important;
+                gap: 8px !important;
+            }
+
+            .msg-avatar {
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 0.85rem !important;
+                margin-top: 16px !important;
+            }
+
+            .msg-bubble {
+                padding: 12px 14px !important;
+                font-size: 0.88rem !important;
+                border-radius: 14px !important;
+            }
+
+            .official-response-bar {
+                padding: 12px 14px !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 10px !important;
+            }
+
+            .official-response-left {
+                width: 100% !important;
+                gap: 10px !important;
+            }
+
+            .official-response-icon-circle {
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 1rem !important;
+            }
+
+            .official-response-text h4 {
+                font-size: 0.9rem !important;
+            }
+
+            .official-response-text p {
+                font-size: 0.75rem !important;
+            }
+
+            .official-response-right {
+                width: 100% !important;
+                justify-content: stretch !important;
+                margin-left: 0 !important;
+            }
+
+            .btn-send-response-gmail {
+                width: 100% !important;
+                justify-content: center !important;
+                padding: 10px 16px !important;
+                font-size: 0.88rem !important;
+            }
+
+            .topbar {
+                padding: 10px 14px !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 10px !important;
+            }
+
+            .topbar-title {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+            }
+
+            .topbar-title h2 {
+                font-size: 1.15rem !important;
+            }
+
+            .header-actions {
+                flex-wrap: wrap !important;
+                gap: 6px !important;
+            }
+
+            .btn-header-pill span {
+                display: none;
             }
         }
     </style>
@@ -1261,13 +1435,21 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
         </ul>
     </aside>
 
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-overlay-backdrop" id="sidebar-overlay-backdrop"></div>
+
     <!-- Main Content Area -->
     <div class="main-content">
         <!-- Topbar -->
         <header class="topbar">
             <div class="topbar-title">
-                <h2><i class="bi bi-chat-left-text-fill"></i> Feedback &amp; Resident Inquiries</h2>
-                <p>Live Citizen Inquiry &amp; Two-Way Official Messaging Portal</p>
+                <button type="button" class="admin-mobile-toggle-btn" id="btn-admin-mobile-sidebar-toggle" aria-label="Toggle Sidebar Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div>
+                    <h2><i class="bi bi-chat-left-text-fill"></i> Feedback &amp; Inquiries</h2>
+                    <p style="margin:0; font-size:0.76rem; color:#64748b;">Live Citizen Inquiry &amp; Two-Way Official Messaging Portal</p>
+                </div>
             </div>
             
             <div class="header-actions">
@@ -1381,6 +1563,9 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
                     
                     <!-- Thread Header matching screenshot -->
                     <header class="conversation-header">
+                        <button type="button" class="btn-mobile-back-threads" id="btn-mobile-back-threads" title="Back to inquiries list">
+                            <i class="bi bi-arrow-left"></i>
+                        </button>
                         <div class="active-user-meta">
                             <div class="active-user-avatar" id="active-resident-avatar">R</div>
                             <div class="active-user-text">
@@ -1788,6 +1973,7 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
             // Show active conversation wrapper, hide empty state
             $('#conversation-empty-state').hide();
             $('#active-conversation-wrapper').css('display', 'flex');
+            $('.messenger-layout').addClass('show-conversation');
 
             fetchMessages(threadId, true);
         }
@@ -1918,6 +2104,23 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
             if (activeThreadId) fetchMessages(activeThreadId, true);
         });
 
+        // Mobile Sidebar Drawer Toggle
+        $('#btn-admin-mobile-sidebar-toggle').on('click', function(e) {
+            e.stopPropagation();
+            $('.sidebar').toggleClass('open');
+            $('#sidebar-overlay-backdrop').toggleClass('active');
+        });
+
+        $('#sidebar-overlay-backdrop').on('click', function() {
+            $('.sidebar').removeClass('open');
+            $(this).removeClass('active');
+        });
+
+        // Mobile Back to Threads List
+        $('#btn-mobile-back-threads').on('click', function() {
+            $('.messenger-layout').removeClass('show-conversation');
+        });
+
         // Copy Email to Clipboard
         $(document).on('click', '#btn-copy-resident-email', function(e) {
             e.preventDefault();
@@ -1954,6 +2157,7 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
         }, 4500);
     });
     </script>
+    <script src="Admin JS/admin.js"></script>
 </body>
 </html>
 
