@@ -166,7 +166,7 @@ $default_identifier = $_POST['login_identifier'] ?? $_COOKIE['admin_remember'] ?
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../public/assets/css/style.css">
+    <link rel="stylesheet" href="../public/assets/css/style.css?v=14">
     <link rel="stylesheet" href="../public/assets/css/auth.css">
     <style>
         .auth-card-login {

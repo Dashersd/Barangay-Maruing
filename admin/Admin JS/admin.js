@@ -169,7 +169,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Universal Mobile Sidebar & Navigation Handler for Admin Panel
     function initAdminMobileSidebar() {
         const sidebar = document.querySelector('.sidebar');
-        if (!sidebar) return;
+        if (!sidebar || sidebar.dataset.mobileNavBound === '1') return;
+        sidebar.dataset.mobileNavBound = '1';
 
         // Auto-expand submenu if it contains an active link or matches current filename
         const currentPage = decodeURIComponent(window.location.pathname.split('/').pop() || '');
@@ -241,6 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (toggleBtn) {
             toggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
                 e.stopPropagation();
                 if (sidebar.classList.contains('open')) {
                     closeSidebar();
@@ -251,10 +253,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (closeDrawerBtn) {
-            closeDrawerBtn.addEventListener('click', closeSidebar);
+            closeDrawerBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeSidebar();
+            });
         }
 
-        backdrop.addEventListener('click', closeSidebar);
+        backdrop.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeSidebar();
+        });
+
+        // Close drawer when clicking a real navigation link on mobile
+        sidebar.querySelectorAll('.sidebar-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                const href = (this.getAttribute('href') || '').trim();
+                const isSubmenuTrigger = this.parentElement && this.parentElement.classList.contains('has-submenu') && href === '#';
+                if (!isSubmenuTrigger && href && href !== '#' && window.innerWidth <= 991) {
+                    closeSidebar();
+                }
+            });
+        });
 
         // Close on ESC key
         document.addEventListener('keydown', function(e) {

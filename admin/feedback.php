@@ -56,8 +56,8 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- Base Admin Stylesheet Fallback -->
-    <link rel="stylesheet" href="../public/assets/css/style.css">
-    <link rel="stylesheet" href="Admin CSS/admin.css?v=13">
+    <link rel="stylesheet" href="../public/assets/css/style.css?v=14">
+    <link rel="stylesheet" href="Admin CSS/admin.css?v=14">
 
     <!-- Complete Self-Contained Portal Styles -->
     <style>
@@ -1192,10 +1192,13 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
         }
 
         /* Responsive Breakpoints */
-        @media (max-width: 960px) {
+        @media (max-width: 991px) {
             .messenger-layout {
                 position: relative;
-                height: calc(100vh - 120px) !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: calc(100vh - 58px) !important;
+                height: calc(100dvh - 58px) !important;
                 max-height: none !important;
                 overflow: hidden !important;
             }
@@ -1203,10 +1206,46 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
             .threads-panel {
                 width: 100% !important;
                 max-width: 100% !important;
-                min-width: 100% !important;
+                min-width: 0 !important;
                 height: 100% !important;
                 border-right: none !important;
                 display: flex !important;
+                box-sizing: border-box !important;
+            }
+
+            .threads-header {
+                padding: 12px 14px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .threads-search-input {
+                font-size: 0.9rem !important;
+                padding: 9px 30px 9px 34px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .threads-scroll-list {
+                width: 100% !important;
+                box-sizing: border-box !important;
+                overflow-x: hidden !important;
+            }
+
+            .thread-item {
+                padding: 12px 14px !important;
+                gap: 10px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .thread-top-row {
+                gap: 8px !important;
+                width: 100% !important;
+            }
+
+            .thread-timestamp {
+                flex-shrink: 0 !important;
             }
 
             .conversation-panel {
@@ -1336,29 +1375,79 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
             }
 
             .topbar {
-                padding: 10px 14px !important;
-                flex-direction: column !important;
-                align-items: stretch !important;
-                gap: 10px !important;
+                padding: 10px 12px !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 8px !important;
+                height: auto !important;
+                min-height: 58px !important;
             }
 
             .topbar-title {
                 display: flex !important;
                 align-items: center !important;
-                justify-content: space-between !important;
+                justify-content: flex-start !important;
+                min-width: 0 !important;
+                flex: 1 !important;
+            }
+
+            .topbar-title > div {
+                min-width: 0 !important;
+                flex: 1 !important;
             }
 
             .topbar-title h2 {
-                font-size: 1.15rem !important;
-            }
-
-            .header-actions {
-                flex-wrap: wrap !important;
+                font-size: 1rem !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
                 gap: 6px !important;
             }
 
-            .btn-header-pill span {
-                display: none;
+            .topbar-title p {
+                display: none !important;
+            }
+
+            .header-actions {
+                flex-wrap: nowrap !important;
+                gap: 6px !important;
+                flex-shrink: 0 !important;
+            }
+
+            #btn-desktop-notif-toggle,
+            .admin-profile-meta-text {
+                display: none !important;
+            }
+
+            .btn-header-pill {
+                width: 34px !important;
+                height: 34px !important;
+                padding: 0 !important;
+                border-radius: 50% !important;
+                justify-content: center !important;
+                position: relative !important;
+            }
+
+            .btn-header-pill span:not(.unread-indicator-badge) {
+                display: none !important;
+            }
+
+            .btn-header-pill .unread-indicator-badge {
+                position: absolute !important;
+                top: -4px !important;
+                right: -4px !important;
+                margin: 0 !important;
+                padding: 1px 5px !important;
+                font-size: 0.65rem !important;
+            }
+
+            .notif-dropdown-box {
+                position: fixed !important;
+                top: 62px !important;
+                left: 12px !important;
+                right: 12px !important;
+                width: auto !important;
             }
         }
     </style>
@@ -1490,11 +1579,11 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
                 </div>
 
                 <!-- Admin Profile -->
-                <div style="display:flex; align-items:center; gap:8px; margin-left:6px;">
-                    <div style="width:36px; height:36px; border-radius:50%; background:#093d25; color:#ffc107; font-weight:700; display:flex; align-items:center; justify-content:center;">
+                <div style="display:flex; align-items:center; gap:8px; margin-left:2px;">
+                    <div style="width:34px; height:34px; border-radius:50%; background:#093d25; color:#ffc107; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                         <?= $admin_initial ?>
                     </div>
-                    <div style="display:flex; flex-direction:column; line-height:1.2;">
+                    <div class="admin-profile-meta-text" style="display:flex; flex-direction:column; line-height:1.2;">
                         <span style="font-size:0.84rem; font-weight:700; color:#0f172a;"><?= htmlspecialchars($admin_name) ?></span>
                         <span style="font-size:0.72rem; color:#64748b;"><?= htmlspecialchars($admin_role) ?></span>
                     </div>
@@ -2104,18 +2193,6 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
             if (activeThreadId) fetchMessages(activeThreadId, true);
         });
 
-        // Mobile Sidebar Drawer Toggle
-        $('#btn-admin-mobile-sidebar-toggle').on('click', function(e) {
-            e.stopPropagation();
-            $('.sidebar').toggleClass('open');
-            $('#sidebar-overlay-backdrop').toggleClass('active');
-        });
-
-        $('#sidebar-overlay-backdrop').on('click', function() {
-            $('.sidebar').removeClass('open');
-            $(this).removeClass('active');
-        });
-
         // Mobile Back to Threads List
         $('#btn-mobile-back-threads').on('click', function() {
             $('.messenger-layout').removeClass('show-conversation');
@@ -2157,7 +2234,7 @@ $official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
         }, 4500);
     });
     </script>
-    <script src="Admin JS/admin.js?v=13"></script>
+    <script src="Admin JS/admin.js?v=14"></script>
 </body>
 </html>
 

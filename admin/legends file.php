@@ -29,8 +29,8 @@ if ($res) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../public/assets/css/style.css">
-    <link rel="stylesheet" href="Admin CSS/admin.css?v=13">
+    <link rel="stylesheet" href="../public/assets/css/style.css?v=14">
+    <link rel="stylesheet" href="Admin CSS/admin.css?v=14">
     <link rel="stylesheet" href="Admin CSS/legend.css?v=3">
 </head>
 <body>
@@ -208,6 +208,6 @@ if ($res) {
             </div>
         </main>
     </div>
-    <script src="Admin JS/admin.js?v=13"></script>
+    <script src="Admin JS/admin.js?v=14"></script>
 </body>
 </html>
