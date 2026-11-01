@@ -153,7 +153,7 @@ if ($result) {
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/assets/css/style.css">
-    <link rel="stylesheet" href="Admin CSS/admin.css?v=12">
+    <link rel="stylesheet" href="Admin CSS/admin.css?v=13">
     <link rel="stylesheet" href="Admin CSS/announcements.css?v=2">
     <style>
         .badge.published {
@@ -549,6 +549,6 @@ if ($result) {
             }
         };
     </script>
-    <script src="Admin JS/admin.js?v=12"></script>
+    <script src="Admin JS/admin.js?v=13"></script>
 </body>
 </html>

@@ -302,3 +302,43 @@ textarea.form-control {
     margin-right: 10px;
     font-size: 1.1rem;
 }
+
+@media (max-width: 768px) {
+    .org-chart-pyramid {
+        gap: 18px;
+        padding: 10px 0;
+        width: 100%;
+    }
+
+    .org-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .org-card {
+        width: calc(50% - 6px) !important;
+        max-width: 170px !important;
+        padding: 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    .org-row.row-1 .org-card {
+        width: 175px !important;
+        max-width: 185px !important;
+    }
+
+    .org-photo-container {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1 !important;
+    }
+
+    .btn-edit-official {
+        min-height: 36px;
+        font-size: 0.8rem;
+    }
+}

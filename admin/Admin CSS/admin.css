@@ -600,6 +600,11 @@
                 border-radius: 12px !important;
             }
 
+            .chart-container > div[style*="justify-content: space-between"] {
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+            }
+
             .purok-bar-header {
                 display: flex !important;
                 flex-wrap: wrap !important;
@@ -609,38 +614,169 @@
                 margin-bottom: 6px !important;
             }
 
-            /* 3. Data Tables (Services, Announcements, Residents, Legends, Logs) */
+            .announcement-meta {
+                flex-wrap: wrap !important;
+                gap: 6px !important;
+            }
+
+            /* 3. Data Tables -> Mobile Stacked Card-Rows (Services, Announcements, Residents, Legends, Logs, Dashboard) */
             .admin-container,
             .records-card,
             .legend-card,
             .form-card,
             .settings-card,
             .purok-form-container {
-                padding: 16px !important;
+                padding: 14px !important;
                 border-radius: 12px !important;
             }
 
-            .admin-table {
-                min-width: 680px !important;
+            .table-responsive,
+            .admin-table-container,
+            .table-wrapper,
+            .admin-container,
+            .records-card > div[style*="overflow-x"],
+            .legend-card > div[style*="overflow-x"],
+            .settings-card > div[style*="overflow-x"],
+            .chart-container > div[style*="overflow-x"] {
+                overflow-x: visible !important;
+                width: 100% !important;
             }
 
-            .legends-table {
-                min-width: 600px !important;
+            .dashboard-content table,
+            .admin-table,
+            .records-table,
+            .legends-table,
+            .logs-table,
+            .admin-responsive-table {
+                display: block !important;
+                width: 100% !important;
+                min-width: 0 !important;
+                border: none !important;
             }
 
-            .admin-table th,
-            .admin-table td,
-            .records-table th,
-            .records-table td,
-            .legends-table th,
-            .legends-table td,
-            .logs-table th,
-            .logs-table td {
-                padding: 10px 12px !important;
+            .dashboard-content table thead,
+            .admin-table thead,
+            .records-table thead,
+            .legends-table thead,
+            .logs-table thead,
+            .admin-responsive-table thead {
+                display: none !important;
+            }
+
+            .dashboard-content table tbody,
+            .admin-table tbody,
+            .records-table tbody,
+            .legends-table tbody,
+            .logs-table tbody,
+            .admin-responsive-table tbody {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 12px !important;
+                width: 100% !important;
+            }
+
+            .dashboard-content table tbody tr,
+            .admin-table tbody tr,
+            .records-table tbody tr,
+            .legends-table tbody tr,
+            .logs-table tbody tr,
+            .admin-responsive-table tbody tr {
+                display: block !important;
+                width: 100% !important;
+                background: #ffffff !important;
+                border: 1px solid #e2e8f0 !important;
+                border-radius: 12px !important;
+                padding: 12px 14px !important;
+                box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+                box-sizing: border-box !important;
+            }
+
+            .dashboard-content table tbody td,
+            .admin-table tbody td,
+            .records-table tbody td,
+            .legends-table tbody td,
+            .logs-table tbody td,
+            .admin-responsive-table tbody td {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                gap: 12px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                padding: 8px 0 !important;
+                border: none !important;
+                border-bottom: 1px dashed #f1f5f9 !important;
                 font-size: 0.85rem !important;
+                text-align: right !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                text-overflow: clip !important;
+                box-sizing: border-box !important;
+                word-break: break-word !important;
             }
 
-            /* 4. Barangay & SK Officials Pyramid Org Chart -> Clean 2-Column Mobile Grid */
+            .dashboard-content table tbody td:last-child,
+            .admin-table tbody td:last-child,
+            .records-table tbody td:last-child,
+            .legends-table tbody td:last-child,
+            .logs-table tbody td:last-child,
+            .admin-responsive-table tbody td:last-child {
+                border-bottom: none !important;
+                padding-bottom: 2px !important;
+            }
+
+            .dashboard-content table tbody td[data-label]::before,
+            .admin-responsive-table tbody td[data-label]::before {
+                content: attr(data-label);
+                font-weight: 700;
+                font-size: 0.72rem;
+                text-transform: uppercase;
+                letter-spacing: 0.4px;
+                color: #64748b;
+                text-align: left;
+                flex-shrink: 0;
+                max-width: 42%;
+                line-height: 1.35;
+            }
+
+            .dashboard-content table tbody td.empty-table-cell,
+            .admin-responsive-table tbody td.empty-table-cell {
+                display: block !important;
+                text-align: center !important;
+                padding: 24px 12px !important;
+                border: none !important;
+            }
+
+            .dashboard-content table tbody td.empty-table-cell::before,
+            .admin-responsive-table tbody td.empty-table-cell::before {
+                display: none !important;
+            }
+
+            .dashboard-content table tbody td.mobile-action-cell,
+            .admin-responsive-table tbody td.mobile-action-cell,
+            .admin-table tbody td.action-cell {
+                padding-top: 10px !important;
+                margin-top: 2px !important;
+                border-top: 1px solid #e2e8f0 !important;
+                border-bottom: none !important;
+            }
+
+            .dashboard-content table tbody td .action-buttons,
+            .admin-responsive-table tbody td .action-buttons,
+            .records-table tbody td > div[style*="inline-flex"] {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: flex-end !important;
+                gap: 8px !important;
+            }
+
+            .service-desc-preview {
+                max-width: 100% !important;
+                text-align: right !important;
+            }
+
+            /* 4. Barangay & SK Officials Pyramid Org Chart -> Centered 2-Column Mobile Flex */
             .org-chart-pyramid {
                 gap: 18px !important;
                 padding: 10px 0 !important;
@@ -648,23 +784,24 @@
             }
 
             .org-row {
-                display: grid !important;
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
                 gap: 12px !important;
                 width: 100% !important;
-                justify-items: center !important;
-            }
-
-            .org-row.row-1 {
-                grid-template-columns: 1fr !important;
-                max-width: 200px !important;
-                margin: 0 auto !important;
+                max-width: 100% !important;
             }
 
             .org-card {
-                width: 100% !important;
-                max-width: 185px !important;
+                width: calc(50% - 6px) !important;
+                max-width: 170px !important;
                 padding: 10px !important;
+                box-sizing: border-box !important;
+            }
+
+            .org-row.row-1 .org-card {
+                width: 175px !important;
+                max-width: 185px !important;
             }
 
             .org-photo-container {
@@ -697,7 +834,42 @@
                 padding: 20px !important;
             }
 
-            /* 6. Map Legend Forms & Presets */
+            /* 6. Map Legend Header, Banner Overlay, Forms & Presets */
+            .legend-header {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 12px !important;
+                margin-bottom: 16px !important;
+            }
+
+            .legend-header > div[style*="display: flex"] {
+                flex-direction: column !important;
+                width: 100% !important;
+                gap: 8px !important;
+            }
+
+            .legend-header .btn-view-map,
+            .legend-header .btn-submit-legend {
+                width: 100% !important;
+                justify-content: center !important;
+                box-sizing: border-box !important;
+                text-align: center !important;
+            }
+
+            .map-banner-overlay {
+                position: static !important;
+                width: 100% !important;
+                border-radius: 0 !important;
+                box-sizing: border-box !important;
+                padding: 10px 12px !important;
+                font-size: 0.76rem !important;
+                line-height: 1.35 !important;
+            }
+
+            #activeDraggableMarker {
+                touch-action: none !important;
+            }
+
             .legend-form-grid-2 {
                 grid-template-columns: 1fr !important;
                 gap: 12px !important;

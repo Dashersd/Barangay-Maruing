@@ -107,7 +107,7 @@ if ($res_core) {
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/assets/css/style.css">
-    <link rel="stylesheet" href="Admin CSS/admin.css?v=12">
+    <link rel="stylesheet" href="Admin CSS/admin.css?v=13">
     <link rel="stylesheet" href="Admin CSS/dashboard.css?v=3">
 </head>
 <body>
@@ -490,6 +490,6 @@ if ($res_core) {
             </div>
         </main>
     </div>
-    <script src="Admin JS/admin.js?v=12"></script>
+    <script src="Admin JS/admin.js?v=13"></script>
 </body>
 </html>

@@ -271,5 +271,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Universal Mobile Responsive Table-to-Card Enhancer for Admin Content
+    function initResponsiveAdminTables() {
+        const tables = document.querySelectorAll('.dashboard-content table');
+        tables.forEach(table => {
+            table.classList.add('admin-responsive-table');
+
+            // Extract header labels from thead th
+            const headers = Array.from(table.querySelectorAll('thead th')).map(th => {
+                const raw = (th.textContent || '').trim();
+                if (raw === '#') return 'Order #';
+                return raw;
+            });
+
+            if (!headers.length) return;
+
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(tr => {
+                const cells = tr.querySelectorAll('td');
+                if (cells.length === 1 && cells[0].hasAttribute('colspan')) {
+                    tr.classList.add('empty-table-row');
+                    cells[0].classList.add('empty-table-cell');
+                    return;
+                }
+
+                cells.forEach((td, idx) => {
+                    const label = headers[idx] || '';
+                    if (label && !td.hasAttribute('data-label')) {
+                        td.setAttribute('data-label', label);
+                    }
+                    if (label.toLowerCase().includes('action') || td.classList.contains('action-cell')) {
+                        td.classList.add('mobile-action-cell');
+                    }
+                });
+            });
+        });
+    }
+
     initAdminMobileSidebar();
+    initResponsiveAdminTables();
 });
