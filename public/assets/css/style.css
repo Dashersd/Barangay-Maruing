@@ -54,13 +54,20 @@ body {
     color: var(--text-color);
     background-color: var(--background-color);
     min-height: 100vh;
-    min-width: 1200px;
+    width: 100%;
+    min-width: 0;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 main {
     display: block;
+    width: 100%;
 }
 
 a {
@@ -71,11 +78,13 @@ a {
 
 /* Base Container */
 .container {
-    width: 1200px;
+    width: 100%;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
+    box-sizing: border-box;
 }
 
 .sticky-top {
@@ -2550,35 +2559,285 @@ select.form-control {
         display: block !important;
     }
 
+    /* Navbar Brand Responsive */
+    .navbar-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .navbar-brand {
+        margin-right: 0.5rem !important;
+    }
+
+    .navbar-brand img {
+        width: 38px !important;
+        height: 38px !important;
+        margin-right: 6px !important;
+    }
+
+    .brand-title {
+        font-size: 1.1rem !important;
+    }
+
+    .brand-tagline {
+        font-size: 0.72rem !important;
+    }
+
     /* Hero Responsive */
     .hero-section {
-        padding: 60px 0 80px !important;
+        padding: 50px 0 60px !important;
         min-height: auto !important;
     }
 
-    .hero-title {
-        font-size: 2.2rem !important;
-        line-height: 1.18 !important;
-    }
-
-    .hero-subtitle {
-        font-size: 1.3rem !important;
-    }
-
-    .hero-description {
-        font-size: 0.95rem !important;
-    }
-
-    .hero-cta-group {
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 12px !important;
-    }
-
-    .hero-cta-group a {
-        width: 100% !important;
+    .hero-content {
         text-align: center !important;
+        margin: 0 auto !important;
+    }
+
+    .hero-title {
+        margin-bottom: 1rem !important;
+    }
+
+    .hero-script-lead {
+        font-size: 2.1rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero-title-main {
+        font-size: 2.2rem !important;
+        line-height: 1.15 !important;
+        letter-spacing: -0.5px !important;
+    }
+
+    .hero-timestamp {
+        display: flex !important;
         justify-content: center !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .hero-pst-pill {
+        border-radius: 14px !important;
+        padding: 0.45rem 0.9rem !important;
+        gap: 0.4rem !important;
+        justify-content: center !important;
+    }
+
+    .hero-pst-pill .pst-clock {
+        font-size: 0.85rem !important;
+        justify-content: center !important;
+    }
+
+    .hero-buttons {
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+
+    .btn-hero-primary {
+        width: 100% !important;
+        max-width: 300px !important;
+        justify-content: center !important;
+        padding: 0.85rem 1.5rem !important;
+    }
+
+    /* Un-cramp All Homepage Sections */
+    .landing-officials-section,
+    .about-landing-section,
+    .services-section,
+    .announcements-section,
+    .landing-spot-map-section,
+    .gallery-section-wrapper,
+    .contact-form-section {
+        padding: 3.25rem 0 !important;
+    }
+
+    .section-header {
+        margin-bottom: 2rem !important;
+        text-align: center !important;
+    }
+
+    .section-header h2,
+    .about-landing-title {
+        font-size: 1.85rem !important;
+        line-height: 1.25 !important;
+        margin-bottom: 0.6rem !important;
+    }
+
+    .section-header p {
+        font-size: 0.95rem !important;
+        line-height: 1.55 !important;
+        margin: 1rem auto 0 !important;
+        max-width: 100% !important;
+        padding: 0 0.5rem !important;
+    }
+
+    /* Captain Spotlight Card */
+    .captain-spotlight-card {
+        flex-direction: column !important;
+        padding: 1.75rem 1.25rem !important;
+        gap: 1.5rem !important;
+        border-radius: 18px !important;
+        text-align: center !important;
+    }
+
+    .captain-spotlight-img-col {
+        flex: 0 0 auto !important;
+        max-width: 220px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+
+    .captain-spotlight-img-col img {
+        height: 220px !important;
+        border-radius: 14px !important;
+    }
+
+    .captain-spotlight-title {
+        font-size: 1.5rem !important;
+        line-height: 1.25 !important;
+    }
+
+    .captain-spotlight-quote {
+        font-size: 0.92rem !important;
+        line-height: 1.6 !important;
+        margin-bottom: 1.25rem !important;
+    }
+
+    .btn-captain-action {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* About Section */
+    .about-landing-container {
+        flex-direction: column !important;
+        gap: 1.75rem !important;
+    }
+
+    .about-landing-image {
+        width: 100% !important;
+        max-height: 240px !important;
+        border-radius: 14px !important;
+    }
+
+    .about-landing-image img {
+        min-height: auto !important;
+        height: 220px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+        border-radius: 14px !important;
+    }
+
+    .about-landing-content {
+        width: 100% !important;
+    }
+
+    .about-landing-title {
+        font-size: 1.75rem !important;
+        text-align: center !important;
+    }
+
+    .about-landing-text-scrollable {
+        max-height: 200px !important;
+        padding-right: 0.5rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .about-landing-desc {
+        font-size: 0.92rem !important;
+        line-height: 1.65 !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .btn-learn-more {
+        width: 100% !important;
+        max-width: 280px !important;
+        margin: 0 auto !important;
+        justify-content: center !important;
+        display: flex !important;
+    }
+
+    /* Services Grid */
+    .services-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.25rem !important;
+    }
+
+    .service-card {
+        padding: 1.6rem 1.25rem !important;
+        border-radius: 16px !important;
+    }
+
+    /* Announcements Grid */
+    .announcements-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.25rem !important;
+    }
+
+    .announcement-card-v2 {
+        padding: 1.35rem 1.15rem !important;
+        border-radius: 16px !important;
+    }
+
+    /* Gallery Grid */
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem !important;
+    }
+
+    .gallery-item {
+        border-radius: 14px !important;
+        aspect-ratio: 4 / 3 !important;
+    }
+
+    .gallery-item img {
+        height: 100% !important;
+    }
+
+    /* Contact Section */
+    .contact-form-wrapper {
+        grid-template-columns: 1fr !important;
+        padding: 1.75rem 1.25rem !important;
+        gap: 2rem !important;
+        border-radius: 18px !important;
+    }
+
+    .contact-info-col h2 {
+        font-size: 1.65rem !important;
+        text-align: center !important;
+    }
+
+    .contact-info-col p {
+        text-align: center !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .contact-info-item {
+        gap: 12px !important;
+        margin-bottom: 1.25rem !important;
+    }
+
+    /* Avoid double padding: wrapper + inner inquiry card */
+    #inquiry-form-card,
+    #inquiry-success-card {
+        padding: 1.35rem 1.1rem !important;
+        border-radius: 14px !important;
+    }
+
+    #inquiry-form-card h2 {
+        font-size: 1.3rem !important;
+        text-align: center !important;
+    }
+
+    #inquiry-form-card > p {
+        text-align: center !important;
+    }
+
+    /* 16px inputs prevent iOS auto-zoom on focus */
+    .contact-form-section input,
+    .contact-form-section select,
+    .contact-form-section textarea {
+        font-size: 16px !important;
     }
 
     /* General Tables & Responsive Wrappers */
@@ -2589,6 +2848,20 @@ select.form-control {
     }
 
     /* Spot Map Mobile Responsiveness */
+    .landing-spot-map-header {
+        margin-bottom: 1.75rem !important;
+    }
+
+    .landing-spot-map-header h2 {
+        font-size: 1.85rem !important;
+        margin-bottom: 0.6rem !important;
+    }
+
+    .landing-spot-map-header p {
+        font-size: 0.95rem !important;
+        padding: 0 0.5rem !important;
+    }
+
     .landing-spot-map-container {
         display: flex !important;
         flex-direction: column !important;
@@ -2600,6 +2873,81 @@ select.form-control {
         width: 100% !important;
         max-width: 100% !important;
         top: auto !important;
+        padding: 0 !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .spot-map-badge {
+        justify-content: center !important;
+        margin-bottom: 0.6rem !important;
+    }
+
+    .spot-map-title {
+        font-size: 1.6rem !important;
+        margin-bottom: 0.85rem !important;
+    }
+
+    .spot-map-desc {
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+        margin-bottom: 1.25rem !important;
+    }
+
+    .btn-view-map {
+        width: 100% !important;
+        max-width: 280px !important;
+        justify-content: center !important;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 2.75rem 0 1.75rem 0 !important;
+        margin-top: 2.5rem !important;
+    }
+
+    .footer-top {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 1.5rem 1rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1 !important;
+        justify-content: center !important;
+        text-align: left !important;
+        padding-bottom: 1.25rem !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .footer-logo-img {
+        width: 56px !important;
+    }
+
+    .footer-logo {
+        font-size: 1.15rem !important;
+        letter-spacing: 1px !important;
+    }
+
+    .footer-slogan {
+        font-size: 0.7rem !important;
+    }
+
+    .footer-links {
+        gap: 0.7rem !important;
+        align-items: flex-start !important;
+    }
+
+    .footer-links a {
+        font-size: 0.72rem !important;
+        letter-spacing: 0.5px !important;
+        white-space: normal !important;
+        line-height: 1.35 !important;
+    }
+
+    .footer-divider {
+        margin: 1.25rem 0 !important;
     }
 
     .spot-map-visual-wrapper {
@@ -2637,23 +2985,80 @@ select.form-control {
 }
 
 @media (max-width: 576px) {
-    .hero-title {
+    .container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .hero-section {
+        padding: 40px 0 50px !important;
+    }
+
+    .hero-script-lead {
         font-size: 1.85rem !important;
     }
 
-    .section-title {
-        font-size: 1.6rem !important;
+    .hero-title-main {
+        font-size: 1.95rem !important;
+    }
+
+    .landing-officials-section,
+    .about-landing-section,
+    .services-section,
+    .announcements-section,
+    .landing-spot-map-section,
+    .gallery-section-wrapper,
+    .contact-form-section {
+        padding: 2.5rem 0 !important;
+    }
+
+    .section-header h2,
+    .about-landing-title {
+        font-size: 1.65rem !important;
     }
 
     .contact-form-wrapper {
-        padding: 1.25rem !important;
+        padding: 1.25rem 1rem !important;
         border-radius: 14px !important;
+    }
+
+    /* On small phones let the inquiry card sit flush inside the wrapper */
+    .contact-form-section .contact-form-wrapper {
+        padding: 1.25rem 0.75rem !important;
+    }
+
+    #inquiry-form-card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0.5rem 0.25rem !important;
     }
 
     .service-card,
     .announcement-card,
     .official-card {
         margin-bottom: 1rem !important;
+    }
+
+    .landing-spot-map-header h2 {
+        font-size: 1.65rem !important;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .spot-map-visual {
+        min-height: 200px !important;
+    }
+
+    .footer-top {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .footer-brand {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 8px !important;
     }
 
     /* Prevent any horizontal page shaking/overflow */

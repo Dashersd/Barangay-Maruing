@@ -327,12 +327,17 @@
 /* Responsive */
 @media (max-width: 768px) {
     .announcements-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 1.25rem !important;
+    }
+    .announcement-card-v2 {
+        padding: 1.25rem !important;
+        border-radius: 14px !important;
     }
     .announcements-grid.single-announcement .announcement-image-wrapper,
     .announcements-grid:has(.announcement-card-v2:only-child) .announcement-image-wrapper,
     .announcement-image-wrapper {
-        height: 230px;
+        height: 200px !important;
     }
     .announcement-img-badge {
         opacity: 0.9;

@@ -292,8 +292,17 @@ if (!$captain_found || empty($captain_photo)) {
 
     @media (max-width: 768px) {
         .hero-section {
-            min-height: calc(100vh - 65px) !important;
-            padding: 60px 0 80px !important;
+            min-height: calc(100svh - 64px) !important;
+            padding: 48px 0 72px !important;
+            align-items: center !important;
+        }
+        /* Vertical gradient reads better with centered mobile text */
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(2, 14, 8, 0.88) 0%, rgba(9, 61, 37, 0.82) 55%, rgba(0, 0, 0, 0.75) 100%) !important;
+        }
+        .hero-scroll-down {
+            bottom: 14px;
+            font-size: 1.15rem;
         }
     }
 
@@ -347,14 +356,22 @@ if (!$captain_found || empty($captain_photo)) {
     }
 
     @media (max-width: 768px) {
+        .hero-timestamp {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
         .hero-pst-pill {
-            border-radius: 16px;
-            padding: 0.65rem 0.9rem;
-            gap: 0.5rem;
+            border-radius: 14px;
+            padding: 0.5rem 0.9rem;
+            gap: 0.4rem;
+            justify-content: center;
         }
         .hero-pst-pill .pst-clock {
-            font-size: 0.92rem;
+            font-size: 0.85rem;
             flex-wrap: wrap;
+            justify-content: center;
+            row-gap: 2px;
         }
     }
     </style>
