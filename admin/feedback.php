@@ -32,6 +32,10 @@ CREATE TABLE IF NOT EXISTS `feedback_chats` (
 $admin_name = $_SESSION['admin_name'] ?? 'System Admin';
 $admin_role = $_SESSION['admin_role'] ?? 'Administrator';
 $admin_initial = strtoupper(substr($admin_name, 0, 1));
+
+// Load official SMTP sender email
+$smtp_config = file_exists(__DIR__ . '/../api/smtp_config.php') ? require __DIR__ . '/../api/smtp_config.php' : [];
+$official_sender_email = $smtp_config['from_email'] ?? 'mugiw200@gmail.com';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -1809,7 +1813,8 @@ $admin_initial = strtoupper(substr($admin_name, 0, 1));
                         // 1. General Official Response Gmail URL
                         const responseSubject = `Barangay Maruing Official Response: ${serviceType}`;
                         const responseBody = `Dear ${residentName},\n\nThank you for reaching out to Barangay Maruing regarding your inquiry on "${serviceType}".\n\n\n\nBest regards,\nBarangay Maruing Administration\nLapuyan, Zamboanga del Sur`;
-                        const responseGmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(responseSubject)}&body=${encodeURIComponent(responseBody)}`;
+                        const officialSender = <?= json_encode($official_sender_email) ?>;
+                        const responseGmailUrl = `https://mail.google.com/mail/?authuser=${encodeURIComponent(officialSender)}&view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(responseSubject)}&body=${encodeURIComponent(responseBody)}`;
                         
                         $('#active-email-text').text(email);
                         $('#active-verified-email-badge').css('display', 'inline-flex');
