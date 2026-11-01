@@ -37,12 +37,58 @@ function initMobileNavbar() {
             toggleBtn.innerHTML = isOpen ? '<i class="bi bi-x-lg"></i>' : '<i class="bi bi-list"></i>';
         });
 
+        // Mobile dropdowns (e.g. "About"): first tap expands the submenu
+        // instead of navigating; submenu stays hidden until tapped.
+        const dropdowns = menu.querySelectorAll('.nav-item.dropdown');
+        dropdowns.forEach(dropdown => {
+            const trigger = dropdown.querySelector(':scope > .nav-link');
+            if (!trigger) return;
+            trigger.setAttribute('aria-haspopup', 'true');
+            trigger.setAttribute('aria-expanded', 'false');
+
+            trigger.addEventListener('click', (e) => {
+                if (window.innerWidth > 991) return; // desktop keeps hover + normal link
+                e.preventDefault();
+                e.stopPropagation();
+                const willOpen = !dropdown.classList.contains('open');
+                // Close any other open dropdowns
+                dropdowns.forEach(d => {
+                    d.classList.remove('open');
+                    const t = d.querySelector(':scope > .nav-link');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                });
+                if (willOpen) {
+                    dropdown.classList.add('open');
+                    trigger.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        const collapseDropdowns = () => {
+            dropdowns.forEach(d => {
+                d.classList.remove('open');
+                const t = d.querySelector(':scope > .nav-link');
+                if (t) t.setAttribute('aria-expanded', 'false');
+            });
+        };
+
         // Close on clicking outside
         document.addEventListener('click', (e) => {
             if (!menu.contains(e.target) && !toggleBtn.contains(e.target) && menu.classList.contains('open')) {
                 menu.classList.remove('open');
                 toggleBtn.innerHTML = '<i class="bi bi-list"></i>';
+                collapseDropdowns();
             }
+        });
+
+        // Reset submenu state whenever the drawer is closed via the hamburger
+        toggleBtn.addEventListener('click', () => {
+            if (!menu.classList.contains('open')) collapseDropdowns();
+        });
+
+        // Clean up if resized back to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 991) collapseDropdowns();
         });
     });
 }

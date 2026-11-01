@@ -30,7 +30,7 @@ if ($res) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="public/assets/css/style.css?v=11">
+    <link rel="stylesheet" href="public/assets/css/style.css?v=12">
     <link rel="stylesheet" href="public/assets/css/services.css?v=2">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
@@ -424,7 +424,7 @@ if ($res) {
     </footer>
 
     <!-- Custom JavaScript -->
-    <script src="public/assets/js/main.js"></script>
+    <script src="public/assets/js/main.js?v=2"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

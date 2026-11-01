@@ -1020,7 +1020,7 @@ if (!$captain_found || empty($captain_photo)) {
     </div>
 
     <!-- Custom JavaScript -->
-    <script src="public/assets/js/main.js"></script>
+    <script src="public/assets/js/main.js?v=2"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       let homeVisibleItems = [];

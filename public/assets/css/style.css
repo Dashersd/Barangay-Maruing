@@ -2520,15 +2520,36 @@ select.form-control {
         color: #ffc107 !important;
     }
 
-    .nav-item.dropdown .dropdown-menu {
+    /* Mobile submenu: collapsed by default, opens only when "About" is tapped */
+    .nav-item.dropdown .dropdown-menu,
+    .nav-item.dropdown:hover .dropdown-menu {
         position: static !important;
-        display: block !important;
+        display: none !important;
         background: rgba(0, 0, 0, 0.2) !important;
         border: none !important;
         box-shadow: none !important;
         padding: 4px 0 4px 18px !important;
-        margin: 0 !important;
+        margin: 4px 0 0 0 !important;
         border-radius: 6px !important;
+        animation: none !important;
+    }
+
+    .nav-item.dropdown.open .dropdown-menu {
+        display: block !important;
+        animation: mobileDropdownIn 0.2s ease !important;
+    }
+
+    .nav-item.dropdown > .nav-link .bi-chevron-down {
+        transition: transform 0.2s ease;
+    }
+
+    .nav-item.dropdown.open > .nav-link .bi-chevron-down {
+        transform: rotate(180deg);
+    }
+
+    @keyframes mobileDropdownIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .nav-item.dropdown .dropdown-item {
