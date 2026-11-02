@@ -81,11 +81,7 @@ if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
                         <a class="nav-link" href="contact.php">Contact</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav nav-auth">
-                    <li class="nav-item">
-                        <a class="btn-admin" href="admin/login.php">Admin Login</a>
-                    </li>
-                </ul>
+                
             </div>
         </div>
     </nav>

@@ -420,11 +420,7 @@ if (!$captain_found || empty($captain_photo)) {
                         <a class="nav-link" href="contact.php">Contact</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav nav-auth">
-                    <li class="nav-item">
-                        <a class="btn-admin" href="admin/login.php">Admin Login</a>
-                    </li>
-                </ul>
+                
             </div>
         </div>
     </nav>

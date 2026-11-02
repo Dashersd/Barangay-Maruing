@@ -195,26 +195,6 @@ $default_identifier = $_POST['login_identifier'] ?? $_COOKIE['admin_remember'] ?
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar sticky-top">
-        <div class="navbar-container">
-            <div class="navbar-brand">
-                <img src="<?= htmlspecialchars($display_logo) ?>" alt="Barangay Logo" style="width: 50px; height: 50px; object-fit: contain; margin-right: 8px;">
-                <img src="../public/image/Lapuyan Logo.png" alt="Municipality of Lapuyan Logo" style="width: 50px; height: 50px; object-fit: contain; margin-right: 12px;">
-                <div class="brand-text">
-                    <span class="brand-title"><?= htmlspecialchars($b_info['barangay_name']) ?></span>
-                    <span class="brand-tagline">Admin Portal</span>
-                </div>
-            </div>
-            <div class="navbar-menu">
-                <ul class="navbar-nav nav-links">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.php">Back to Main Site</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <!-- Main Content -->
     <main class="auth-wrapper">
